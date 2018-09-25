@@ -9,7 +9,7 @@ openingDate varchar(120),
 managerId varchar(120), 
 serviceId varchar(120),
 primary key(id),
-foreign key(managerId,serviceId,id) );
+foreign key(managerId,serviceId) );
 
 create table employee (id varchar(120), title varchar(120), name varchar(120), address varchar(120), startDate varchar(120), salary int, email varchar(120), phone bigint, category varchar(120), branchId varchar(120),
 primary key(id),
