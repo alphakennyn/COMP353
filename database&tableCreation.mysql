@@ -1,0 +1,45 @@
+create database bank;
+use bank;
+
+create table branch (id varchar(120), 
+location varchar(120), 
+phone bigint , 
+fax bigint, 
+openingDate varchar(120), 
+managerId varchar(120), 
+serviceId varchar(120),
+primary key(id),
+foreign key(managerId,serviceId,id) );
+
+create table employee (id varchar(120), title varchar(120), name varchar(120), address varchar(120), startDate varchar(120), salary int, email varchar(120), phone bigint, category varchar(120), branchId varchar(120),
+primary key(id),
+foreign key(branchId)
+references branch (id) );
+
+create table service (id varchar(120), banking int(225), investment int(225), insurance int(225),
+primary key(id));
+
+create table client (id varchar(120), name varchar(120), dOB varchar(120), joiningDate varchar(120), address varchar(120), email varchar(120), phone bigint, category varchar(120), branchId varchar(120),
+primary key(id),
+foreign key(branchId));
+
+create table account (accountNum varchar(120), clientId varchar(120), type varchar(120), interestRateId varchar(120), chargePlanId varchar(120),
+primary key(accountNum),
+foreign key(clientId,interestRateId, chargePlanId));
+
+create table chargePlan(id varchar(120), planOption varchar(120), planLimit int, charge int,
+primary key(id));
+
+create table interestRate(id varchar(120), kindOfService varchar(120), typeOfAccount varchar(120), percentage float);
+
+insert into service (id,banking,investment,insurance) values ('s1',1,0,0);
+insert into service (id,banking,investment,insurance) values ('s2',1,1,0);
+insert into service (id,banking,investment,insurance) values ('s3',1,0,1);
+insert into service (id,banking,investment,insurance) values ('s4',1,1,1);
+
+insert into interestRate (id, kindOfService, typeOfAccount, percentage) values ('i1', 'banking', 'checking', 0.0001);
+insert into interestRate (id, kindOfService, typeOfAccount, percentage) values ('i1', 'banking', 'savings', 0.01);
+insert into interestRate (id, kindOfService, typeOfAccount, percentage) values ('i1', 'investment','brokerage', 0.07);
+
+insert into chargePlan (id, planOption, planLimit, charge) values('c1','student',5,0);
+insert into chargePlan (id, planOption, planLimit, charge) values('c2','student',100,12);
