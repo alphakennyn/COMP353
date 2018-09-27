@@ -20,16 +20,16 @@ streets= open("streets.txt","r")
 cities= open("cities.txt", "r", encoding="utf-8")
 
 #branch
-bID=0 
-blocation="'Montreal'"
+bID=0
+blocation=" 'Cote Des Neiges'"
 bphone = 5148237115
 bfax= 180004563333
-bopeningDate = "'01/02/23'" 
-bserviceId = "'s"+str(randint(1,4))+"'"
+bopeningDate = str(randint(1950,2018))+"-"+str(randint(1,12)).zfill(2)+"-"+str(randint(1,28))
+bserviceId = str(randint(1,4))
 
 #employee
 eaddress="'1770 Joseph Manseau, Montreal Canada'"
-estartDate="'01/01/2018'"
+estartDate= str(randint(1950,2018))+"-"+ str(randint(1,12)).zfill(2)+"-"+str(randint(1,28))
 esalary= 80000
 ename="Benyamin"
 eemail= ("'"+str(randint(0,270))+ ename+ "@bank.com" +"'").lower()
@@ -60,80 +60,83 @@ for j in range(0, 2000):
 mix(narr)
 #the following are counters for the number of account, clients, and employees
 ecount=1
-ccount=1
+ccount=0
 acount=1
-for i in range (0,100):
+for i in range (0,10):
+    bID=bID+1
     sqlscript.write("insert into branch (id, location, phone, fax, openingDate, managerId, serviceId) values (" 
-                    + "'b"+str(bID)+ "',"+blocation+ ","+str(bphone)+ ","+str(bfax)+ ","+ bopeningDate + ","+ "'e"+str(bID)+"',"+bserviceId +"); \n" )
+                    +str(bID)+ ","+blocation+ ","+str(bphone)+ ","+str(bfax)+ ",'"+ bopeningDate + "',"+str(ecount)+","+bserviceId +"); \n" )
     sqlscript.write("insert into employee (id, title, name, address, startDate, salary, email, phone, category, branchID) values (" 
-                    + "'e"+str(ecount)+ "', 'Branch Manager','"+ename+ "',"+eaddress+ ","+estartDate+ ","+ str(esalary)+ ","+eemail+ ","+str(ephone)+ ","+ecategory+ ","+"'b"+str(bID)+"'); \n" )
+                    + str(ecount)+ ", 'Branch Manager','"+ename+ "',"+eaddress+ ",'"+estartDate+ "',"+ str(esalary)+ ","+eemail+ ","+str(ephone)+ ","+ecategory+ ","+str(bID)+"); \n" )
     
     randomize(randarr)
     
-    bID=bID+1
+   
     ecount=ecount+1
     city = carr[randarr[randint(0,9)]]
     blocation= "'"+ str(randint(0,9999))+ " " + sarr[i*2]+", "+ city+"'" 
     bphone = 5140000000 + randint(0,9999999)
     bfax= 18000000000 + randint(0,9999999) 
-    bserviceId = "'s"+str(randint(1,7))+"'"
-    bopeningdate="'"+str(randint(1,30))+"/"+ str(randint(1,12))+"/2018'"
+    bserviceId = str(randint(1,4))
+    bopeningdate=str(randint(1950,2018))+"-"+ str(randint(1,12)).zfill(2)+"-"+str(randint(1,28))
     
     ename= narr[i]
     eaddress= "'"+ str(randint(0,9999))+ " " + sarr[i*2+1]+", "+ carr[i]+"'"
-    estartDate="'"+str(randint(1,30))+"/"+ str(randint(1,12))+"/2018'"
+    estartDate=str(randint(1950,2018))+"-"+ str(randint(1,12))+"-"+str(randint(1,28))
     esalary=randint(120000, 300000)
     eemail=("'"+str(randint(0,270))+ ename+ "@bank.com" +"'").lower()
     ephone=5140000000 + randint(0,9999999)
     ecategory="'Managment'"
-    for j in range (0,20):
+    for j in range (0,20):  
         address = "'"+ str(randint(0,9999))+ " " + sarr[randint(0,500)]+", "+ city+"'"
-        startDate="'"+str(randint(1,30))+"/"+ str(randint(1,12))+"/2018'"
+        startDate=str(randint(1950,2018))+"-"+ str(randint(1,12)).zfill(2) +"-"+str(randint(1,28))
         salary=randint(40000, 120000)
         name=narr[randint(0,500)]
         email=("'"+str(randint(0,270))+ name+ "@bank.com" +"'").lower()
-        phone=5140000000 + randint(0,9999999)
+        phone=5140000000 + randint(0,9999999)       
         sqlscript.write("insert into employee (id, title, name, address, startDate, salary, email, phone, category, branchID) values (" 
-                    + "'e"+str(ecount)+ "','"+ posarr[j]+"','"+name+ "',"+address+ ","+startDate+ ",'"+ str(salary)+ "',"+email+ ","+str(phone)+ ","+"'Banking'"+ ","+"'b"+str(bID)+"'); \n" )
+                    +str(ecount)+ ",'"+ posarr[j]+"','"+name+ "',"+address+ ",'"+startDate+ "','"+ str(salary)+ "',"+email+ ","+str(phone)+ ","+"'Banking'"+ ","+str(bID)+"); \n" )
         ecount=ecount+1
-    for k in range(0,100):
+    for k in range(0,50):
         cname=narr[randint(0,1000)]
         dOB = "'"+str(randint(1,30))+"/"+ str(randint(1,12))+"/"+str(randint(1900,1999))+"'"
-        joiningDate= str(randint(1950,2018))+"-"+ str(randint(1,12))+"-"+str(randint(1,30))
+        joiningDate= str(randint(1950,2018))+"-"+ str(randint(1,12)).zfill(2)+"-"+str(randint(1,28))
         caddress="'"+ str(randint(0,9999))+ " " + sarr[randint(0,500)]+", "+ city+"'"
         cemail=("'"+str(randint(0,270))+ cname+ "@gmail.com" +"'").lower()
         cphone= phone=5140000000 + randint(0,9999999)
-        chargePlanId=  "'cp"+str(randint(1,2))+"'"
-        sqlscript.write("insert into client (id, name, dOB, joiningDate, address, email, phone, category, branchId) values (" 
-                    + "'c"+str(ccount)+ "','"+cname+"',"+dOB+ ","+joiningDate+ ","+caddress+ ","+cemail+ ","+str(cphone)+ ","+"'Banking'"+","+"'b"+str(bID)+"'); \n" )   
+        chargePlanId=  str(randint(1,2))
+        sqlscript.write("insert into client (id, name, dOB, joiningDate, address, email, phone, category, branchId, password) values (" 
+                    +str(ccount)+ ",'"+cname+"',"+dOB+ ",'"+joiningDate+ "',"+caddress+ ","+cemail+ ","+str(cphone)+ ","+"'Banking'"+","+str(bID)+",'password'); \n" )   
         ccount=ccount+1
         for a in range(0,randint(0,3)):
             balance = randint(200,9999999999)
-            if (bserviceId=="s2" or bserviceId=="s4") :
+            if (bserviceId=="2" or bserviceId=="4") :
                 ran=randint(0,2)
                 type=typearr[ran]
-                interestRateId= "'i"+str(ran+1)+"'"
+                interestRateId= str(ran+1)
             else:
                 ran=randint(0,1)
                 type=typearr[ran]
-                interestRateId= "'i"+str(ran+1)+"'"
+                interestRateId= str(ran+1)
             
             
-            sqlscript.write("insert into account (accountNum, clientId, type, interestRateId, chargePlanId, balance) values(" + "'a"+str(acount)+ "','c"+str(ccount)+"',"+type+ ","+interestRateId+ ","+chargePlanId+","+balance+ "); \n")
+            sqlscript.write("insert into account (accountNum, clientId, type, interestRateId, chargePlanId, balance) values(" +str(acount)+ ","+str(ccount-1)+","+type+ ","+interestRateId+ ","+chargePlanId+","+str(balance)+ "); \n")
             
             acount=acount+1
 
+sqlscript.write("insert into employee (id, title, name, address, startDate, salary, email, phone, category, branchID) values (" 
+                    + str(ecount)+ ", 'President','Johnny','12800 rue sherbrooke, Montreal, Qc','"+estartDate+ "',1,'president@bank.com',5140000000,'managment',1); \n" )
+ecount = ecount+1           
+sqlscript.write("insert into employee (id, title, name, address, startDate, salary, email, phone, category, branchID) values (" 
+                    + str(ecount)+ ", 'GM of Banking','Ben','18030 rue sherbrooke, Montreal, Qc','"+estartDate+ "',1,'gmb@bank.com',5140000000,'managment',1); \n" )
+ecount = ecount+1
+sqlscript.write("insert into employee (id, title, name, address, startDate, salary, email, phone, category, branchID) values (" 
+                    + str(ecount)+ ", 'GM of Investment','Linda','18003 rue sherbrooke, Montreal, Qc','"+estartDate+ "',1,'gminv@bank.com',5140000000,'managment',1); \n" )
+ecount = ecount+1
+sqlscript.write("insert into employee (id, title, name, address, startDate, salary, email, phone, category, branchID) values (" 
+                    + str(ecount)+ ", 'GM of Insurance','Charlotte','18010 rue sherbrooke, Montreal, Qc','"+estartDate+ "',1,'gmins@bank.com',5140000000,'managment',1); \n" )
 
-    
-    
-    
-  
-    
-    
-    
-    
-           
-           
+sqlscript.write("insert into bank (bankName, presidentId, bankingGMId, investmentGMId, insuranceGMId)  values ('BKCAJ Bank',"+str(ecount-3)+", "+str(ecount-2)+", "+str(ecount-1)+", "+str(ecount)+"); \n")           
 sqlscript.close()
 names.close()
 streets.close()
