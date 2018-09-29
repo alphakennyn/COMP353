@@ -10,16 +10,16 @@ primary key(id));
 create table interestRate(id int, kindOfService varchar(120), typeOfAccount varchar(120), percentage float,
 primary key(id));
 
-create table branch (id int, location varchar(120), phone bigint , fax bigint, openingDate varchar(120), managerId varchar(120), serviceId int ,
+create table branch (id int, location varchar(120), phone bigint , fax bigint, openingDate date, managerId varchar(120), serviceId int ,
 primary key(id), foreign key(serviceId) references service(id) );
 
 create table bank(bankName varchar(120), presidentId int, bankingGMId int, investmentGMId int, insuranceGMId int);
 
-create table employee (id int, title varchar(120), name varchar(120), address varchar(120), startDate varchar(120), salary int, email varchar(120), phone bigint, category varchar(120), branchId int,
+create table employee (id int, title varchar(120), name varchar(120), address varchar(120), startDate date, salary int, email varchar(120), phone bigint, category varchar(120), branchId int,
 primary key(id),
 foreign key(branchId) references branch (id) );
 
-create table client (id int, name varchar(120), dOB varchar(120), joiningDate varchar(120), address varchar(120), email varchar(120), phone bigint, category varchar(120), branchId int, password varchar(120), transactions int, creditLimit int, 
+create table client (id int, name varchar(120), dOB date, joiningDate date, address varchar(120), email varchar(120), phone bigint, category varchar(120), branchId int, password varchar(120), transactions int, creditLimit int, 
 primary key(id),
 foreign key(branchId) references branch(id));
 
@@ -41,7 +41,7 @@ insert into interestRate (id, kindOfService, typeOfAccount, percentage) values (
 insert into interestRate (id, kindOfService, typeOfAccount, percentage) values (3, 'investment','brokerage', 0.07);
 insert into interestRate (id, kindOfService, typeOfAccount, percentage) values (4, 'credit card','loans', 0.1);
 insert into interestRate (id, kindOfService, typeOfAccount, percentage) values (5, 'line of credit','loans', 0.2);
-insert into interestRate (id, kindOfService, typeOfAccount, percentage) values (, 'line of credit','loans', 0.05);
+insert into interestRate (id, kindOfService, typeOfAccount, percentage) values (6, 'line of credit','loans', 0.05);
 
 
 insert into chargePlan (id, planOption, planLimit, charge) values(1,'student',5,0);
@@ -53,7 +53,4 @@ insert into chargePlan (id, planOption, planLimit, charge) values(6, 'line of cr
 insert into chargePlan (id, planOption, planLimit, charge) values(7, 'line of credit', 50000, 500);
 insert into chargePlan (id, planOption, planLimit, charge) values(8, 'line of credit', 500000, 1000);
 insert into chargePlan (id, planOption, planLimit, charge) values(9, 'line of credit', 5000000, 2000);
-
-insert into client (id, name, dOB, joiningDate, address, email, phone, category, branchId, password, transactions) values 
-(9999,'Roberto', 1979-10-10,1999-10-10, '1124 grosvenor avenue, Montreal', 'roberto@bank.com', 5146767676,'banking', 1 , 'password', 7000);
 
