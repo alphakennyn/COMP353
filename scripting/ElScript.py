@@ -108,7 +108,7 @@ for i in range (0,5):
         chargePlanId=  str(randint(1,2))
         transactions=randint(0,15000)
         sqlscript.write("insert into client (id, name, dOB, joiningDate, address, email, phone, category, branchId, password, transactions) values (" 
-                    +str(ccount)+ ",'"+cname+"',"+dOB+ ",'"+joiningDate+ "',"+caddress+ ","+cemail+ ","+str(cphone)+ ","+"'Banking'"+","+str(bID)+",'password',"+str(transactions) +"); \n" )   
+                    +str(ccount)+ ",'"+cname+"','"+dOB+ "','"+joiningDate+ "',"+caddress+ ","+cemail+ ","+str(cphone)+ ","+"'Banking'"+","+str(bID)+",'password',"+str(transactions) +"); \n" )   
         ccount=ccount+1
         value = 500
         for a in range(0,randint(0,3)):
