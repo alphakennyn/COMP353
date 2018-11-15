@@ -2,8 +2,9 @@
 
 /**  API /api/v1/clients */
 
-header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin:  *');
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 require_once 'clients_controller.php';
 
 $http_method = $_SERVER['REQUEST_METHOD'];
@@ -11,12 +12,7 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 switch ($http_method) {
     case 'GET':
         $packet = get_all_clients();
-        if (array_key_exists('error', $packet)) {
-            http_response_code(400);
-            echo json_encode($packet);
-        } else {
-            echo json_encode(array("data" => $packet));
-        }
+        echo json_encode($packet);
         return;
     case 'POST':
         return;

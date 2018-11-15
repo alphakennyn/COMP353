@@ -22,37 +22,39 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   data() {
     return {
-      name: 'chris',
-      names: ['chris', 'kenny', 'chris', 'ben', 'admin'],
+      name: "chris",
+      names: ["chris", "kenny", "chris", "ben", "admin"],
       todos: [],
-      test: ''
-    }
+      test: ""
+    };
   },
   props: {
     msg: String
   },
   methods: {
-    clickButton: function(){
-      this.name = 'johnny'
+    clickButton: function() {
+      this.name = "johnny";
     },
     apiCall: function() {
-      this.$http.get("https://fec353.encs.concordia.ca/api/test.php").then(response => {
-                console.log(response)
-            }, error => {
-                console.error(error);
-            });
+      this.$http.get(`${process.env.VUE_APP_API_PATH}/clients`).then(
+        response => {
+          console.log(response.data);
+        },
+        error => {
+          console.error(error);
+        }
+      );
     },
     submit: function() {
-      if (this.test == '') {
-        alert('inpurt submit')
+      if (this.test == "") {
+        alert("inpurt submit");
       }
     }
-
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
