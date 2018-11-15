@@ -1,6 +1,6 @@
 <?php
-include_once '../database/database.php';
-include_once '../utils/helpers.php';
+include_once '../../database/database.php';
+include_once '../../utils/helpers.php';
 
 /**
  * Query all clients information
