@@ -39,8 +39,8 @@ export default {
       this.name = 'johnny'
     },
     apiCall: function() {
-      this.$http.get("https://jsonplaceholder.typicode.com/users").then(response => {
-                this.todos = response.data;
+      this.$http.get("https://fec353.encs.concordia.ca/api/test.php").then(response => {
+                console.log(response)
             }, error => {
                 console.error(error);
             });
