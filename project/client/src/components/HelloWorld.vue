@@ -16,6 +16,7 @@
   
       <input v-model.trim="test">
       {{test}}
+      <input>
       <button type="email" @click="submit()">SUBMITTTT</button>
   </div>
 </template>

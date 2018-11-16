@@ -59,7 +59,7 @@ function get_user_accounts($user_id)
     }
 
     // query statement
-    $query = "SELECT * FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE cid = ". $user_id .";";
+    $query = "SELECT ACCOUNT.*, cid FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE cid = ". $user_id .";";
     //echo $query;
     // prepare query statement
     $stmt = $db->prepare($query);
