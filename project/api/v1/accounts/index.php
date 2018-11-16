@@ -11,7 +11,6 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 switch ($http_method) {
     case 'GET':
         $user_id = $_GET['user_id'];
-        echo $user_id;
         $packet = get_user_accounts($user_id);
         echo json_encode($packet);
         return;
