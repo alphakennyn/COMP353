@@ -1,7 +1,6 @@
 <template>
   <div class="User-Page">
-    <input type='number' v-model.trim="clientId">
-    <AccountList v-bind:clientId='parseInt(clientId)' v-if='clientId > 0'/>
+    <AccountList v-bind:clientId='parseInt(id)' v-if='id > 0'/>
   </div>
 </template>
 
@@ -14,10 +13,23 @@ export default {
   components: {
     AccountList
   },
+  props: {
+    id: String,
+  },
   data() {
     return {
-      clientId: 0
+      clientData: {}
     }
   },
+  mounted: function() {
+    this.$http.get(`${process.env.VUE_APP_API_PATH}/clients?id=${this.id}`).then(
+        response => {
+          this.clientData = response.data;
+        },
+        error => {
+          alert('Something went wrong');
+        }
+      );
+  }
 }
 </script>

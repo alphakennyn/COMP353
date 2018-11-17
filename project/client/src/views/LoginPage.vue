@@ -9,7 +9,6 @@
 <script>
 // @ is an alias to /src
 
-
 export default {
   name: 'LoginPage',
   data() {
@@ -24,20 +23,16 @@ export default {
         cardNumber: this.clientId,
         password: this.password
       }
-
-      console.log({data});
-
       this.$http.post(`${process.env.VUE_APP_API_PATH}/login/`, data).then(
         response => {
-          //console.log('response is',response);
-          if (response.data.login ) {
-            router.go('/user');
-
-          } else {
-            throw;
+          if (response.data.login) {
+            this.$router.push({path: `/user/${response.data.id}`});
+          } else { 
+            throw new Error('Invalid user/pass');
           }
       }).catch(err => {
-        alert('wrong user/pass');
+        console.log(err);
+        alert('Error', err.message);
       });
     }
   }

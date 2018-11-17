@@ -77,3 +77,44 @@ function get_user_accounts($user_id)
       return array("error" => "Server error ".$e." .");
   }
 }
+
+function post_user_accounts($account_data)
+{
+  try {
+    $database = new Database();
+    $db = $database->getConnection();
+
+    if (!test_db_connection($db)) {
+        return array("error" => "Cannot connect to DB.");
+    }
+
+    $query = "INSERT INTO Account VALUES";
+    $query .= "(".$account_data['cpid']."";
+    $query .= ",".$account_data['irid']."";
+    $query .= ",".$account_data['balance']."";
+    $query .= ",".$account_data['transactionsPerMonth']."";
+    $query .= ",".$account_data['accountType']."";
+    $query .= ",".$account_data['maxPerDay']."";
+    $query .= ",".$account_data['minBalance']."";
+    $query .= ",".$account_data['businessNumber']."";
+    $query .= ",".$account_data['taxId']."";
+    $query .= ",".$account_data['creditLimit'].");";
+
+    
+    // prepare query statement
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $accountId = $db->lastInsertId();
+    echo $accountId;
+    
+    // $query2 = "INSERT INTO AccountsOwned VALUES";
+    // $query2 .= "(".$account_data['cid'].",";
+    // $query2 .= "".$account_data['']
+    return $resp;
+
+    //return "New record created successfully";
+  } catch (Exception $e) {
+      return array("error" => "Server error ".$e." .");
+  }
+}
