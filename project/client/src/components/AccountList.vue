@@ -2,7 +2,7 @@
   <div class="account-list">
     <h3>Your account</h3>
     <div v-for='account in accounts' :key='account.accountNumber'>
-      <Account :account='account'/>    
+      <Account :account='account'/>
     </div>
   </div>
 </template>
