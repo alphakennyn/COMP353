@@ -38,3 +38,34 @@ function get_all_clients()
         return array("error" => "Server error ".$e." .");
     }
 }
+
+/**
+ * Fuck this class
+ */
+function get_client_by_id($user_id) {
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+    
+        // query statement
+        $query = "SELECT * FROM CLIENTS WHERE id = ".$user_id.";";
+    
+        // prepare query statement
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        $packet=array();
+        $packet["clients"]=array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            array_push($packet["clients"], $row);
+        }
+        return $packet;
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }
+}

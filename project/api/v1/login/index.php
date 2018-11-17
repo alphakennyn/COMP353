@@ -16,6 +16,8 @@ switch ($http_method) {
         $data = json_decode(file_get_contents('php://input'), true);
         $cardNumber = $data['cardNumber'];
         $password = $data['password'];
+        # echo $cardNumber.$password;
+        #echo $password;
         echo json_encode(is_valid_client($cardNumber, $password));
         return;
     case 'PUT':
