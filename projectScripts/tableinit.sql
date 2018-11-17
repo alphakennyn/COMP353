@@ -137,7 +137,7 @@ CREATE TABLE InterestRate (
 );
 
 CREATE TABLE Account (
-    accountNumber INT NOT NULL,
+    accountNumber INT NOT NULL AUTO_INCREMENT,
     cpid INT NOT NULL,
     irid INT NOT NULL,
     balance FLOAT NOT NULL,
