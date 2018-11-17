@@ -16,8 +16,7 @@ switch ($http_method) {
         return;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
-        $accountData = $data['data']; 
-        echo json_encode(post_user_accounts($accountData));
+        echo json_encode(post_user_accounts($data));
         return;
     case 'PUT':
         return;

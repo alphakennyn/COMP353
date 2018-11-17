@@ -33,8 +33,8 @@ export default {
       newAccount: {
         cid: this.clientId,
         accountType: '',
-        cpid: 0,
-        irid: 0,
+        cpid: 1,
+        irid: 1,
         balance: 0,
         transactionPerMonth: 0,
         maxPerDay: 0,
@@ -101,20 +101,20 @@ export default {
   },
   props: {
     toggleAccountForm: Boolean,
-    clientId: String
+    clientId: Number
   },
   methods: {
     submit: function() {
       console.log(this.newAccount);
       // do post request here
-      this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts`, {data: this.newAccount}).then(result => {
-        console.log(result);
+      this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
+        console.log(result.data);
       })
       // then set toggle to false
     },
 
   },
-  mounted: function*() {
+  mounted: function() {
 
   }
 };

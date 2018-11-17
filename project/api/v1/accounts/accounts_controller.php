@@ -88,32 +88,33 @@ function post_user_accounts($account_data)
         return array("error" => "Cannot connect to DB.");
     }
 
-    $query = "INSERT INTO Account VALUES";
-    $query .= "(".$account_data['cpid']."";
-    $query .= ",".$account_data['irid']."";
-    $query .= ",".$account_data['balance']."";
-    $query .= ",".$account_data['transactionsPerMonth']."";
-    $query .= ",".$account_data['accountType']."";
-    $query .= ",".$account_data['maxPerDay']."";
-    $query .= ",".$account_data['minBalance']."";
-    $query .= ",".$account_data['businessNumber']."";
-    $query .= ",".$account_data['taxId']."";
-    $query .= ",".$account_data['creditLimit'].");";
+    $cpid = $account_data['cpid'];
+    $irid = $account_data['irid'];
+    $balance = $account_data['balance'];
+    $transactionPerMonth = $account_data['transactionPerMonth'];
+    $accountType = $account_data['accountType'];
+    $maxPerDay = $account_data['maxPerDay'];
+    $minBalance = ($account_data['minBalance'] == '' ? 'NULL' : $account_data['minBalance']);
+    $businessNumber = ($account_data['businessNumber'] == '' ? 'NULL' : $account_data['businessNumber']);
+    $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
+    $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    
+    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionPerMonth, '$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit)";
+
     // prepare query statement
     $stmt = $db->prepare($query);
     $stmt->execute();
 
     $accountId = $db->lastInsertId();
-    echo $accountId;
-    
-    // $query2 = "INSERT INTO AccountsOwned VALUES";
-    // $query2 .= "(".$account_data['cid'].",";
-    // $query2 .= "".$account_data['']
-    return $resp;
 
-    //return "New record created successfully";
+    $cid = $account_data['cid'];
+    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, $accountId)";
+    $stmt = $db->prepare($query2);
+    $stmt->execute();
+
+    // return latest account id
+    return array("accountId" => $accountId);
+
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");
   }
