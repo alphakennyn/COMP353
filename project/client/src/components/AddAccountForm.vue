@@ -19,16 +19,6 @@ export default {
     return {
       chargeplanList: [], //http get
       investmentRateList: [], //http get
-      // accountType: [
-      //   'Business',
-      //   'Checking',
-      //   'Credit Card',
-      //   'Foreign Corrency',
-      //   'Insurance',
-      //   'Investment',
-      //   'Line of Credit',
-      //   'Savings'
-      // ], //hard code
       accountType: '',
       newAccount: {
         cid: this.clientId,
@@ -105,17 +95,11 @@ export default {
   },
   methods: {
     submit: function() {
-      console.log(this.newAccount);
-      // do post request here
       this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
-        console.log(result.data);
+        this.$emit('clicked', result.data)
       })
-      // then set toggle to false
     },
-
   },
-  mounted: function() {
-
-  }
+  mounted: function() {}
 };
 </script>
