@@ -127,6 +127,14 @@ export default {
       .catch(err => {
         alert("uh oh.. no account found");
       });
+  },
+  watch: {
+    selectAccount: function() {
+      console.log(`You changed accounts ${this.selectAccount.accountNumber}`);
+    },
+    selectMenu: function() {
+      console.log(`clicked ${this.selectMenu}`);
+    }
   }
 };
 </script>
