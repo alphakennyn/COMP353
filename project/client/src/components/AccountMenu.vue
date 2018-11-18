@@ -1,19 +1,23 @@
 <template>
   <div class="menu">
-    <a class="menu__item" @click="toggleMenu('transactions')">
+    <a class="menu__item" :class="{ active: isActive('info') }" @click="toggleMenu('info')">
+      Account Information
+    </a>
+    <span>|</span>
+    <a class="menu__item" :class="{ active: isActive('transactions') }" @click="toggleMenu('transactions')">
       Transaction History
     </a>
     <span>|</span>
-    <a class="menu__item" @click="toggleMenu('transfer')">
+    <a class="menu__item" :class="{ active: isActive('transfer') }" @click="toggleMenu('transfer')">
       Transfer Money 
     </a>
     <span>|</span>
-    <a class="menu__item" @click="toggleMenu('pay')">
+    <a class="menu__item" :class="{ active: isActive('pay') }" @click="toggleMenu('pay')">
       Pay Bills
     </a>
     <span>|</span>
-    <a class="menu__item" @click="toggleMenu('etransfer')">
-      e-transfer 
+    <a class="menu__item"  :class="{ active: isActive('etransfer') }" @click="toggleMenu('etransfer')">
+      e-Transfer 
     </a>
   </div>
 </template>
@@ -21,8 +25,20 @@
 <script>
 export default {
   name: "account",
-  props: {
-    toggleMenu: Function
+  props: {},
+  data() {
+    return {
+      activeItem: 'info'
+    }
+  },
+  methods: {
+    isActive: function (menuItem) {
+      return this.activeItem === menuItem
+    },
+    toggleMenu: function(menu) {
+      this.activeItem = menu;
+      this.$emit('clickedMenu', menu);
+    }
   }
 };
 </script>
@@ -36,6 +52,9 @@ export default {
   }
   a {
     text-decoration: underline;
+  }
+  .active {
+    font-weight: bold;
   }
 }
 </style>

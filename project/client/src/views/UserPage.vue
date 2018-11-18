@@ -15,7 +15,6 @@
         </div>
       </div>
       <div class="client__content">
-
         <div class="client__accounts">
           <div>
             Select your account <br>
@@ -32,17 +31,16 @@
             </modal>
           </div>
         </div>
-
         <div class="menu">
-          <AccountMenu v-if="Object.keys(selectAccount).length !== 0"
-                       :toggleMenu='toggleMenuHandler'/>
+          <AccountMenu v-if="Object.keys(selectAccount).length !== 0" @clickedMenu='toggleMenuHandler'/>
         </div>
-
         <div>
-          {{selectMenu}}
+          <AccountInfo v-if="selectMenu == 'info'" :data='selectAccount'/>
+          <TransactionHistory v-if="selectMenu == 'transactions'"/>
+          <TransferMoney v-if="selectMenu == 'transfer'"/>
+          <PayBills v-if="selectMenu == 'pay'"/>
+          <ETransfer v-if="selectMenu == 'etransfer'"/>
         </div>
-
-
       </div>
     </div>
 
@@ -53,16 +51,30 @@
 import AddAccountForm from "@/components/AddAccountForm.vue";
 import AccountMenu from "@/components/AccountMenu.vue";
 import ClientInfo from "@/components/ClientInfo.vue";
+import AccountInfo from "@/components/AccountInfo.vue";
+import TransactionHistory from "@/components/TransactionHistory.vue";
+import TransferMoney from "@/components/TransferMoney.vue";
+import PayBills from "@/components/PayBills.vue";
+import ETransfer from "@/components/ETransfer.vue";
 
 export default {
   name: "UserPage",
-  components: { AddAccountForm, AccountMenu, ClientInfo },
+  components: {
+    AddAccountForm,
+    AccountMenu,
+    ClientInfo,
+    AccountInfo,
+    TransactionHistory,
+    TransferMoney,
+    PayBills,
+    ETransfer
+  },
   props: {
     id: String
   },
   data() {
     return {
-      selectMenu: "",
+      selectMenu: "info",
       selectAccount: {},
       clientData: {},
       accounts: []
@@ -83,9 +95,12 @@ export default {
     },
     onClickAdd: function(value) {
       console.log(value);
-      
+
       // TODO add the value to the accounts
       this.hideAdd();
+    },
+    onClickMenu: function(value) {
+      this.selectMenu = value;
     },
     toggleMenuHandler: function(item) {
       this.selectMenu = item;

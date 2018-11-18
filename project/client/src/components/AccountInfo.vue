@@ -1,5 +1,5 @@
 <template>
-  <div class="client__info">
+  <div class="account-info">
     <div class="item" v-for="(item, keyValue) in data" :key="keyValue">
       <strong>{{keyValue}}</strong>: {{data[keyValue]}}
     </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "client-info",
+  name: "account-info",
   props: {
     data: Object
   }
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.client__info {
+.account-info {
 
 }
 </style>
