@@ -8,8 +8,8 @@
         <div>
           <h3 v-if="clientData.fullName != ''">Hi, {{clientData.fullName}}!<br>
             <span class="info"><a @click="showClient()">see client info</a></span>
-            <modal name="showClientInfo">
-              <ClientInfo :data="clientData"/>
+            <modal name="showClientInfo" height='auto'>
+              <ClientInfo :data="clientData" :clientId='parseInt(id)'/>
             </modal>
           </h3>
         </div>
