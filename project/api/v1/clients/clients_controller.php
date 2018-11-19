@@ -80,10 +80,19 @@ function modify_client_by_id($user)
         if (!test_db_connection($db)) {
             return array("error" => "Cannot connect to DB.");
         }
-        $query = "UPDATE Clients SET phone = '".$user['phone']."' , email = '".$user['email']."' , address = '".$user['address']."' WHERE id = ".$user['id']."";
+        
+        $query = "SELECT id FROM CLIENTS WHERE (email = '".$user['email']."' OR  phone = '".$user['phone']."') AND id <> ".$user[id]. "";
         $stmt = $db->prepare($query);
         $stmt->execute();
-        return array("msg" => 'Successfully updated client info.');
+        $number_of_rows = $stmt->fetchColumn();
+        if ($number_of_rows > 0) {
+            return array("error" => 'Someone already has that email or phone number!'); 
+        } else {
+            $query = "UPDATE Clients SET phone = '".$user['phone']."' , email = '".$user['email']."' , address = '".$user['address']."' WHERE id = ".$user['id']."";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            return array("msg" => 'Successfully updated client info.');
+        }
     } catch (Exceptiion $e) {
         return array("error" => "Server error ".$e." .");
     }

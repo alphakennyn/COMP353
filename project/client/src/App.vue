@@ -49,4 +49,9 @@ export default {
     }
   }
 }
+a {
+  &:hover {
+    cursor: pointer;
+  }
+}
 </style>

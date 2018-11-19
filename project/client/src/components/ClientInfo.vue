@@ -64,13 +64,15 @@ export default {
       this.$http
         .post(`${process.env.VUE_APP_API_PATH}/clients/`, this.user)
         .then(response => {
+          delete this.user.id;
           if ("error" in response.data) {
-            alert("Cannot save client info.");
+            alert(response.data.error);
+            this.cancel();
+          } else {
+            this.cachedUser = Object.assign({}, this.user);
+            this.isEditing = false;
           }
         });
-      delete this.user.id;
-      this.cachedUser = Object.assign({}, this.user);
-      this.isEditing = false;
     },
     cancel: function() {
       this.user = Object.assign({}, this.cachedUser);
