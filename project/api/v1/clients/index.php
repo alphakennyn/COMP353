@@ -22,6 +22,14 @@ switch ($http_method) {
         echo json_encode($packet);
         return;
     case 'POST':
+        $data = json_decode(file_get_contents('php://input'), true);
+        // changing passwords
+        if (array_key_exists ('oldPass', $data) && array_key_exists ('newPass', $data)) {
+            $packet = modify_client_password($data); 
+        } else {
+            $packet = modify_client_by_id($data);
+        }
+        echo json_encode($packet);
         return;
     case 'PUT':
         return;
