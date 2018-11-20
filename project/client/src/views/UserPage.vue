@@ -39,7 +39,7 @@
           <TransactionHistory v-if="selectMenu == 'transactions'"/>
           <TransferMoney v-if="selectMenu == 'transfer'"/>
           <PayBills v-if="selectMenu == 'pay'"/>
-          <ETransfer v-if="selectMenu == 'etransfer'"/>
+          <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount'/>
         </div>
       </div>
     </div>
@@ -122,6 +122,7 @@ export default {
       .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
       .then(response => {
         this.accounts = response.data.user_accounts;
+        this.selectAccount = this.accounts[0];
         console.log(this.accounts);
       })
       .catch(err => {
