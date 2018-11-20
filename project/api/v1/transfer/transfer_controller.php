@@ -17,8 +17,17 @@ function send_transfer($sender,$recipient, $amount)
         if (!test_db_connection($db)) {
             return array("error" => "Cannot connect to DB.");
         }
+        $check_query = "SELECT * FROM ACCOUNT ";
+        $check_query .= "WHERE accountNumber = ".$recipient.";";
 
-        // // query statement
+        $check_stmt = $db->prepare($check_query);
+        $check_stmt->execute();
+
+        if ($check_stmt->fetch(PDO::FETCH_ASSOC) == false) {
+            return array("error" => "Account does not exist. >:(");
+        }
+
+        // query statement
         $query = "UPDATE ACCOUNT "; 
         $query .= "SET balance = balance + ".$amount." ";
         $query .= "WHERE accountNumber = ".$recipient.";";
@@ -28,26 +37,20 @@ function send_transfer($sender,$recipient, $amount)
         $stmt->execute();
 
         $query1 = "UPDATE ACCOUNT "; 
-        $query1 .= "SET balance = balance + ".$amount." ";
+        $query1 .= "SET balance = balance - ".$amount." ";
         $query1 .= "WHERE accountNumber = ".$sender.";";
 
         // // prepare query statement
         $stmt1 = $db->prepare($query1);
         $stmt1->execute();
         
-        $query2 = "SELECT amount FROM ACCOUNT "; 
+        $query2 = "SELECT balance FROM ACCOUNT "; 
         $query2 .= "WHERE accountNumber = ".$sender.";";
 
-        $stmt2 = $db->prepare($query1);
+        $stmt2 = $db->prepare($query2);
         $stmt2->execute();
 
-        $packet=array();
-
-        while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-            array_push($packet["balance"], $row);
-        }
-
-        return array("balance" => $packet);
+        return $stmt2->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         return array("error" => "Server error ".$e." .");
     }

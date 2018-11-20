@@ -5,10 +5,10 @@
     <div class="item warning">{{warning}}</div>
     <br>
     <div class="item">
-      <label>Enter recipient's email</label><br>
+      <label>Enter recipient's account number</label><br>
       <input placeholder="Enter account number for e-transfer" v-model="recipientAccountNumber"/><br>
-      <label>Enter amount to send</label><br>
-      <input placeholder="Enter amount to send" type="number" v-model="transferAmount" />
+      <label v-if="recipientAccountNumber != ''">Enter amount to send</label><br>
+      <input v-if="recipientAccountNumber != ''" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
     </div>
     <button v-if="canSend" class="item" @click="sendMoula()">Send</button>
   </div>
@@ -32,10 +32,10 @@ export default {
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
         const balance = parseInt(this.data.balance);
-        console.log(this.canSend);
         if(transferAmount > 0) {
           this.canSend = true;
         } else {
+          this.warning = "Amount must be greater than 1";
           this.canSend = false;
         }
 
@@ -61,12 +61,15 @@ export default {
         recipientAccountNumber: this.recipientAccountNumber,
         amount: this.transferAmount,
       }
-
-      console.log(data);
       this.$http.post(`${process.env.VUE_APP_API_PATH}/transfer/`, data).then(result => {
-        console.log(JSON.stringify(result, null ,2));
+        if('error' in result.data) {
+          throw result.data.error;
+        }
+        this.data.balance = result.data.balance;
+        this.recipientAccountNumber = '';
+        this.transferAmount = 0;
       }).catch(err =>{
-        console.log(JSON.stringify(err, null ,2));
+          alert(err);
       })
     }
   },
@@ -75,18 +78,6 @@ export default {
 
 <style scoped lang="scss">
 .e-transfer {
-  // .item {
-  //   position: relative;
-  //   height: 10px;
-  //   margin-bottom: 10px;
 
-  //   input {
-  //     width: 40%
-  //   }
-
-  //   &.warning {
-  //     color: red;
-  //   }
-  // }
 }
 </style>
