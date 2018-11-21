@@ -101,8 +101,8 @@ CREATE TABLE Clients (
     pass VARCHAR(20),
     fullName VARCHAR(100),
     category VARCHAR(30),
-    phone BIGINT,
-    email VARCHAR(50),
+    phone BIGINT UNIQUE,
+    email VARCHAR(50) UNIQUE,
     address VARCHAR(100),   
     joinDate DATETIME,
     DOB DATE,
@@ -174,16 +174,19 @@ CREATE TABLE AccountsOwned (
 );
 
 CREATE TABLE Transactions (
-    bid INT,
-    accountNumber INT,
-    transType VARCHAR(30),
-    amount FLOAT,
-    transNumber INT,
-    tStamp DATETIME,
+    bid INT NOT NULL,
+    accountNumber INT NOT NULL,
+    transType VARCHAR(30) NOT NULL,
+    amount FLOAT NOT NULL,
+    transNumber INT NOT NULL,
+    tStamp DATETIME NOT NULL,
+    recipientAccountNumber INT,
     PRIMARY KEY (transNumber),
     FOREIGN KEY (bid)
         REFERENCES Branch (id),
     FOREIGN KEY (accountNumber)
+        REFERENCES Account (accountNumber),
+    FOREIGN KEY (recipientAccountNumber)
         REFERENCES Account (accountNumber)
 );
 
@@ -192,6 +195,8 @@ CREATE TABLE Bills (
     amount FLOAT,
     isRecurring BIT,
     accountNumber INT,
+    recurringDays INT, 
+    isPaid BIT,
     PRIMARY KEY (id , accountNumber),
     FOREIGN KEY (accountNumber)
         REFERENCES Account (accountNumber)
