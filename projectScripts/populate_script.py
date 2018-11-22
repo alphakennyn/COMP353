@@ -369,14 +369,13 @@ for i in range(1,305):
     accountNumber = random.randrange(1,62)
     transType = transactionType[random.randint(0,4)]
     amount = random.randrange(50,50000)
-    transNumber = i
     tstamp = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)) + ' ' + str(random.randrange(1,12)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2)
     if(transType== "e-Transfer" ):
         recipientAccountNumber= random.randint(1,61)
-        sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, transNumber, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,%i,'%s',%i);\n" %(bid, accountNumber, transType, amount, transNumber, tstamp, recipientAccountNumber))
+        sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,'%s',%i);\n" %(bid, accountNumber, transType, amount, tstamp, recipientAccountNumber))
     else:
         recipientAccountNumber= 'NULL'
-        sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, transNumber, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,%i,'%s',%s);\n" %(bid, accountNumber, transType, amount, transNumber, tstamp, recipientAccountNumber))
+        sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,'%s',%s);\n" %(bid, accountNumber, transType, amount, tstamp, recipientAccountNumber))
 
 
 

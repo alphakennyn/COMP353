@@ -178,7 +178,7 @@ CREATE TABLE Transactions (
     accountNumber INT NOT NULL,
     transType VARCHAR(30) NOT NULL,
     amount FLOAT NOT NULL,
-    transNumber INT NOT NULL,
+    transNumber INT NOT NULL AUTO_INCREMENT,
     tStamp DATETIME NOT NULL,
     recipientAccountNumber INT,
     PRIMARY KEY (transNumber),
