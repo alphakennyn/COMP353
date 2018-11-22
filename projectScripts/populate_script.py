@@ -55,7 +55,7 @@ for i in range (1, 65):
         title.append("Manager")
     else:
         title.append(manageArr[i-61])
-    sqlscript.write("INSERT INTO Employee(id, category, phone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday) values (%i,'%s',%i,'%s','%s','%s',%f, '%s', %i, %i);\n" %(ids[i-1], category[i-1], phone[i-1], title[i-1], fullNames[i-1], addresses[i-1], hourlyWage[i-1], startDate[i-1], availableSick[i-1], availableHoliday[i-1]))
+    sqlscript.write("INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday) values ('%s',%i,'%s','%s','%s',%f, '%s', %i, %i);\n" %( category[i-1], phone[i-1], title[i-1], fullNames[i-1], addresses[i-1], hourlyWage[i-1], startDate[i-1], availableSick[i-1], availableHoliday[i-1]))
       
 #bank
 bName = "ABCJK"
@@ -77,7 +77,7 @@ for i in range (1,11):
     location =str(streets.readline().rstrip())
     openingDate= str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
     revenue =  random.randint(15000, 500000)
-    sqlscript.write("INSERT INTO Branch(id, phone, fax, location, city, openingDate, revenue, managerId) values (%i, %i, %i,'%s','%s','%s',%f, %i );\n" %(i,bphone,bfax,location,city,openingDate, revenue, 50+i ))
+    sqlscript.write("INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( %i, %i,'%s','%s','%s',%f, %i );\n" %(bphone,bfax,location,city,openingDate, revenue, 50+i ))
 
 
 
@@ -391,7 +391,7 @@ for i in range (1,101):
         recurringDays= random.randint(25,30)
     else:
         recurringDays=0
-    sqlscript.write("INSERT INTO Bills(id, amount, isRecurring, accountNumber,recurringDays,isPaid) values (%i, %i, %i, %i,%i,%i);\n" %(ids, amount, isRecurring, accountNumber,recurringDays,isPaid))
+    sqlscript.write("INSERT INTO Bills( amount, isRecurring, accountNumber,recurringDays,isPaid) values (%i, %i, %i,%i,%i);\n" %(amount, isRecurring, accountNumber,recurringDays,isPaid))
 
 #Payee
 payeees = ['Bell', 'Fido', 'Videotron', 'Rogers', 'Virgin', 'Telus', 'Sprint', 'Verizon', 'AT&t', 'Spotify', 'Netflix', 'Github', 'AWS', 'Azure', 'Sasktel']

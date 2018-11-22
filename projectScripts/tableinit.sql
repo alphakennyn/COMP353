@@ -3,7 +3,7 @@ create database fec353_2;
 use fec353_2;
 
 CREATE TABLE Employee (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     category VARCHAR(30),
     phone BIGINT,
     title VARCHAR(40),
@@ -35,7 +35,7 @@ CREATE TABLE Bank (
 );
 
 CREATE TABLE Branch (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     phone BIGINT,
     fax BIGINT,
     location VARCHAR(100),
@@ -97,7 +97,7 @@ CREATE TABLE Payroll (
 );
 
 CREATE TABLE Clients (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     pass VARCHAR(20),
     fullName VARCHAR(100),
     category VARCHAR(30),
@@ -191,7 +191,7 @@ CREATE TABLE Transactions (
 );
 
 CREATE TABLE Bills (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     amount FLOAT,
     isRecurring BIT,
     accountNumber INT,
