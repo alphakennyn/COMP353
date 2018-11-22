@@ -5,27 +5,47 @@
     <div class="item warning">{{warning}}</div>
     <br>
     <div class="item">
-      <label>Enter recipient's account number</label><br>
-      <input placeholder="Enter account number for e-transfer" v-model="recipientAccountNumber"/><br>
-      <label v-if="recipientAccountNumber != ''">Enter amount to send</label><br>
-      <input v-if="recipientAccountNumber != ''" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
+      <label>Enter recipient's email</label><br>
+      <input placeholder="Must be a valid email" v-model="recipientEmail"/><button @click="getAccountByEmail()">Search</button><br>
+      <div v-if="!fetchingUser">
+        <br>
+        <label v-if="recipientAccounts.length > 0">Selected recipient account</label><br>
+        <select v-if="recipientAccounts.length > 0" v-model="selectedRecipientAccount" class="select">
+          <option v-for='(account, index) in recipientAccounts'
+            :value='account.accountNumber'
+            :key='index'>
+            {{account.accountType}} #{{account.accountNumber}}
+          </option>
+        </select><br>
+        <label v-if="selectedRecipientAccount != null">Enter amount to send</label><br>
+        <input v-if="selectedRecipientAccount != null" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
+      </div>
+      <Loader v-if="fetchingUser"/>
     </div>
     <button v-if="canSend" class="item" @click="sendMoula()">Send</button>
   </div>
 </template>
 
 <script>
+import Loader from '@/components/Loader.vue';
+
 export default {
   name: "e-transfer",
+  components: {
+    Loader,
+  },
   props: {
     data: Object
   },
   data() {
     return {
-      recipientAccountNumber: '',
-      transferAmount: 0,
+      recipientEmail: '',
       canSend: false,
+      recipientAccounts: [],
+      selectedRecipientAccount: null,
+      transferAmount: 0,
       warning: null,
+      fetchingUser: false,
     }
   },
   watch: {
@@ -58,7 +78,7 @@ export default {
     sendMoula: function() {
       const data = {
         senderAccountNumber: this.data.accountNumber,
-        recipientAccountNumber: this.recipientAccountNumber,
+        recipientEmail: this.selectedRecipientAccount,
         amount: this.transferAmount,
       }
       this.$http.post(`${process.env.VUE_APP_API_PATH}/transfer/`, data).then(result => {
@@ -66,8 +86,24 @@ export default {
           throw result.data.error;
         }
         this.data.balance = result.data.balance;
-        this.recipientAccountNumber = '';
+        this.recipientEmail = '';
         this.transferAmount = 0;
+      }).catch(err =>{
+          alert(err);
+      })
+    },
+    getAccountByEmail: function() {
+      this.fetchingUser = true;
+      this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts?user_email="${this.recipientEmail}"`).then(result => {
+        if('error' in result.data) {
+          throw result.data.error;
+        }
+        console.log(result);
+        this.recipientAccounts = result.data.user_accounts;
+        this.fetchingUser = false;
+        // this.data.balance = result.data.balance;
+        // this.recipientEmail = '';
+        // this.transferAmount = 0;
       }).catch(err =>{
           alert(err);
       })
