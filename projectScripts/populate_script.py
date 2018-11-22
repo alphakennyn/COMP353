@@ -270,108 +270,142 @@ sqlscript.write("INSERT INTO InterestRate(id, serviceType, typeOfAccount, percen
 
 
 aTypes = ['Checking', 'Savings', 'Investment', 'Insurance', 'Foreign Currency', 'Credit Card', 'Business', 'Line of Credit', 'Loan']
+fc = ['USD', 'EUR', 'AUD', 'GBP', 'YEN']
 
 #Account
-for i in range(1,62):
+for i in range(1,61):
     cpid = random.randrange(1,9)
     balance = random.randrange(-250,99999)
     tp= aTypes[cpid-1]    
     if(cpid==1):
         transactions = 200
+        transactionsLeft = random.randrange(0,201)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance= 'NULL'
         businessNumber= 'NULL'                
         creditLimit= 'NULL'
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %s, %s, %s,%s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %s, %s, %s,%s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==2):
         transactions = 20
+        transactionsLeft = random.randrange(0,21)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance= 200
         businessNumber= 'NULL'
         creditLimit=  'NULL'
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %i,%s,%s,%s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %i,%s,%s,%s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==3):
         transactions = 20
+        transactionsLeft = random.randrange(0,21)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance= 200
         businessNumber= 'NULL'
         creditLimit=  'NULL'
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %i, %s, %s, %s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %i, %s, %s, %s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==4):
         transactions = 0
+        transactionsLeft = 0
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance= 'NULL'
         businessNumber= 'NULL'
         creditLimit= 'NULL'
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %s,%s,%s,%s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %s,%s,%s,%s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==5):
         transactions = 20
+        transactionsLeft = random.randrange(0,21)
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        currency = fc[random.randint(0,4)]
         minBalance= 200
         businessNumber= 'NULL'
         creditLimit= 'NULL'
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %i, %s, %s, %s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %i, %s, %s, %s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==6):
         transactions = 1000000
+        transactionsLeft = random.randrange(0,100000)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance= 'NULL'
         businessNumber= 'NULL'
         creditLimit= random.randint(500,500000)
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %s,%s,%s,'%s');\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %s,%s,%s,'%s');\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==7):
         transactions = 1000000
+        transactionsLeft = random.randrange(0,100000)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance= 200
         businessNumber= random.randrange(1,55)
         creditLimit=  'NULL'
         taxId= random.randrange(1,55)
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %i,'%s', %i, %s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %i,'%s', %i, %s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==8):
         transactions = 200
+        transactionsLeft = random.randrange(0,201)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance=  'NULL'
         businessNumber= 'NULL'
         creditLimit=random.randint(500,10000)
         taxId= 'NULL'
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %s, %s, %s, '%s');\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %s, %s, %s, '%s');\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==9):
         transactions = 5
+        transactionsLeft = random.randrange(0,6)
+        currency = 'CAD'
+        isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
         minBalance=  'NULL'
         businessNumber= 'NULL'
         creditLimit=  'NULL'
         taxId= 'NULL'        
-        sqlscript.write("insert into Account(accountNumber, cpid, irid, balance, transactionsPerMonth, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i, %s, %s, %s, %s);\n" %(i,cpid,cpid, balance, transactions, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
+        sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %s, %s, %s, %s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
 
     
 
 
 
 #AssociatedTo
-for i in range (1, 62):
+for i in range (1, 61):
     sqlscript.write("insert into AssociatedTo(bid, accountNumber) values (%i,%i);\n" %(random.randrange(1,11), i))
 
 
 #AccountsOwned
 for i in range (1, 31):
-    sqlscript.write("INSERT INTO AccountsOwned(cid, accountNumber) values (%i,%i);\n" %(i, random.randrange(1,62)))
+    sqlscript.write("INSERT INTO AccountsOwned(cid, accountNumber) values (%i,%i);\n" %(i, i))
+
+for i in range (31,61):
+    sqlscript.write("INSERT INTO AccountsOwned(cid, accountNumber) values (%i,%i);\n" %(i-30, i))
+
+
+
 
 transactionType = ["Debit","Credit","Transfer", "Bill Payment","e-Transfer"]
 #Transactions
 for i in range(1,305):
     bid = random.randrange(1,11)
-    accountNumber = random.randrange(1,62)
+    accountNumber = random.randrange(1,61)
     transType = transactionType[random.randint(0,4)]
     amount = random.randrange(50,50000)
     tstamp = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)) + ' ' + str(random.randrange(1,12)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2)
     if(transType== "e-Transfer" ):
-        recipientAccountNumber= random.randint(1,61)
+        recipientAccountNumber= random.randint(1,60)
         sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,'%s',%i);\n" %(bid, accountNumber, transType, amount, tstamp, recipientAccountNumber))
     else:
         recipientAccountNumber= 'NULL'
@@ -384,7 +418,7 @@ for i in range (1,101):
     ids=i
     amount= random.randrange(10,5000)
     isRecurring= random.randrange(0,1)
-    accountNumber= random.randrange(1,62)
+    accountNumber= random.randrange(1,61)
     isPaid= random.randint(0,1)
     if(isRecurring==1): 
         recurringDays= random.randint(25,30)
@@ -396,7 +430,7 @@ for i in range (1,101):
 payeees = ['Bell', 'Fido', 'Videotron', 'Rogers', 'Virgin', 'Telus', 'Sprint', 'Verizon', 'AT&t', 'Spotify', 'Netflix', 'Github', 'AWS', 'Azure', 'Sasktel']
 for i in range (1, 11):
     ids = 1000 + i
-    name = random.randrange(1, (len(payeees)))
+    name = payeees[random.randrange(1, (len(payeees)))]
     sqlscript.write("INSERT INTO Payee(accountNumber, fullName) values (%i, '%s');\n" %(ids, name))
 
 #MyPayee
