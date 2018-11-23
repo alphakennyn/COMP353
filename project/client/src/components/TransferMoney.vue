@@ -60,7 +60,10 @@ export default {
         senderAccountNumber: this.data.accountNumber,
         recipientAccountNumber: this.recipientAccountNumber,
         amount: this.transferAmount,
+        transferType: 'Transfer',
       }
+
+      console.log(data);
       this.$http.post(`${process.env.VUE_APP_API_PATH}/transfer/`, data).then(result => {
         if('error' in result.data) {
           throw result.data.error;

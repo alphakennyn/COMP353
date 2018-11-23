@@ -12,7 +12,7 @@
         <label v-if="recipientAccounts.length > 0">Selected recipient account</label><br>
         <select v-if="recipientAccounts.length > 0" v-model="selectedRecipientAccount" class="select">
           <option v-for='(account, index) in recipientAccounts'
-            :value='account.accountNumber'
+            :value='account'
             :key='index'>
             {{account.accountType}} #{{account.accountNumber}}
           </option>
@@ -78,14 +78,19 @@ export default {
     sendMoula: function() {
       const data = {
         senderAccountNumber: this.data.accountNumber,
-        recipientEmail: this.selectedRecipientAccount,
-        amount: this.transferAmount,
+        recipientAccountNumber: this.selectedRecipientAccount.accountNumber,
+        amount: this.selectedRecipientAccount.accountType === 'Credit Card'? -1*this.transferAmount : this.transferAmount,
+        transferType: 'e-transfer',
       }
       this.$http.post(`${process.env.VUE_APP_API_PATH}/transfer/`, data).then(result => {
+        console.log(result)
         if('error' in result.data) {
           throw result.data.error;
         }
         this.data.balance = result.data.balance;
+
+        this.recipientAccounts = [];
+        this.selectedRecipientAccount = null;
         this.recipientEmail = '';
         this.transferAmount = 0;
       }).catch(err =>{
