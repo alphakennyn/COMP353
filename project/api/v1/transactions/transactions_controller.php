@@ -31,6 +31,15 @@ function get_transactions($acc_num)
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             array_push($packet["account_transactions"],$row);
         } 
+
+        $query = "SELECT TransactionsPerMonth, TransactionsLeft FROM Account WHERE accountNumber = '".$acc_num."'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        $transactionData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $packet["transactions_left"] = $transactionData["TransactionsPerMonth"];
+        $packet["transactions_pm"] = $transactionData["TransactionsLeft"];
+
         return $packet;
     } catch (Exception $e){
         return array("error" => "Server error ".$e." .");
