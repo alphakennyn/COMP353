@@ -26,8 +26,8 @@
               </option>
             </select> <br>
             <button @click="showAdd()">add a new account?</button>
-            <modal name="showAddAccount">
-              <AddAccountForm :clientId='parseInt(id)' @clicked="onClickAdd"/>
+            <modal class="bank-modal" name="showAddAccount">
+              <AddAccountForm :clientId='parseInt(id)' :dictionary='planDictionary' @clicked="onClickAdd"/>
             </modal>
           </div>
         </div>
@@ -77,7 +77,8 @@ export default {
       selectMenu: "info",
       selectAccount: {},
       clientData: {},
-      accounts: []
+      accounts: [],
+      planDictionary: {},
     };
   },
   methods: {
@@ -111,13 +112,17 @@ export default {
       .get(`${process.env.VUE_APP_API_PATH}/clients?id=${this.id}`)
       .then(
         response => {
+          console.log(response)
           this.clientData = response.data.clients[0];
-          console.log(this.clientData);
-        },
-        error => {
-          alert("Something went wrong");
-        }
-      );
+          this.planDictionary = response.data.plans.reduce((acc,val) => {
+            acc[val.accountType] = val;
+            return acc;
+          }, {});
+
+          console.log(this.planDictionary);
+      }).catch(error => {
+          alert(error);
+      });
     this.$http
       .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
       .then(response => {
@@ -156,5 +161,10 @@ export default {
 .info {
   float: right;
   color: green;
+}
+.v--modal-box.v--modal {
+  height: 100%;
+  padding: 50px;
+  text-align: justify
 }
 </style>

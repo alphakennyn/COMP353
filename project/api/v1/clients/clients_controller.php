@@ -56,15 +56,31 @@ function get_client_by_id($user_id)
         // prepare query statement
         $stmt = $db->prepare($query);
         $stmt->execute();
+        
+        $query1 = "SELECT Chargeplan.planoption as accountType,";
+        $query1 .= " Chargeplan.planlimit as planlimit, ";
+        $query1 .= " Chargeplan.charge as charge, ";
+        $query1 .= " InterestRate.serviceType as serviceType, ";
+        $query1 .= " InterestRate.percentCharge as percentCharge ";
+        $query1 .= " FROM InterestRate INNER JOIN Chargeplan ON Chargeplan.id = InterestRate.id;";
+    
+        $stmt1 = $db->prepare($query1);
+        $stmt1->execute();
 
         $packet=array();
         $packet["clients"]=array();
+        $packet["plans"]=array();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             unset($row['id']);
             unset($row['pass']);
             array_push($packet["clients"], $row);
         }
+
+        while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+            array_push($packet["plans"], $row);
+        }
+
         return $packet;
     } catch (Exception $e) {
         return array("error" => "Server error ".$e." .");

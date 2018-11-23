@@ -60,7 +60,7 @@ function get_user_accounts($user_id)
 
     // query statement
     $query = "SELECT ACCOUNT.*, cid FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE cid = ". $user_id .";";
-    //echo $query;
+
     // prepare query statement
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -69,9 +69,9 @@ function get_user_accounts($user_id)
     $packet["user_accounts"]=array();
     
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      // $tmp=array();
       array_push($packet["user_accounts"], $row);
     }
+
     return $packet;
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");
