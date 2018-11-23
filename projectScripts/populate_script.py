@@ -211,7 +211,7 @@ for i in range(1, 31):
     category = clientCategory[random.randrange(0,2)]
     phone = 5140000000 + random.randint(0,9999999)
     chome =streets.readline().rstrip()         
-    datejoined = str(random.randrange(2002,2018))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
+    datejoined = str(random.randrange(1990,2000))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
     dob = str(random.randrange(1945,2000))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
     sqlscript.write("INSERT INTO Clients(id, pass, fullName, category, phone, email, address, joinDate, DOB, cardNumber) values (%i,'%s','%s','%s', %i ,'%s','%s','%s','%s', %i);\n" %(i,password,cname,category,phone,email,chome, datejoined, dob, 5000+i ))
 
@@ -407,12 +407,19 @@ for i in range (31,61):
 
 transactionType = ["Debit","Credit","Transfer", "Bill Payment","e-Transfer"]
 #Transactions
+month= 1
+year = 2000
 for i in range(1,305):
+    if(i%2==0):
+        day= random.randint(15,28)
+    else:
+        day= random.randint(1,15)
+
     bid = random.randrange(1,11)
     accountNumber = random.randrange(1,61)
     transType = transactionType[random.randint(0,4)]
     amount = random.randrange(50,300)
-    tstamp = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)) + ' ' + str(random.randrange(1,12)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2)
+    tstamp = str(year)+"-"+str( month) +"-"+str(day)+ ' ' + str(random.randrange(1,12)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2)
     if(transType== "e-Transfer" ):
         recipientAccountNumber= random.randint(1,60)
         sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,'%s',%i);\n" %(bid, accountNumber, transType, amount, tstamp, recipientAccountNumber))
@@ -420,41 +427,30 @@ for i in range(1,305):
         recipientAccountNumber= 'NULL'
         sqlscript.write("INSERT INTO Transactions(bid, accountNumber, transType, amount, tStamp, recipientAccountNumber) values (%i,%i,'%s',%f,'%s',%s);\n" %(bid, accountNumber, transType, amount, tstamp, recipientAccountNumber))
 
+    if(i%2==0):
+        month=month+1
 
-
-#Bills
-for i in range (1,101):
-    ids=i
-    amount= random.randrange(10,5000)
-    isRecurring= random.randrange(0,1)
-    accountNumber= random.randrange(1,61)
-    isPaid= random.randint(0,1)
-    if(isRecurring==1): 
-        recurringDays= random.randint(25,30)
-    else:
-        recurringDays=0
-    sqlscript.write("INSERT INTO Bills( amount, isRecurring, accountNumber,recurringDays,isPaid) values (%i, %i, %i,%i,%i);\n" %(amount, isRecurring, accountNumber,recurringDays,isPaid))
+    if(i% 24==0):
+        year=year+1
+        month=1
 
 #Payee
 payeees = ['Bell', 'Fido', 'Videotron', 'Rogers', 'Virgin', 'Telus', 'Sprint', 'Verizon', 'AT&t', 'Spotify', 'Netflix', 'Github', 'AWS', 'Azure', 'Sasktel']
-for i in range (1, 11):
-    ids = 1000 + i
-    name = payeees[random.randrange(1, (len(payeees)))]
-    sqlscript.write("INSERT INTO Payee(accountNumber, fullName) values (%i, '%s');\n" %(ids, name))
+for i in range (1, 15):
+    sqlscript.write("INSERT INTO Payee(payeeName) values ('%s');\n" %(payeees[i]))
 
 #MyPayee
-for i in range(1, 31):
-    for x in range (1,6):
-        bsequence = x
-        referenceNumber = 1000 + (x*i)
-        payeeAccount = 1000 + random.randrange(1,11)                     
-        sqlscript.write("insert into MyPayee(bsequence, referenceNumber, payeeAccount) values (%i,%i,%i);\n" %(bsequence, referenceNumber, payeeAccount))
+for i in range(1, 35):
+    for x in range (1,3):
+        amount  = random.randint(5,25)
+        payeeId = random.randint(1,14)
+        accountNumber = i                     
+        sqlscript.write("insert into MyPayee(amount, accountNumber, payeeId) values (%i,%i,%i);\n" %(amount, accountNumber, payeeId))
 
-
-#Payment
-for i in range(1, 101):
-    billId = i
-    billSequence = random.randrange(1,6)
-    billDate = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)) + ' ' + str(random.randrange(1,12)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2)
-    amount = random.randrange(7,15)        
-    sqlscript.write("INSERT INTO Payment(billId, billSequence, billDate, amount) values (%i ,%i, '%s', %f);\n" %(billId, billSequence, billDate, amount))
+#Bills
+for i in range (1,101):
+    amount= random.randrange(10,5000)
+    isPaid= random.randint(0,1)
+    myPayeeId = random.randint(1,35)
+    dueDate = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
+    sqlscript.write("INSERT INTO Bills( amount, isPaid, myPayeeId, dueDate) values ( %i, %i,%i,'%s');\n" %(amount, isPaid, myPayeeId, dueDate))

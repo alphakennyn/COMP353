@@ -194,41 +194,33 @@ CREATE TABLE Transactions (
         REFERENCES Account (accountNumber)
 );
 
-CREATE TABLE Bills (
-    id INT NOT NULL AUTO_INCREMENT,
-    amount FLOAT,
-    isRecurring BIT,
-    accountNumber INT,
-    recurringDays INT, 
-    isPaid BIT,
-    PRIMARY KEY (id , accountNumber),
-    FOREIGN KEY (accountNumber)
-        REFERENCES Account (accountNumber)
-);
-
 CREATE TABLE Payee (
-    accountNumber INT,
-    fullName VARCHAR(50),
-    PRIMARY KEY (accountNumber)
+    id INT NOT NULL AUTO_INCREMENT,
+    payeeName VARCHAR(50),
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE MyPayee (
-    bSequence INT,
-    referenceNumber INT,
-    payeeAccount INT,
-    PRIMARY KEY (bSequence , referenceNumber),
-    FOREIGN KEY (payeeAccount)
-        REFERENCES Payee (accountNumber)
+    id INT NOT NULL AUTO_INCREMENT,
+    amount INT,
+    accountNumber INT,
+    payeeId INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (payeeId)
+        REFERENCES Payee (id),
+    FOREIGN KEY (accountNumber)
+        REFERENCES Account (accountNumber)
+
 );
 
-CREATE TABLE Payment (
-    billId INT,
-    billSequence INT,
-    billDate DATETIME,
+CREATE TABLE Bills (
+    id INT NOT NULL AUTO_INCREMENT,
     amount FLOAT,
-    PRIMARY KEY (billId , billSequence),
-    FOREIGN KEY (billId)
-        REFERENCES Bills (id),
-    FOREIGN KEY (billSequence)
-        REFERENCES MyPayee (bSequence)
+    isPaid BIT,
+    myPayeeId INT,
+    dueDate Date, 
+    PRIMARY KEY (id),
+    FOREIGN KEY (myPayeeId)
+        REFERENCES MyPayee (id)
 );
+
