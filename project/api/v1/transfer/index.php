@@ -15,7 +15,7 @@ switch ($http_method) {
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
         
-        $packet = send_transfer($data['senderAccountNumber'],$data['recipientAccountNumber'],$data['amount']);
+        $packet = send_transfer($data['senderAccountNumber'],$data['recipientAccountNumber'],$data['amount'], $data['transferType']);
         echo json_encode($packet);
         return;
     case 'PUT':
