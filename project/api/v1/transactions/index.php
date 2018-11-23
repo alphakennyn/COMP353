@@ -11,8 +11,8 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($http_method) {
     case 'GET':
-        $acc_num= $_GET['acc_num'];
-        $packet = get_transactionsa($acc_num);
+        $acc_num= $_GET['accountNumber'];
+        $packet = get_transactions($acc_num);
         echo json_encode($packet);
         return;
     case 'POST':

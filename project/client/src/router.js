@@ -15,19 +15,10 @@ const router = new Router({
       }
     },
     {
-<<<<<<< HEAD
-      path: '/admin',
-      name: 'admin',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "admin" */ './views/Admin.vue')
-=======
       path: '/user/:id',
       name: 'user',
       component: UserPage,
       props: true,
->>>>>>> 718a2aa8682ac3889526c2181430764c8118f102
     },
     {
       path: '/login',

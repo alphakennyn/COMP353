@@ -8,12 +8,11 @@
 
 <script>
 export default {
-  name: 'account',
+  name: 'transaction',
   props: {
-    account: Object,
+    transaction: Object,
   },
   mounted: function() {
-    // conosle.log(this.account);
   }
 };
 </script>
