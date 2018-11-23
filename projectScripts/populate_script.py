@@ -49,13 +49,14 @@ for i in range (1, 65):
     startDate.append(str(random.randrange(2000,2018))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)))
     availableSick.append(random.randrange(0,3))
     availableHoliday.append(random.randrange(0,14))
+    password = 'teamkey'
     if(i < 51):
         title.append(posarr[random.randrange(0,9)])
     elif(i < 61):
         title.append("Manager")
     else:
         title.append(manageArr[i-61])
-    sqlscript.write("INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday) values ('%s',%i,'%s','%s','%s',%f, '%s', %i, %i);\n" %( category[i-1], phone[i-1], title[i-1], fullNames[i-1], addresses[i-1], hourlyWage[i-1], startDate[i-1], availableSick[i-1], availableHoliday[i-1]))
+    sqlscript.write("INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday, pass) values ('%s',%i,'%s','%s','%s',%f, '%s', %i, %i, '%s');\n" %( category[i-1], phone[i-1], title[i-1], fullNames[i-1], addresses[i-1], hourlyWage[i-1], startDate[i-1], availableSick[i-1], availableHoliday[i-1], password))
       
 #bank
 bName = "ABCJK"
@@ -275,7 +276,6 @@ fc = ['USD', 'EUR', 'AUD', 'GBP', 'YEN']
 #Account
 for i in range(1,61):
     cpid = random.randrange(1,9)
-    balance = random.randrange(-250,99999)
     tp= aTypes[cpid-1]    
     if(cpid==1):
         transactions = 200
@@ -283,6 +283,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         minBalance= 'NULL'
         businessNumber= 'NULL'                
         creditLimit= 'NULL'
@@ -294,6 +295,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         minBalance= 200
         businessNumber= 'NULL'
         creditLimit=  'NULL'
@@ -305,6 +307,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         minBalance= 200
         businessNumber= 'NULL'
         creditLimit=  'NULL'
@@ -316,6 +319,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         minBalance= 'NULL'
         businessNumber= 'NULL'
         creditLimit= 'NULL'
@@ -326,6 +330,7 @@ for i in range(1,61):
         transactionsLeft = random.randrange(0,21)
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         currency = fc[random.randint(0,4)]
         minBalance= 200
         businessNumber= 'NULL'
@@ -338,9 +343,10 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         minBalance= 'NULL'
         businessNumber= 'NULL'
-        creditLimit= random.randint(500,500000)
+        creditLimit= random.randint(8000,9000)
         taxId= 'NULL'
         sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %s,%s,%s,'%s');\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==7):
@@ -349,6 +355,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(10000,99999)
         minBalance= 200
         businessNumber= random.randrange(1,55)
         creditLimit=  'NULL'
@@ -360,6 +367,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(8000,9000)
         minBalance=  'NULL'
         businessNumber= 'NULL'
         creditLimit=random.randint(500,10000)
@@ -371,6 +379,7 @@ for i in range(1,61):
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
+        balance = random.randrange(1000,9999)
         minBalance=  'NULL'
         businessNumber= 'NULL'
         creditLimit=  'NULL'
@@ -402,7 +411,7 @@ for i in range(1,305):
     bid = random.randrange(1,11)
     accountNumber = random.randrange(1,61)
     transType = transactionType[random.randint(0,4)]
-    amount = random.randrange(50,50000)
+    amount = random.randrange(50,300)
     tstamp = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)) + ' ' + str(random.randrange(1,12)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2) + ':' + str(random.randrange(0,59)).zfill(2)
     if(transType== "e-Transfer" ):
         recipientAccountNumber= random.randint(1,60)

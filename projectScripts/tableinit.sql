@@ -13,6 +13,7 @@ CREATE TABLE Employee (
     startDate DATETIME,
     availableSick INT,
     availableHoliday INT,
+    pass varchar(20),
     PRIMARY KEY (id)
 );
 
