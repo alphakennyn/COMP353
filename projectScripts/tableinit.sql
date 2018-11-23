@@ -3,7 +3,7 @@ create database fec353_2;
 use fec353_2;
 
 CREATE TABLE Employee (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     category VARCHAR(30),
     phone BIGINT,
     title VARCHAR(40),
@@ -13,6 +13,7 @@ CREATE TABLE Employee (
     startDate DATETIME,
     availableSick INT,
     availableHoliday INT,
+    pass varchar(20),
     PRIMARY KEY (id)
 );
 
@@ -35,7 +36,7 @@ CREATE TABLE Bank (
 );
 
 CREATE TABLE Branch (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     phone BIGINT,
     fax BIGINT,
     location VARCHAR(100),
@@ -97,12 +98,12 @@ CREATE TABLE Payroll (
 );
 
 CREATE TABLE Clients (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     pass VARCHAR(20),
     fullName VARCHAR(100),
     category VARCHAR(30),
-    phone BIGINT,
-    email VARCHAR(50),
+    phone BIGINT UNIQUE,
+    email VARCHAR(50) UNIQUE,
     address VARCHAR(100),   
     joinDate DATETIME,
     DOB DATE,
@@ -137,11 +138,14 @@ CREATE TABLE InterestRate (
 );
 
 CREATE TABLE Account (
-    accountNumber INT NOT NULL,
+    accountNumber INT NOT NULL AUTO_INCREMENT,
     cpid INT NOT NULL,
     irid INT NOT NULL,
     balance FLOAT NOT NULL,
     transactionsPerMonth INT NOT NULL,
+    transactionsLeft INT NOT NULL,
+    currency varchar(20) NOT NULL,
+    isNotified BIT,
     accountType VARCHAR(30) NOT NULL,
     maxPerDay INT,
     minBalance INT,
@@ -174,24 +178,29 @@ CREATE TABLE AccountsOwned (
 );
 
 CREATE TABLE Transactions (
-    bid INT,
-    accountNumber INT,
-    transType VARCHAR(30),
-    amount FLOAT,
-    transNumber INT,
-    tStamp DATETIME,
+    bid INT NOT NULL,
+    accountNumber INT NOT NULL,
+    transType VARCHAR(30) NOT NULL,
+    amount FLOAT NOT NULL,
+    transNumber INT NOT NULL AUTO_INCREMENT,
+    tStamp DATETIME NOT NULL,
+    recipientAccountNumber INT,
     PRIMARY KEY (transNumber),
     FOREIGN KEY (bid)
         REFERENCES Branch (id),
     FOREIGN KEY (accountNumber)
+        REFERENCES Account (accountNumber),
+    FOREIGN KEY (recipientAccountNumber)
         REFERENCES Account (accountNumber)
 );
 
 CREATE TABLE Bills (
-    id INT,
+    id INT NOT NULL AUTO_INCREMENT,
     amount FLOAT,
     isRecurring BIT,
     accountNumber INT,
+    recurringDays INT, 
+    isPaid BIT,
     PRIMARY KEY (id , accountNumber),
     FOREIGN KEY (accountNumber)
         REFERENCES Account (accountNumber)

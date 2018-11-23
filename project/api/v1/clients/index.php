@@ -11,10 +11,25 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($http_method) {
     case 'GET':
-        $packet = get_all_clients();
+        $user_id = $_GET['id'];
+        
+        if ($user_id != null) {
+            $packet = get_client_by_id($user_id);
+        } else {
+            $packet = get_all_clients();
+        }
+
         echo json_encode($packet);
         return;
     case 'POST':
+        $data = json_decode(file_get_contents('php://input'), true);
+        // changing passwords
+        if (array_key_exists ('oldPass', $data) && array_key_exists ('newPass', $data)) {
+            $packet = modify_client_password($data); 
+        } else {
+            $packet = modify_client_by_id($data);
+        }
+        echo json_encode($packet);
         return;
     case 'PUT':
         return;
