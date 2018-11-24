@@ -109,6 +109,9 @@ function get_accounts_by_email($email)
     }  
 }
 
+/**
+ * Add new account
+ */
 function post_user_accounts($account_data)
 {
   try {
@@ -119,10 +122,14 @@ function post_user_accounts($account_data)
         return array("error" => "Cannot connect to DB.");
     }
 
+    // Insert new account in Account db
     $cpid = $account_data['cpid'];
     $irid = $account_data['irid'];
     $balance = $account_data['balance'];
-    $transactionPerMonth = $account_data['transactionPerMonth'];
+    $transactionsPerMonth = $account_data['transactionsPerMonth'];
+    $transactionsLeft = $account_data['transactionsLeft'];
+    $currency = $account_data['currency'];
+    $isNotified = $account_data['isNotified'];
     $accountType = $account_data['accountType'];
     $maxPerDay = $account_data['maxPerDay'];
     $minBalance = ($account_data['minBalance'] == '' ? 'NULL' : $account_data['minBalance']);
@@ -130,19 +137,28 @@ function post_user_accounts($account_data)
     $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
     $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionPerMonth, '$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit)";
+    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', '$isNotified','$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit)";
 
-    // prepare query statement
     $stmt = $db->prepare($query);
     $stmt->execute();
 
+    return $query;
+
+    if($stmt->errorCode() != 0) {
+        throw new Exception('Error', $stmt->errorCode());
+    }
+    //Insert acocuntsOwned list
     $accountId = $db->lastInsertId();
-
     $cid = $account_data['cid'];
-    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, $accountId)";
-    $stmt = $db->prepare($query2);
-    $stmt->execute();
 
+    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, $accountId)";
+    
+    $stmt2 = $db->prepare($query2);
+    $stmt2->execute();
+
+    if($stmt2->errorCode() != 0) {
+        throw new Exception('Error', $stmt2->errorCode());
+    }
     // return latest account id
     return array("accountId" => $accountId);
 
