@@ -53,13 +53,17 @@ export default {
 
 <style scoped lang="scss">
 .schedule-info {
-table {
-  tr {
-    text-align: left;
+  padding: 25px 0px;
+  table {
+    tr {
+      text-align: left;
+      &:nth-child(even) {
+        background-color: #f2f2f2
+      }
+    }
+    td {
+      width: 200px;
+    }
   }
-  td {
-    width: 200px;
-  }
-}
 }
 </style>

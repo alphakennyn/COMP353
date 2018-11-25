@@ -1,14 +1,15 @@
 <template>
+<div class="employee-page">
   <div class="container">
     <h1>{{employeeName}}</h1>
     <EmployeeInfo :data='employeeData' />
-    <button @click="getPayroll()">Payroll</button>
+    <button class="payroll-btn" @click="getPayroll()">Payroll</button>
     <modal name="showPayroll" height='auto'>
-      <PayrollInfo :data="payroll" />
+      <PayrollInfo :data="payroll" :eid='parseInt(id)'/>
     </modal>
     <ScheduleInfo :data='schedule' />
   </div>
-  
+</div>
 </template>
 
 <script>
@@ -81,5 +82,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.employee-page {
+  .payroll-btn {
+    background-color: #50B83C;
+    border: 1px solid #50B83C;
+    margin-top: 15px;
+    padding: 10px 15px;
+  }
+}
 </style>
