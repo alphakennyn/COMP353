@@ -6,14 +6,14 @@
         <th>Start time</th>
         <th>End time</th> 
         <th>Holiday?</th>
-        <th>Sick days?</th>
+        <th>Sick day?</th>
       </tr>
       <tr v-for="(item, keyValue) in data" :key="keyValue">
         <td>
           {{item.startTime}}
         </td>
         <td>
-          {{item.startTime}}
+          {{item.endTime}}
         </td>
         <td>
           <span v-if="!item.isHoliday">Yes</span>

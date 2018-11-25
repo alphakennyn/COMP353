@@ -2,10 +2,6 @@
 include_once '../../database/database.php';
 include_once '../../utils/helpers.php';
 
-/**
- * Check if the user can login
- * @return JSON login info
- */
 
 function get_timeclock($eid)
 {
