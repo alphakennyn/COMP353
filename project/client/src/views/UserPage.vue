@@ -37,9 +37,9 @@
         <div>
           <AccountInfo v-if="selectMenu == 'info'" :data='selectAccount'/>
           <TransactionHistory v-if="selectMenu == 'transactions'"/>
-          <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount'/>
+          <TransferMoney v-if="selectMenu == 'transfer'" :accounts="accounts" :dictionary="planDictionary" :data='selectAccount'/>
           <PayBills v-if="selectMenu == 'pay'"/>
-          <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount'/>
+          <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount' :dictionary="planDictionary" />
         </div>
       </div>
     </div>
@@ -128,7 +128,6 @@ export default {
       .then(response => {
         this.accounts = response.data.user_accounts;
         this.selectAccount = this.accounts[0];
-        console.log(this.accounts);
       })
       .catch(err => {
         alert("uh oh.. no account found");
@@ -140,7 +139,7 @@ export default {
     },
     selectMenu: function() {
       console.log(`clicked ${this.selectMenu}`);
-    }
+    },
   }
 };
 </script>
@@ -148,7 +147,6 @@ export default {
 <style lang="scss" scoped>
 .client {
   background-color: #f4f4f4;
-  height: 100vh;
 
   &__header {
     display: flex;
