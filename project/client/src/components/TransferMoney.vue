@@ -6,7 +6,15 @@
     <br>
     <div class="item">
       <label>Enter recipient's account number</label><br>
-      <input placeholder="Enter account number for e-transfer" v-model="recipientAccountNumber"/><br>
+      <select v-model="recipientAccountNumber" class="select">
+          <option v-for='(account, index) in accounts'
+            v-if="account.accountType !== data.accountType"
+            :value='account.accountNumber'
+            :key='index'>
+            {{account.accountType}} #{{account.accountNumber}}
+          </option>
+        </select><br>
+      <!-- <input placeholder="Enter account number for e-transfer" v-model="recipientAccountNumber"/><br> -->
       <label v-if="recipientAccountNumber != ''">Enter amount to send</label><br>
       <input v-if="recipientAccountNumber != ''" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
     </div>
@@ -18,7 +26,8 @@
 export default {
   name: "transfer-money",
   props: {
-    data: Object
+    data: Object,
+    accounts: Array,
   },
   data() {
     return {
@@ -68,6 +77,9 @@ export default {
         if('error' in result.data) {
           throw result.data.error;
         }
+        
+        alert(`Transfer ${this.transferAmount} to account #${this.recipientAccountNumber} complete`);
+
         this.data.balance = result.data.balance;
         this.recipientAccountNumber = '';
         this.transferAmount = 0;
