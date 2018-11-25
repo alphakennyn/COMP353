@@ -21,7 +21,7 @@ function send_transfer($sender,$recipient, $amount, $transferType)
         /**
          * Check if user exist
          */
-        $check_query = "SELECT * FROM ACCOUNT ";
+        $check_query = "SELECT * FROM Account ";
         $check_query .= "WHERE accountNumber = ".$recipient.";";
 
         $check_stmt = $db->prepare($check_query);
@@ -34,7 +34,7 @@ function send_transfer($sender,$recipient, $amount, $transferType)
         /**
          * Update recipient's balance
          */
-        $query = "UPDATE ACCOUNT "; 
+        $query = "UPDATE Account "; 
         $query .= "SET balance = balance + ".$amount." ";
         $query .= "WHERE accountNumber = ".$recipient.";";
         
@@ -45,7 +45,7 @@ function send_transfer($sender,$recipient, $amount, $transferType)
          * Update sender's balance
          */
 
-        $query1 = "UPDATE ACCOUNT "; 
+        $query1 = "UPDATE Account "; 
         $query1 .= "SET balance = balance - ".$amount." ";
         $query1 .= ", transactionsPerMonth = transactionsPerMonth - 1 ";
         $query1 .= "WHERE accountNumber = ".$sender.";";
@@ -84,7 +84,7 @@ function send_transfer($sender,$recipient, $amount, $transferType)
         /**
          * Return sender's new balance
          */
-        $query2 = "SELECT balance FROM ACCOUNT "; 
+        $query2 = "SELECT balance FROM Account "; 
         $query2 .= "WHERE accountNumber = ".$sender.";";
 
         $stmt2 = $db->prepare($query2);

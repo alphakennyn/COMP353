@@ -2,10 +2,7 @@
 include_once '../../database/database.php';
 include_once '../../utils/helpers.php';
 
-/**
- * Query all clients information
- * @return JSON information regarding clients
- */
+
 function get_all_employees()
 {
     try {
@@ -40,6 +37,37 @@ function get_all_employees()
             );
             array_push($packet["employee"], $tmp);
         }
+        return $packet;
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }
+}
+
+
+function get_employee_by_id($employee_id)
+{
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+    
+        // query statement
+        $query = "SELECT * FROM EMPLOYEE WHERE id = ".$employee_id.";";
+    
+        // prepare query statement
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        $packet = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$packet) {
+            return array("error" => "Incorrect login info.");
+        } 
+        unset($packet['id']);
+        unset($packet['pass']);
+
         return $packet;
     } catch (Exception $e) {
         return array("error" => "Server error ".$e." .");

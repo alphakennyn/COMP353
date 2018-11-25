@@ -51,7 +51,7 @@ function get_client_by_id($user_id)
         }
     
         // query statement
-        $query = "SELECT * FROM CLIENTS WHERE id = ".$user_id.";";
+        $query = "SELECT * FROM Clients WHERE id = ".$user_id.";";
     
         // prepare query statement
         $stmt = $db->prepare($query);
@@ -97,7 +97,7 @@ function modify_client_by_id($user)
             return array("error" => "Cannot connect to DB.");
         }
         
-        $query = "SELECT id FROM CLIENTS WHERE (email = '".$user['email']."' OR  phone = '".$user['phone']."') AND id <> ".$user[id]. "";
+        $query = "SELECT id FROM Clients WHERE (email = '".$user['email']."' OR  phone = '".$user['phone']."') AND id <> ".$user[id]. "";
         $stmt = $db->prepare($query);
         $stmt->execute();
         $number_of_rows = $stmt->fetchColumn();
@@ -124,7 +124,7 @@ function modify_client_password($user)
             return array("error" => "Cannot connect to DB.");
         }
          // query statement
-         $query = "SELECT * FROM CLIENTS WHERE id = '".$user['id']."' AND  pass = '".$user['oldPass']."'";
+         $query = "SELECT * FROM Clients WHERE id = '".$user['id']."' AND  pass = '".$user['oldPass']."'";
          $stmt = $db->prepare($query);
          $stmt->execute();
          $number_of_rows = $stmt->fetchColumn();

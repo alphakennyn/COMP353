@@ -14,12 +14,17 @@ switch ($http_method) {
         return;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
-        $cardNumber = $data['cardNumber'];
-        $password = $data['password'];
-        # echo $cardNumber.$password;
-        #echo $password;
-        echo json_encode(is_valid_client($cardNumber, $password));
-        return;
+        $type = $data['type'];
+        if ($type == 'client') {
+            $cardNumber = $data['cardNumber'];
+            $password = $data['password'];
+            echo json_encode(is_valid_client($cardNumber, $password));
+            return;
+        } else {
+            $employeeId = $data['employeeId'];
+            $password = $data['password'];
+            echo json_encode(is_valid_employee($employeeId, $password));
+        }
     case 'PUT':
         return;
     default:
