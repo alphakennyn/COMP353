@@ -2,7 +2,7 @@
 <div class="employee-page">
   <div class="container">
     <h1>{{employeeName}}</h1>
-    <EmployeeInfo :data='employeeData' />
+    <EmployeeInfo :data='employeeData' :cached='employeeData' :eid='parseInt(id)'/>
     <button class="payroll-btn" @click="getPayroll()">Payroll</button>
     <modal name="showPayroll" height='auto'>
       <PayrollInfo :data="payroll" :eid='parseInt(id)'/>

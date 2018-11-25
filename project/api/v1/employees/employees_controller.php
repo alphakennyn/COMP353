@@ -73,3 +73,22 @@ function get_employee_by_id($employee_id)
         return array("error" => "Server error ".$e." .");
     }
 }
+
+function modify_employee_by_id($user)
+{
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+        
+        $query = "UPDATE Employee SET phone = '".$user['ephone']."' , address = '".$user['address']."' WHERE id = ".$user['eid']."";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return array("msg" => 'Successfully updated client info.');
+        
+    } catch (Exceptiion $e) {
+        return array("error" => "Server error ".$e." .");
+    }
+}
