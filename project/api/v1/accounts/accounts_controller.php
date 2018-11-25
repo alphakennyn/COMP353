@@ -17,7 +17,7 @@ function get_all_accounts()
         }
     
         // query statement
-        $query = "SELECT * FROM ACCOUNT";
+        $query = "SELECT * FROM Account";
     
         // prepare query statement
         $stmt = $db->prepare($query);
@@ -59,7 +59,7 @@ function get_user_accounts($user_id)
     }
 
     // query statement
-    $query = "SELECT ACCOUNT.*, cid FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE cid = ". $user_id .";";
+    $query = "SELECT Account.*, cid FROM AccountsOwned INNER JOIN Clients ON id = cid INNER JOIN Account on Account.accountNumber = AccountsOwned.accountNumber WHERE cid = ". $user_id .";";
     //echo $query;
     // prepare query statement
     $stmt = $db->prepare($query);
@@ -89,7 +89,7 @@ function get_accounts_by_email($email)
         }
     
         // query statement
-        $query = "SELECT AccountsOwned.accountNumber, accountType FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE email = ". $email .";";
+        $query = "SELECT AccountsOwned.accountNumber, accountType FROM AccountsOwned INNER JOIN Clients ON id = cid INNER JOIN Account on Account.accountNumber = AccountsOwned.accountNumber WHERE email = ". $email .";";
 
         // prepare query statement
         $stmt = $db->prepare($query);

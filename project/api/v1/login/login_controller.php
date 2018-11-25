@@ -17,7 +17,7 @@ function is_valid_client($cardNumber, $password)
         }
 
         // query statement
-        $query = "SELECT * FROM CLIENTS WHERE cardNumber = '".$cardNumber."' AND  pass = '".$password."'";
+        $query = "SELECT * FROM Clients WHERE cardNumber = '".$cardNumber."' AND  pass = '".$password."'";
 
         // prepare query statement
         $stmt = $db->prepare($query);
@@ -61,7 +61,7 @@ function is_valid_employee($employeeId, $password)
         }
 
         // query statement
-        $query = "SELECT * FROM EMPLOYEE WHERE id = '".$employeeId."' AND  pass = '".$password."'";
+        $query = "SELECT * FROM Employee WHERE id = '".$employeeId."' AND  pass = '".$password."'";
 
         // prepare query statement        
         $stmt = $db->prepare($query);
