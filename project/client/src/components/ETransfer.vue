@@ -91,6 +91,7 @@ export default {
         senderAccountNumber: this.data.accountNumber,
         recipientAccountNumber: this.selectedRecipientAccount.accountNumber,
         amount: this.selectedRecipientAccount.accountType === 'Credit Card'? -1*this.transferAmount : this.transferAmount,
+        charged: this.willBeCharged ? this.dictionary[this.data.accountType].charge : 0,
         transferType: 'e-transfer',
       }
       this.$http.post(`${process.env.VUE_APP_API_PATH}/transfer/`, data).then(result => {
@@ -98,12 +99,16 @@ export default {
         if('error' in result.data) {
           throw result.data.error;
         }
+        alert(`Transfered ${this.transferAmount}$ to #${this.selectedRecipientAccount.accountNumber}`);
+
         this.data.balance = result.data.balance;
+
 
         this.recipientAccounts = [];
         this.selectedRecipientAccount = null;
         this.recipientEmail = '';
         this.transferAmount = 0;
+        this.willBeCharged = false;
       }).catch(err =>{
           alert(err);
       })
@@ -117,7 +122,7 @@ export default {
         if (result.data.user_accounts.length <= 0) {
           throw new Error('Invalid email. Please try again');
         }
-        console.log(result);
+        
         this.recipientAccounts = result.data.user_accounts;
         this.fetchingUser = false;
       }).catch(err =>{
@@ -126,7 +131,7 @@ export default {
     }
   },
   mounted: function() {
-    if (parseInt(this.data.transactionsLeft) === 0) {
+    if (parseInt(this.data.transactionsLeft) <= 0) {
       this.willBeCharged = true;
       this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.data.accountType].charge}$ CAD`
     }

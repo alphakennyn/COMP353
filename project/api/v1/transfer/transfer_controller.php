@@ -8,9 +8,17 @@ include_once '../../utils/helpers.php';
  * @param recipient recipient's account number 
  * @param amount $$$ 
  */
-function send_transfer($sender,$recipient, $amount, $transferType)
+function send_transfer($data)
 {
     try {
+
+        // define variables
+        $sender = $data['senderAccountNumber'];
+        $recipient = $data['recipientAccountNumber'];
+        $amount = $data['amount'];
+        $charged = $data['charged'];
+        $transferType = $data['transferType'];
+    
         $database = new Database();
         $db = $database->getConnection();
 
@@ -44,9 +52,8 @@ function send_transfer($sender,$recipient, $amount, $transferType)
         /**
          * Update sender's balance
          */
-
         $query1 = "UPDATE Account "; 
-        $query1 .= "SET balance = balance - ".$amount." ";
+        $query1 .= "SET balance = balance - ".$amount." - ". $charged ." ";
         $query1 .= ", transactionsLeft = transactionsLeft - 1 ";
         $query1 .= "WHERE accountNumber = ".$sender.";";
 
@@ -84,7 +91,7 @@ function send_transfer($sender,$recipient, $amount, $transferType)
         /**
          * Return sender's new balance
          */
-        $query2 = "SELECT balance FROM Account "; 
+        $query2 = "SELECT * FROM Account "; 
         $query2 .= "WHERE accountNumber = ".$sender.";";
 
         $stmt2 = $db->prepare($query2);

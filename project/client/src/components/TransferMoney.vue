@@ -81,6 +81,7 @@ export default {
         senderAccountNumber: this.data.accountNumber,
         recipientAccountNumber: this.recipientAccountNumber,
         amount: this.transferAmount,
+        charged: this.willBeCharged ? String(this.dictionary[this.data.accountType].charge) : '0',
         transferType: 'Transfer',
       }
 
@@ -89,18 +90,19 @@ export default {
           throw result.data.error;
         }
 
-        alert(`Transfer ${this.transferAmount} to account #${this.recipientAccountNumber} complete`);
-
+        alert(`Transfered ${this.transferAmount} to #${this.recipientAccountNumber}`);
         this.data.balance = result.data.balance;
+
         this.recipientAccountNumber = '';
         this.transferAmount = 0;
+        this.willBeCharged = false;
       }).catch(err =>{
           alert(err);
       })
     }
   },
   mounted: function() {
-    if (parseInt(this.data.transactionsLeft) === 0) {
+    if (parseInt(this.data.transactionsLeft) <= 0) {
       this.willBeCharged = true;
       this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.data.accountType].charge}$ CAD`
     }
