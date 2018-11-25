@@ -238,14 +238,14 @@ for i in range (1,31):
 #Loan
 
 sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(1, 50, 'Checking', 15))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(2, 5, 'Savings', 10))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(3, 3, 'Investment', 30))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(4, 1, 'Insurance', 12))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(2, 20, 'Savings', 10))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(3, 20, 'Investment', 30))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(4, 0, 'Insurance', 12))
 sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(5, 20, 'Foreign Currency', 20))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(6, 1000, 'Credit Card', 5))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(7, 1000, 'Business', 18))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(8, 1000, 'Line Of Credit', 8))
-sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(9, 1000, 'Loan', 18))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(6, 1000000, 'Credit Card', 5))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(7, 1000000, 'Business', 18))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(8, 200, 'Line Of Credit', 8))
+sqlscript.write("INSERT INTO ChargePlan(id, planLimit, planOption, charge) values (%i,%i,'%s', %s);\n" %(9, 5, 'Loan', 18))
 
 
 #Interest rate Needed
