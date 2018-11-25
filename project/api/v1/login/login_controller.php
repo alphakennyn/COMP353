@@ -20,8 +20,6 @@ function is_valid_client($cardNumber, $password)
         $query = "SELECT * FROM CLIENTS WHERE cardNumber = '".$cardNumber."' AND  pass = '".$password."'";
 
         // prepare query statement
-    
-
         $stmt = $db->prepare($query);
         $stmt->execute();
 
@@ -30,7 +28,7 @@ function is_valid_client($cardNumber, $password)
         if ($number_of_rows > 0) {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $packet=array(
-                    'login' => true,
+                    'login' => True,
                     'id' => $row['id'],
                     'pass' => $row['pass'],
                     'name' => $row['fullName'],
@@ -44,7 +42,7 @@ function is_valid_client($cardNumber, $password)
             }
             return $packet;
         } else {
-            return array("login" => false);
+            return array("login" => False);
         }
     } catch (Exception $e) {
         return array("error" => "Server error ".$e." .");
