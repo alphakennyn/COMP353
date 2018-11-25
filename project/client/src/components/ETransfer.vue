@@ -18,9 +18,17 @@
           </option>
         </select><br>
         <label v-if="selectedRecipientAccount != null">Enter amount to send</label><br>
-        <input v-if="selectedRecipientAccount != null" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
+        <input v-if="selectedRecipientAccount != null" min="0" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
       </div>
       <Loader v-if="fetchingUser"/>
+    </div>
+    <div class="item" v-if="selectedRecipientAccount != null">
+      <hr />
+      <label><b>Summary transfer</b></label> 
+      <p>Amount: {{transferAmount}} $</p>
+      <p v-if="willBeCharged">Charge fee: {{dictionary[data.accountType].charge}} $</p>
+      <b>Total: {{parseInt(transferAmount) + parseInt(dictionary[data.accountType].charge)}}</b>
+      <hr />
     </div>
     <button v-if="canSend" class="item" @click="sendMoula()">Send</button>
   </div>
@@ -35,7 +43,8 @@ export default {
     Loader,
   },
   props: {
-    data: Object
+    data: Object,
+    dictionary: Object,
   },
   data() {
     return {
@@ -46,12 +55,14 @@ export default {
       transferAmount: 0,
       warning: null,
       fetchingUser: false,
+      willBeCharged: false,
     }
   },
   watch: {
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
         const balance = parseInt(this.data.balance);
+
         if(transferAmount > 0) {
           this.canSend = true;
         } else {
@@ -80,6 +91,7 @@ export default {
         senderAccountNumber: this.data.accountNumber,
         recipientAccountNumber: this.selectedRecipientAccount.accountNumber,
         amount: this.selectedRecipientAccount.accountType === 'Credit Card'? -1*this.transferAmount : this.transferAmount,
+        charged: this.willBeCharged ? this.dictionary[this.data.accountType].charge : 0,
         transferType: 'e-transfer',
       }
       this.$http.post(`${process.env.VUE_APP_API_PATH}/transfer/`, data).then(result => {
@@ -87,12 +99,16 @@ export default {
         if('error' in result.data) {
           throw result.data.error;
         }
+        alert(`Transfered ${this.transferAmount}$ to #${this.selectedRecipientAccount.accountNumber}`);
+
         this.data.balance = result.data.balance;
+
 
         this.recipientAccounts = [];
         this.selectedRecipientAccount = null;
         this.recipientEmail = '';
         this.transferAmount = 0;
+        this.willBeCharged = false;
       }).catch(err =>{
           alert(err);
       })
@@ -103,22 +119,30 @@ export default {
         if('error' in result.data) {
           throw result.data.error;
         }
-        console.log(result);
+        if (result.data.user_accounts.length <= 0) {
+          throw new Error('Invalid email. Please try again');
+        }
+        
         this.recipientAccounts = result.data.user_accounts;
         this.fetchingUser = false;
-        // this.data.balance = result.data.balance;
-        // this.recipientEmail = '';
-        // this.transferAmount = 0;
       }).catch(err =>{
           alert(err);
       })
     }
   },
+  mounted: function() {
+    if (parseInt(this.data.transactionsLeft) <= 0) {
+      this.willBeCharged = true;
+      this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.data.accountType].charge}$ CAD`
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
 .e-transfer {
-
+  .item.warning {
+    color: red;
+  }
 }
 </style>
