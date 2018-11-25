@@ -17,11 +17,9 @@ function is_valid_client($cardNumber, $password)
         }
 
         // query statement
-        $query = "SELECT * FROM CLIENTS WHERE cardNumber = '".$cardNumber."' AND  pass = '".$password."'";
+        $query = "SELECT * FROM Clients WHERE cardNumber = '".$cardNumber."' AND  pass = '".$password."'";
 
-        // prepare query statement        
-    
-
+        // prepare query statement
         $stmt = $db->prepare($query);
         $stmt->execute();
 
@@ -42,8 +40,8 @@ function is_valid_client($cardNumber, $password)
                     'cardNumber' => $row['cardNumber']
                 );
             }
-        return $packet;
-        } else{
+            return $packet;
+        } else {
             return array("login" => False);
         }
     } catch (Exception $e) {
@@ -51,3 +49,31 @@ function is_valid_client($cardNumber, $password)
     }
 }
 
+
+function is_valid_employee($employeeId, $password)
+{
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+
+        // query statement
+        $query = "SELECT * FROM Employee WHERE id = '".$employeeId."' AND  pass = '".$password."'";
+
+        // prepare query statement        
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $number_of_rows = $stmt->fetchColumn();
+
+        if ($number_of_rows > 0) {
+            return array("login" => True);
+        } else {
+            return array("login" => False);
+        }
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }
+}

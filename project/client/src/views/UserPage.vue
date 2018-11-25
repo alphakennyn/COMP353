@@ -1,7 +1,6 @@
 <template>
   <div class="client">
-    <div class="container">
-      <div class="client__header">
+    <div class="client__header">
         <div>
           <h1>BANK OF ABCJK</h1>
         </div>
@@ -13,7 +12,8 @@
             </modal>
           </h3>
         </div>
-      </div>
+    </div>
+    <div class="container">
       <div class="client__content">
         <div class="client__accounts">
           <div>
@@ -26,8 +26,8 @@
               </option>
             </select> <br>
             <button @click="showAdd()">add a new account?</button>
-            <modal name="showAddAccount">
-              <AddAccountForm :clientId='parseInt(id)' @clicked="onClickAdd"/>
+            <modal class="bank-modal" height='auto' width='700px' :scrollable="true" name="showAddAccount">
+              <AddAccountForm :clientId='parseInt(id)' :dictionary='planDictionary' @clicked="onClickAdd" :close="() => hideAdd()"/>
             </modal>
           </div>
         </div>
@@ -77,7 +77,8 @@ export default {
       selectMenu: "info",
       selectAccount: {},
       clientData: {},
-      accounts: []
+      accounts: [],
+      planDictionary: {},
     };
   },
   methods: {
@@ -88,7 +89,7 @@ export default {
       this.$modal.hide("showClientInfo");
     },
     showAdd: function() {
-      this.$modal.show("showAddAccount");
+      this.$modal.show("showAddAccount", {title: 'Create new account'});
     },
     hideAdd: function() {
       this.$modal.hide("showAddAccount");
@@ -111,13 +112,17 @@ export default {
       .get(`${process.env.VUE_APP_API_PATH}/clients?id=${this.id}`)
       .then(
         response => {
+          console.log(response)
           this.clientData = response.data.clients[0];
-          console.log(this.clientData);
-        },
-        error => {
-          alert("Something went wrong");
-        }
-      );
+          this.planDictionary = response.data.plans.reduce((acc,val) => {
+            acc[val.accountType] = val;
+            return acc;
+          }, {});
+
+          console.log(this.planDictionary);
+      }).catch(error => {
+          alert(error);
+      });
     this.$http
       .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
       .then(response => {
@@ -142,9 +147,15 @@ export default {
 
 <style lang="scss" scoped>
 .client {
+  background-color: #f4f4f4;
+  height: 100vh;
+
   &__header {
     display: flex;
     justify-content: space-between;
+    background-color: #82C7EB;
+    padding: 0 10px;
+
   }
   &__accounts {
     display: flex;
@@ -157,4 +168,5 @@ export default {
   float: right;
   color: green;
 }
+
 </style>

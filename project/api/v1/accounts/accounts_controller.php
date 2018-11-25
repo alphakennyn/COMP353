@@ -17,7 +17,7 @@ function get_all_accounts()
         }
     
         // query statement
-        $query = "SELECT * FROM ACCOUNT";
+        $query = "SELECT * FROM Account";
     
         // prepare query statement
         $stmt = $db->prepare($query);
@@ -60,7 +60,7 @@ function get_user_accounts($user_id)
 
     // query statement
     $query = "SELECT ACCOUNT.*, cid FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE cid = ". $user_id .";";
-    //echo $query;
+
     // prepare query statement
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -69,9 +69,9 @@ function get_user_accounts($user_id)
     $packet["user_accounts"]=array();
     
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      // $tmp=array();
       array_push($packet["user_accounts"], $row);
     }
+
     return $packet;
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");
@@ -89,7 +89,7 @@ function get_accounts_by_email($email)
         }
     
         // query statement
-        $query = "SELECT AccountsOwned.accountNumber, accountType FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE email = ". $email .";";
+        $query = "SELECT AccountsOwned.accountNumber, accountType FROM AccountsOwned INNER JOIN Clients ON id = cid INNER JOIN Account on Account.accountNumber = AccountsOwned.accountNumber WHERE email = ". $email .";";
 
         // prepare query statement
         $stmt = $db->prepare($query);
@@ -109,6 +109,9 @@ function get_accounts_by_email($email)
     }  
 }
 
+/**
+ * Add new account
+ */
 function post_user_accounts($account_data)
 {
   try {
@@ -119,10 +122,14 @@ function post_user_accounts($account_data)
         return array("error" => "Cannot connect to DB.");
     }
 
+    // Insert new account in Account db
     $cpid = $account_data['cpid'];
     $irid = $account_data['irid'];
     $balance = $account_data['balance'];
-    $transactionPerMonth = $account_data['transactionPerMonth'];
+    $transactionsPerMonth = $account_data['transactionsPerMonth'];
+    $transactionsLeft = rand(1, 20);
+    $currency = $account_data['currency'];
+    $isNotified = (int) $account_data['isNotified'];
     $accountType = $account_data['accountType'];
     $maxPerDay = $account_data['maxPerDay'];
     $minBalance = ($account_data['minBalance'] == '' ? 'NULL' : $account_data['minBalance']);
@@ -130,21 +137,22 @@ function post_user_accounts($account_data)
     $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
     $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionPerMonth, '$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit)";
+    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', $isNotified,'$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit);";
 
-    // prepare query statement
     $stmt = $db->prepare($query);
     $stmt->execute();
 
-    $accountId = $db->lastInsertId();
-
+    
+    //Insert into acocuntsOwned list
+    $newAccountId = $db->lastInsertId();    
     $cid = $account_data['cid'];
-    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, $accountId)";
-    $stmt = $db->prepare($query2);
-    $stmt->execute();
 
-    // return latest account id
-    return array("accountId" => $accountId);
+    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, ".$newAccountId.")";
+    
+    $stmt2 = $db->prepare($query2);
+    $stmt2->execute();
+
+    return $query2;
 
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");
