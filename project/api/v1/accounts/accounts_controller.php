@@ -127,9 +127,9 @@ function post_user_accounts($account_data)
     $irid = $account_data['irid'];
     $balance = $account_data['balance'];
     $transactionsPerMonth = $account_data['transactionsPerMonth'];
-    $transactionsLeft = $account_data['transactionsLeft'];
+    $transactionsLeft = rand(1, 20);
     $currency = $account_data['currency'];
-    $isNotified = $account_data['isNotified'];
+    $isNotified = (int) $account_data['isNotified'];
     $accountType = $account_data['accountType'];
     $maxPerDay = $account_data['maxPerDay'];
     $minBalance = ($account_data['minBalance'] == '' ? 'NULL' : $account_data['minBalance']);
@@ -137,30 +137,22 @@ function post_user_accounts($account_data)
     $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
     $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', '$isNotified','$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit)";
+    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', $isNotified,'$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit);";
 
     $stmt = $db->prepare($query);
     $stmt->execute();
 
-    return $query;
-
-    if($stmt->errorCode() != 0) {
-        throw new Exception('Error', $stmt->errorCode());
-    }
-    //Insert acocuntsOwned list
-    $accountId = $db->lastInsertId();
+    
+    //Insert into acocuntsOwned list
+    $newAccountId = $db->lastInsertId();    
     $cid = $account_data['cid'];
 
-    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, $accountId)";
+    $query2 = "INSERT INTO AccountsOwned VALUES ($cid, ".$newAccountId.")";
     
     $stmt2 = $db->prepare($query2);
     $stmt2->execute();
 
-    if($stmt2->errorCode() != 0) {
-        throw new Exception('Error', $stmt2->errorCode());
-    }
-    // return latest account id
-    return array("accountId" => $accountId);
+    return $query2;
 
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");

@@ -8,6 +8,16 @@
         <option v-for='(account, keyValue) in accounts' :value='keyValue' :key='keyValue' >{{keyValue}}</option>
       </select>
       <div v-if='accounts[newAccount.accountType]'>
+        <label>Keep me notified: </label>
+        <toggle-button 
+          :value="false"
+          color="#82C7EB"
+          :sync="true"
+          v-model="newAccount.isNotified"
+          :labels="{checked: 'Yes', unchecked: 'No'}"
+          />
+      </div>
+      <div v-if='accounts[newAccount.accountType]'>
         <!-- <label>Interest rate: </label> -->
         <p>Interest percentage Charge: {{dictionary[newAccount.accountType].percentCharge }}</p>
         <p>Service type: {{dictionary[newAccount.accountType].serviceType }}</p>
@@ -18,8 +28,9 @@
         <p>Charge per transaction: {{dictionary[newAccount.accountType].charge }}</p>
         <p>Plan limit: {{dictionary[newAccount.accountType].planlimit }}</p>
       </div>
+      
     </div>
-    <div class="vl"></div>
+    <div v-if='accounts[newAccount.accountType]' class="vl"></div>
 
     <div class='grid-right'>
       <div v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].minBalance'>
@@ -159,15 +170,15 @@ export default {
   methods: {
     submit: function() {
       //Set transaction limit per month
-      this.newAccount.transactionsPerMonth = dictionary[newAccount.accountType].planlimit;
-
+      this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planlimit;
+      //this.newAccount.isNotified = this.newAccount.isNotified ? 1 : 0;
       this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
         console.log(result.data)
         if(result.data.error) {
           console.log(result.data.error)
           throw new Error('Error from server', result.data.error)
         }
-        this.close();
+        //this.close();
         alert('New account added!')
       }).catch(err => {
         console.error(err);
@@ -198,12 +209,9 @@ export default {
     width: 50%;
   }
   .vl {
-    border-left: 1px solid green;
+    border-left: 1px solid #82C7EB;
     height: inherit;
     position: relative;
-    //left: 50%;
-    //margin-left: -3px;
-    //top: 0;
   }
   .grid-right {
     padding-left: 20px;
@@ -214,8 +222,7 @@ export default {
 
     button {
       border-radius: 15px;
-      border-color: green;
-      color: green;
+      border-color: #82C7EB;
       padding: 5%;
       transition: 300ms;
     }
