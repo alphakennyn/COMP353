@@ -78,6 +78,37 @@ function get_user_accounts($user_id)
   }
 }
 
+function get_accounts_by_email($email) 
+{
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+    
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+    
+        // query statement
+        $query = "SELECT AccountsOwned.accountNumber, accountType FROM AccountsOwned INNER JOIN CLIENTS ON id = cid INNER JOIN ACCOUNT on ACCOUNT.accountNumber = AccountsOwned.accountNumber WHERE email = ". $email .";";
+
+        // prepare query statement
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+    
+        $packet=array();
+        $packet["user_accounts"]=array();
+        
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          // $tmp=array();
+          array_push($packet["user_accounts"], $row);
+        }
+        return $packet;
+
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }  
+}
+
 function post_user_accounts($account_data)
 {
   try {
@@ -119,3 +150,4 @@ function post_user_accounts($account_data)
       return array("error" => "Server error ".$e." .");
   }
 }
+
