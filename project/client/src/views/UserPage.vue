@@ -36,7 +36,7 @@
         </div>
         <div>
           <AccountInfo v-if="selectMenu == 'info'" :data='selectAccount'/>
-          <TransactionList v-if="selectMenu == 'transactions'" :data='selectAccount'/>
+          <TransactionList v-if="selectMenu == 'transactions'" :client='id' :acc='selectAccount'/>
           <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount'/>
           <PayBills v-if="selectMenu == 'pay'"/>
           <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount'/>

@@ -2,9 +2,10 @@
   <div>
   <h3>Transactions</h3>
   <div>
-    You are allowed {{transactions_left}} transactions per month and
-    currently have {{transactions_pm}} transactions left this month.
+    You are allowed {{acc.transactionsPerMonth}} transactions per month and
+    currently have {{acc.transactionsLeft}} transactions left this month.
   </div>
+  <div v-if="transactions[acc.accountNumber].length!=0">
   <table class="transaction-list">
     <thead>
       <tr>
@@ -15,10 +16,14 @@
         <th>Branch ID</th>
       </tr>
     </thead>
-    <tbody v-for='transaction in transactions' :key='transaction.tStamp'>
+    <tbody v-for='transaction in transactions[acc.accountNumber]' :key='transaction.tStamp'>
       <Transaction :transaction='transaction'/>    
     </tbody>
   </table>
+  </div>
+  <div v-else>
+    <strong>No transactions to display here :-()</strong>
+  </div>
   </div>
 </template>
 
@@ -31,25 +36,24 @@ export default {
     Transaction
   },
   props: {
-    data: Object,
+    client: String,
+    acc: Object,
   },
   data() {
     return {
-      transactions: [],
-      transactions_left: Object,
-      transactions_pm: Object
+      transactions: {},
     }
   },
   methods: {
 
   },
   mounted: function() {
+    console.log(this.client);
     this.$http
-      .get(`${process.env.VUE_APP_API_PATH}/transactions?accountNumber=${this.data.accountNumber}`)
+      .get(`${process.env.VUE_APP_API_PATH}/transactions?clientID=${this.client}`)
       .then(response => {
-        this.transactions = response.data.account_transactions;
-        this.transactions_left = response.data.transactions_left;
-        this.transactions_pm = response.data.transactions_pm;
+        this.transactions = response.data;
+        console.log(response.data);
       })
       .catch(err => {
         alert('uh oh.. no transaction  found');
