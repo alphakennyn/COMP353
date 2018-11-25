@@ -127,7 +127,7 @@ function post_user_accounts($account_data)
     $irid = $account_data['irid'];
     $balance = $account_data['balance'];
     $transactionsPerMonth = $account_data['transactionsPerMonth'];
-    $transactionsLeft = rand(1, 20);
+    $transactionsLeft = $account_data['transactionsPerMonth'];
     $currency = $account_data['currency'];
     $isNotified = (int) $account_data['isNotified'];
     $accountType = $account_data['accountType'];
