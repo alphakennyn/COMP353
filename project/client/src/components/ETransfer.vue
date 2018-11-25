@@ -27,7 +27,7 @@
       <label><b>Summary transfer</b></label> 
       <p>Amount: {{transferAmount}} $</p>
       <p v-if="willBeCharged">Charge fee: {{dictionary[data.accountType].charge}} $</p>
-      <b>Total: {{parseInt(transferAmount) + parseInt(dictionary[data.accountType].charge)}}</b>
+      <b>Total: {{totalToSend}}</b>
       <hr />
     </div>
     <button v-if="canSend" class="item" @click="sendMoula()">Send</button>
@@ -59,6 +59,13 @@ export default {
     }
   },
   watch: {
+    data: function () {
+      this.canSend = false;
+      this.selectedRecipientAccount = null;
+      this.transferAmount = 0;
+      this.warning = null;
+      this.willBeCharged = false;
+    },
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
         const balance = parseInt(this.data.balance);
@@ -134,6 +141,16 @@ export default {
     if (parseInt(this.data.transactionsLeft) <= 0) {
       this.willBeCharged = true;
       this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.data.accountType].charge}$ CAD`
+    }
+  },
+  computed: {
+    totalToSend: function() {
+      let total = parseInt(this.transferAmount) ;
+      if(this.willBeCharged) {
+        total += parseInt(this.dictionary[this.data.accountType].charge);
+      }
+
+      return total;
     }
   }
 };

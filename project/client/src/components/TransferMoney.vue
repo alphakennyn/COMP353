@@ -15,16 +15,15 @@
             {{account.accountType}} #{{account.accountNumber}}
           </option>
         </select><br>
-      <!-- <input placeholder="Enter account number for e-transfer" v-model="recipientAccountNumber"/><br> -->
-      <label v-if="recipientAccountNumber != ''">Enter amount to send</label><br>
-      <input v-if="recipientAccountNumber != ''" min="0" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
+      <label v-if="recipientAccountNumber != null">Enter amount to send</label><br>
+      <input v-if="recipientAccountNumber != null" min="0" placeholder="Enter amount to send" type="number" v-model="transferAmount" />
     </div>
-    <div class="item" v-if="recipientAccountNumber != ''">
+    <div class="item" v-if="recipientAccountNumber != null">
       <hr />
       <label><b>Summary transfer</b></label> 
       <p>Amount: {{transferAmount}} $</p>
       <p v-if="willBeCharged">Charge fee: {{dictionary[data.accountType].charge}} $</p>
-      <b>Total: {{parseInt(transferAmount) + parseInt(dictionary[data.accountType].charge)}}</b>
+      <b>Total: {{totalToSend}}</b>
       <hr />
     </div>
     <button v-if="canSend" class="item" @click="sendMoula()">Send</button>
@@ -41,7 +40,7 @@ export default {
   },
   data() {
     return {
-      recipientAccountNumber: '',
+      recipientAccountNumber: null,
       transferAmount: 0,
       canSend: false,
       warning: null,
@@ -49,6 +48,14 @@ export default {
     }
   },
   watch: {
+    data: function () {
+      this.recipientAccountNumber = null;
+      this.transferAmount = 0;
+      this.canSend = false;
+      this.warning = null;
+      this.willBeCharged = false;
+      console.log(this.recipientAccountNumber != null);
+    },
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
         const balance = parseInt(this.data.balance);
@@ -105,6 +112,16 @@ export default {
     if (parseInt(this.data.transactionsLeft) <= 0) {
       this.willBeCharged = true;
       this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.data.accountType].charge}$ CAD`
+    }
+  },
+  computed: {
+    totalToSend: function() {
+      let total = parseInt(this.transferAmount) ;
+      if(this.willBeCharged) {
+        total += parseInt(this.dictionary[this.data.accountType].charge);
+      }
+
+      return total;
     }
   }
 };

@@ -118,8 +118,6 @@ export default {
             acc[val.accountType] = val;
             return acc;
           }, {});
-
-          console.log(this.planDictionary);
       }).catch(error => {
           alert(error);
       });
