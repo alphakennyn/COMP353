@@ -18,7 +18,7 @@ function get_schedule($eid)
             return array("error" => "Cannot connect to DB.");
         }
 
-        $query = "SELECT * FROM SCHEDULE WHERE eid = '".$eid."'";
+        $query = "SELECT * FROM Schedule WHERE eid = '".$eid."'";
 
         $packet = array();
 

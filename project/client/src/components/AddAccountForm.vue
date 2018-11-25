@@ -1,14 +1,69 @@
 
 <template>
   <div class="account-form">
-    <select v-model="newAccount.accountType">
-      <option v-for='(account, keyValue) in accounts' :value='keyValue' :key='keyValue' >{{keyValue}}</option>
-    </select>
-    <input v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].minBalance' placeholder="min balance" v-model.trim="newAccount.minBalance"/>
-    <input v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].businessNumber' placeholder="Business Number" v-model.trim="newAccount.businessNumber"/>
-    <input v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].taxId' placeholder="Tax Id ?" v-model.trim="newAccount.taxId"/>
-    <input v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].creditLimit' placeholder="Credit Limit" v-model.trim="newAccount.creditLimit"/>
-    <button  v-if='accounts[newAccount.accountType]' @click='submit()'>Create Account</button>
+    <div class='grid-left'>
+      <h3>Create Account</h3>
+      <label>Select Account type: </label>
+      <select v-model="newAccount.accountType">
+        <option v-for='(account, keyValue) in accounts' :value='keyValue' :key='keyValue' >{{keyValue}}</option>
+      </select>
+      <div v-if='accounts[newAccount.accountType]'>
+        <label>Keep me notified: </label>
+        <toggle-button 
+          :value="false"
+          color="#82C7EB"
+          :sync="true"
+          v-model="newAccount.isNotified"
+          :labels="{checked: 'Yes', unchecked: 'No'}"
+          />
+      </div>
+      <div v-if='accounts[newAccount.accountType]'>
+        <!-- <label>Interest rate: </label> -->
+        <p>Interest percentage Charge: {{dictionary[newAccount.accountType].percentCharge }}</p>
+        <p>Service type: {{dictionary[newAccount.accountType].serviceType }}</p>
+      </div>
+
+      <div v-if='accounts[newAccount.accountType]'>
+        <!-- <label>Charge plan: </label> -->
+        <p>Charge per transaction: {{dictionary[newAccount.accountType].charge }}</p>
+        <p>Plan limit: {{dictionary[newAccount.accountType].planlimit }}</p>
+      </div>
+      
+    </div>
+    <div v-if='accounts[newAccount.accountType]' class="vl"></div>
+
+    <div class='grid-right'>
+      <div v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].minBalance'>
+        <label>Enter minimum balance: </label>
+        <input  placeholder="min balance" v-model.trim="newAccount.minBalance"/>
+      </div>
+
+      <div v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].businessNumber'>
+        <label>Enter business number: </label>
+        <input  placeholder="Business Number" v-model.trim="newAccount.businessNumber"/>
+      </div>
+
+      <div v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].taxId'>
+        <label>Enter Tax id: </label>
+        <input placeholder="Tax Id ?" v-model.trim="newAccount.taxId"/>
+      </div>
+
+      <div v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].creditLimit' >
+        <label>Enter credit limit: </label>
+        <input placeholder="Credit Limit" v-model.trim="newAccount.creditLimit"/>
+      </div>
+
+      <div v-if='accounts[newAccount.accountType] && accounts[newAccount.accountType].currency'>
+        <label>Select currency: </label>
+        <select v-model="newAccount.currency">
+          <option v-for='(currency, keyValue) in availableCurrency' :value='currency' :key='keyValue' >{{currency}}</option>
+        </select>
+      </div>
+
+      <div v-if='accounts[newAccount.accountType]'>
+        <button  @click='submit()'>Create Account</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,19 +74,22 @@ export default {
     return {
       chargeplanList: [], //http get
       investmentRateList: [], //http get
-      accountType: '',
+      accountType: 'Debit',
       newAccount: {
         cid: this.clientId,
         accountType: '',
         cpid: 1,
         irid: 1,
         balance: 0,
-        transactionPerMonth: 0,
+        transactionsPerMonth: 0,
+        transactionsLeft: 5,
+        currency: 'CAD',
+        isNotified: false,
         maxPerDay: 0,
         minBalance: null,
         businessNumber: null,
         taxId: null,
-        creditLimit: null
+        creditLimit: null,
       },
       accounts: {
         Business: {
@@ -39,30 +97,35 @@ export default {
           businessNumber: true,
           taxId: true,
           creditLimit: false,
+          currency: false,
         },
         Checking: {
           minBalance: false,
           businessNumber: false,
           taxId: false,
           creditLimit: false,
+          currency: false,
         },
         "Credit Card": {
           minBalance: false,
           businessNumber: false,
           taxId: false,
           creditLimit: true,
+          currency: false,
         },
-        "Foreign Corrency": {
+        "Foreign Currency": {
           minBalance: true,
           businessNumber: false,
           taxId: false,
           creditLimit: false,
+          currency: true,
         },
         Insurance: {
           minBalance: false,
           businessNumber: false,
           taxId: false,
           creditLimit: false,
+          currency: false,
 
         },
         Investment: {
@@ -70,36 +133,100 @@ export default {
           businessNumber: false,
           taxId: false,
           creditLimit: false,
+          currency: false,
 
         },
-        'Line of Credit': {
+        'Line Of Credit': {
           minBalance: false,
           businessNumber: false,
           taxId: false,
           creditLimit: true,
+          currency: false,
 
         },
-        'Savings': {
+        Savings: {
           minBalance: true,
           businessNumber: false,
           taxId: false,
           creditLimit: false,
-
+          currency: false,
         }
-      }
+      },
+      availableCurrency: [
+        'AUD',
+        'CAD',
+        'EUR',
+        'GBP',
+        'USD',
+      ]
     }
   },
   props: {
     toggleAccountForm: Boolean,
-    clientId: Number
+    clientId: Number,
+    dictionary: Object,
+    close: Function,
   },
   methods: {
     submit: function() {
+      //Set transaction limit per month
+      this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planlimit;
+      //this.newAccount.isNotified = this.newAccount.isNotified ? 1 : 0;
       this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
-        this.$emit('clicked', result.data)
+        console.log(result.data)
+        if(result.data.error) {
+          console.log(result.data.error)
+          throw new Error('Error from server', result.data.error)
+        }
+        //this.close();
+        alert('New account added!')
+      }).catch(err => {
+        console.error(err);
       })
     },
   },
-  mounted: function() {}
+  watch: {
+    dictionary: function() {
+      console.log('Disctoinary', this.newAccount.accountType)
+      console.log('Disctoinary', this.dictionary[this.newAccount.accountType])
+    }
+  },
+  mounted: function() {
+    console.log('from addform:', this.dictionary['Line Of Credit']);
+  }
 };
 </script>
+
+<style scoped lang='scss'>
+.account-form {
+  display: flex;
+  padding: 5% 20px;
+  text-align: justify;
+  h3 {
+    margin: 0px;
+  }
+  .grid-left {
+    width: 50%;
+  }
+  .vl {
+    border-left: 1px solid #82C7EB;
+    height: inherit;
+    position: relative;
+  }
+  .grid-right {
+    padding-left: 20px;
+    width: 55%;
+    div {
+      margin: 5% 0;
+    }
+
+    button {
+      border-radius: 15px;
+      border-color: #82C7EB;
+      padding: 5%;
+      transition: 300ms;
+    }
+  }
+}
+
+</style>
