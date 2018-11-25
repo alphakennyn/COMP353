@@ -18,6 +18,8 @@ switch ($http_method) {
 
         return;
     case 'PUT':
+        $data = json_decode(file_get_contents('php://input'), true);
+        echo json_encode(post_user_timeclock($data));
         return;
     default:
         echo json_encode(array("error" => 'Server error.'));

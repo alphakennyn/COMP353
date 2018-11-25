@@ -42,3 +42,31 @@ function get_timeclock($eid)
     }
 }
 
+function post_user_timeclock($data)
+{
+
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+    
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+    
+    $eid = $data['eid'];
+    $clockIn = $data['clockIn'];
+    $clockOut = $data['clockOut'];
+
+    $query = "INSERT INTO payroll VALUES ($eid, '".$clockIn."', '".$clockOut."');";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    return $stmt;
+
+
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }
+}
+
