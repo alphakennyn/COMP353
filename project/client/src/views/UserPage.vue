@@ -1,7 +1,6 @@
 <template>
   <div class="client">
-    <div class="container">
-      <div class="client__header">
+    <div class="client__header">
         <div>
           <h1>BANK OF ABCJK</h1>
         </div>
@@ -13,7 +12,8 @@
             </modal>
           </h3>
         </div>
-      </div>
+    </div>
+    <div class="container">
       <div class="client__content">
         <div class="client__accounts">
           <div>
@@ -147,9 +147,15 @@ export default {
 
 <style lang="scss" scoped>
 .client {
+  background-color: #f4f4f4;
+  height: 100vh;
+
   &__header {
     display: flex;
     justify-content: space-between;
+    background-color: #82C7EB;
+    padding: 0 10px;
+
   }
   &__accounts {
     display: flex;

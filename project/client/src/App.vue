@@ -33,6 +33,10 @@ export default {
 
 <style lang="scss">
 @import 'vendor/bootstrap-grid.min.css';
+body {
+  // background-color: #82C7EB;
+  margin: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
