@@ -178,14 +178,14 @@ CREATE TABLE AccountsOwned (
 );
 
 CREATE TABLE Transactions (
+    id INT NOT NULL AUTO_INCREMENT,
     bid INT NOT NULL,
     accountNumber INT NOT NULL,
     transType VARCHAR(30) NOT NULL,
     amount FLOAT NOT NULL,
-    transNumber INT NOT NULL AUTO_INCREMENT,
     tStamp DATETIME NOT NULL,
     recipientAccountNumber INT,
-    PRIMARY KEY (transNumber),
+    PRIMARY KEY (id),
     FOREIGN KEY (bid)
         REFERENCES Branch (id),
     FOREIGN KEY (accountNumber)
