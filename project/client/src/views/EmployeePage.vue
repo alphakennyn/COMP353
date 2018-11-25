@@ -1,20 +1,28 @@
 <template>
+<div class="employee-page">
   <div class="container">
     <h1>{{employeeName}}</h1>
     <EmployeeInfo :data='employeeData' />
+    <button class="payroll-btn" @click="getPayroll()">Payroll</button>
+    <modal name="showPayroll" height='auto'>
+      <PayrollInfo :data="payroll" :eid='parseInt(id)'/>
+    </modal>
     <ScheduleInfo :data='schedule' />
   </div>
+</div>
 </template>
 
 <script>
 import EmployeeInfo from "@/components/EmployeeInfo.vue";
 import ScheduleInfo from "@/components/ScheduleInfo.vue";
+import PayrollInfo from "@/components/PayrollInfo.vue";
 
 export default {
   name: "EmployeePage",
   components: {
     EmployeeInfo,
-    ScheduleInfo
+    ScheduleInfo,
+    PayrollInfo
   },
   props: {
     id: String
@@ -23,7 +31,20 @@ export default {
     return {
       employeeName: '',
       employeeData: {},
-      schedule: []
+      schedule: [],
+      payroll: []
+    }
+  },
+  methods: {
+    getPayroll: function() {
+      this.$http
+      .get(`${process.env.VUE_APP_API_PATH}/timeclock?id=${this.id}`)
+      .then(response => {
+        this.payroll = response.data;
+        this.$modal.show("showPayroll");
+      }).catch(error => {
+          alert(error);
+      });
     }
   },
   mounted: function() {
@@ -60,6 +81,13 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.employee-page {
+  .payroll-btn {
+    background-color: #50B83C;
+    border: 1px solid #50B83C;
+    margin-top: 15px;
+    padding: 10px 15px;
+  }
+}
 </style>
