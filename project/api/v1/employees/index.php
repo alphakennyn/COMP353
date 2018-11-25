@@ -11,7 +11,13 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($http_method) {
     case 'GET':
-        $packet = get_all_employees();
+    $employee_id = $_GET['id'];
+            
+        if ($employee_id != null) {
+            $packet = get_employee_by_id($employee_id);
+        } else {
+            $packet = get_all_employees();
+        }
         echo json_encode($packet);
         return;
     case 'POST':

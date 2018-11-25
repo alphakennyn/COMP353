@@ -19,7 +19,7 @@ function is_valid_client($cardNumber, $password)
         // query statement
         $query = "SELECT * FROM CLIENTS WHERE cardNumber = '".$cardNumber."' AND  pass = '".$password."'";
 
-        // prepare query statement        
+        // prepare query statement
     
 
         $stmt = $db->prepare($query);
@@ -30,7 +30,7 @@ function is_valid_client($cardNumber, $password)
         if ($number_of_rows > 0) {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $packet=array(
-                    'login' => True,
+                    'login' => true,
                     'id' => $row['id'],
                     'pass' => $row['pass'],
                     'name' => $row['fullName'],
@@ -42,12 +42,40 @@ function is_valid_client($cardNumber, $password)
                     'cardNumber' => $row['cardNumber']
                 );
             }
-        return $packet;
-        } else{
-            return array("login" => False);
+            return $packet;
+        } else {
+            return array("login" => false);
         }
     } catch (Exception $e) {
         return array("error" => "Server error ".$e." .");
     }
 }
 
+
+function is_valid_employee($employeeId, $password)
+{
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+
+        // query statement
+        $query = "SELECT * FROM EMPLOYEE WHERE id = '".$employeeId."' AND  pass = '".$password."'";
+
+        // prepare query statement        
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $number_of_rows = $stmt->fetchColumn();
+
+        if ($number_of_rows > 0) {
+            return array("login" => True);
+        } else {
+            return array("login" => False);
+        }
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }
+}
