@@ -47,6 +47,7 @@ function send_transfer($sender,$recipient, $amount, $transferType)
 
         $query1 = "UPDATE Account "; 
         $query1 .= "SET balance = balance - ".$amount." ";
+        $query1 .= ", transactionsPerMonth = transactionsPerMonth - 1 ";
         $query1 .= "WHERE accountNumber = ".$sender.";";
 
         $stmt1 = $db->prepare($query1);
@@ -66,7 +67,6 @@ function send_transfer($sender,$recipient, $amount, $transferType)
         
         while ($row = $bid_stmt->fetch(PDO::FETCH_ASSOC)) {
             array_push($bIdValue,$row);
-        // $tmp=array();
         }
         $bId = $bIdValue[0]["bid"];
 
