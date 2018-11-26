@@ -41,7 +41,7 @@ function del_employee($data)
 
 
     } catch (Exception $e) {
-        return array("error" => "Server error ".$e." .");
+        return array("error" => "Server error");
     }
 }
 
