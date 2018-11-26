@@ -56,6 +56,10 @@ function pay_bills($data)
                 $stmt2 = $db->prepare($query2);
                 $stmt2->execute();
             }
+        } else {
+            return array(
+                "Bills Paid" => False,
+                "Reason" => "Not Enough Funds");
         }
     }
     //Update Transactions Left
