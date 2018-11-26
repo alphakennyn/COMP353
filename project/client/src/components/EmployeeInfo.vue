@@ -93,6 +93,7 @@ export default {
     background-color: initial;
     color: initial;
   }
+
   input {
     width: 300px;
     height: 30px;

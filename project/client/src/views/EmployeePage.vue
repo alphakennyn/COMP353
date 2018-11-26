@@ -4,18 +4,20 @@
     <h1>{{employeeName}}</h1>
     <EmployeeInfo :data='employeeData' :cached='employeeData' :eid='parseInt(id)'/>
     <button class="payroll-btn" @click="getPayroll()">Payroll</button>
+    <button @click='deleteAccount()' v-if='!cantDelete.includes(employeeData.title)' class="delete-btn">DELETE ACCOUNT</button>
     <modal name="showPayroll" height='auto'>
       <PayrollInfo :data="payroll" :eid='parseInt(id)'/>
     </modal>
     <ScheduleInfo :data='schedule' />
   </div>
+
 </div>
 </template>
-
 <script>
 import EmployeeInfo from "@/components/EmployeeInfo.vue";
 import ScheduleInfo from "@/components/ScheduleInfo.vue";
 import PayrollInfo from "@/components/PayrollInfo.vue";
+import swal from "sweetalert2";
 
 export default {
   name: "EmployeePage",
@@ -29,21 +31,50 @@ export default {
   },
   data() {
     return {
-      employeeName: '',
+      cantDelete: ["Manager", "President", "Investment Manager", "Insurance Manager", "Banking Manager"],
+      employeeName: "",
       employeeData: {},
       schedule: [],
       payroll: []
-    }
+    };
   },
   methods: {
     getPayroll: function() {
       this.$http
-      .get(`${process.env.VUE_APP_API_PATH}/timeclock?id=${this.id}`)
-      .then(response => {
-        this.payroll = response.data;
-        this.$modal.show("showPayroll");
-      }).catch(error => {
+        .get(`${process.env.VUE_APP_API_PATH}/timeclock?id=${this.id}`)
+        .then(response => {
+          this.payroll = response.data;
+          this.$modal.show("showPayroll");
+        })
+        .catch(error => {
           alert(error);
+        });
+    },
+    deleteAccount: function() {
+      swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          const data = {id: this.id};
+          this.$http
+            .post(`${process.env.VUE_APP_API_PATH}/delemployee/`, data)
+            .then(response => {
+              if (response.data.hasOwnProperty("error") ) {
+                alert("Oops couldn't delete account!")
+              } else {
+                this.$router.replace({ path: `/` });
+              }
+            })
+            .catch(error => {
+              alert(error);
+            });
+        }
       });
     }
   },
@@ -63,9 +94,10 @@ export default {
       .then(response => {
         this.employeeName = response.data.fullName;
         this.employeeData = response.data;
-        delete this.employeeData['fullName']
-      }).catch(error => {
-          alert(error);
+        delete this.employeeData["fullName"];
+      })
+      .catch(error => {
+        alert(error);
       });
 
     this.$http
@@ -73,21 +105,31 @@ export default {
       .then(response => {
         console.log(response.data);
         this.schedule = response.data;
-      }).catch(error => {
-          alert(error);
+      })
+      .catch(error => {
+        alert(error);
       });
   }
-
 };
 </script>
 
 <style lang="scss" scoped>
 .employee-page {
+  padding: 50px 0px;
   .payroll-btn {
-    background-color: #50B83C;
-    border: 1px solid #50B83C;
+    background-color: #50b83c;
+    border: 1px solid #50b83c;
     margin-top: 15px;
     padding: 10px 15px;
+    color: white;
+  }
+  .delete-btn {
+    margin-left: 25px;
+    background-color: #DE3618;
+    border: 1px solid #DE3618;
+    margin-top: 15px;
+    padding: 10px 15px; 
+    color: white;
   }
 }
 </style>

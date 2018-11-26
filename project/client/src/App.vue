@@ -11,7 +11,7 @@ export default {
   name: 'app',
   data() {
     return {
-      authenticated: true
+      authenticated: false
     }
   },
   mounted() {
