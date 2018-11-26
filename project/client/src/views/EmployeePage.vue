@@ -5,6 +5,14 @@
     <EmployeeInfo :data='employeeData' :eid='parseInt(id)'/>
     <button class="payroll-btn" @click="getPayroll()">Payroll</button>
     <button @click='deleteAccount()' v-if='!cantDelete.includes(employeeData.title)' class="delete-btn">DELETE ACCOUNT</button>
+    <br>
+    <button v-if='cantDelete.includes(employeeData.title)' class="bank-btn" @click="getBank()">Toggle Bank Info</button>
+    <div v-if="showBankInfo">
+      <div v-for="(bank, index) in bankInfo" :key='index'>
+        <h3>Branch id {{bank.bid}}: ${{bank.Profit}}</h3>
+      </div>
+      <h2>Bank total = ${{sumBank}}</h2>
+    </div>
     <modal name="showPayroll" height='auto'>
       <PayrollInfo :data="payroll" :eid='parseInt(id)'/>
     </modal>
@@ -31,11 +39,14 @@ export default {
   },
   data() {
     return {
+      showBankInfo: false,
       cantDelete: ["Manager", "President", "Investment Manager", "Insurance Manager", "Banking Manager"],
       employeeName: "",
       employeeData: {},
       schedule: [],
-      payroll: []
+      payroll: [],
+      bankInfo: [],
+      sumBank: '',
     };
   },
   methods: {
@@ -45,6 +56,22 @@ export default {
         .then(response => {
           this.payroll = response.data;
           this.$modal.show("showPayroll");
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+    getBank: function() {
+      this.$http
+        .get(`${process.env.VUE_APP_API_PATH}/revenue/`)
+        .then(response => {
+          console.log(response.data);
+          this.bankInfo = response.data;
+          this.showBankInfo = !this.showBankInfo;
+          let bankTotal = this.bankInfo.reduce((prev, cur) => {
+            return parseFloat(prev) + parseFloat(cur.Profit);
+          }, 0);
+          this.sumBank = bankTotal;
         })
         .catch(error => {
           alert(error);
@@ -130,6 +157,10 @@ export default {
     margin-top: 15px;
     padding: 10px 15px; 
     color: white;
+  }
+  .bank-btn {
+    margin-top: 15px;
+    padding: 10px 15px; 
   }
 }
 </style>
