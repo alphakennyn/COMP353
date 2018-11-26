@@ -3,8 +3,6 @@
     {{isEditing}}
     <div class="item" v-for="(item, keyValue) in data" :key="keyValue">
       <strong>{{keyValue}}</strong>: {{data[keyValue]}}
-      <input type="text" v-model="data[keyValue]" :disabled="!isEditing || !allowToEdit.includes(keyValue)"
-        :class="{view: !isEditing || !allowToEdit.includes(keyValue)}" />
     </div>
   </div>
 </template>
