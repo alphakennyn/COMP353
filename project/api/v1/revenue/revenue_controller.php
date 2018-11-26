@@ -44,9 +44,19 @@ function get_revenue_branch()
             $stmt = $db->prepare($query);
             $stmt->execute();
             $packet = array();
-    
+
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                array_push($packet, $row);
+                $id = $row['bid'];
+                $query2 = "SELECT branch.city FROM branch WHERE branch.id = ".$id.";";
+                $stmt2 = $db->prepare($query2);
+                $stmt2->execute();
+                $city = $stmt2->fetch(PDO::FETCH_ASSOC)['city'];
+                $tmp=array(
+                    "bid" => $row['bid'],
+                    "Profit" => $row['Profit'],
+                    "City" => $city
+                );
+                array_push($packet, $tmp);
             }
             return $packet;
         }

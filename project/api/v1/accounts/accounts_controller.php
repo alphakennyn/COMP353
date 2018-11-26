@@ -51,6 +51,7 @@ function get_all_accounts()
 function get_user_accounts($user_id)
 {
   try {
+    error_reporting(0);
     $database = new Database();
     $db = $database->getConnection();
 
