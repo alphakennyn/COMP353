@@ -2,11 +2,6 @@
 include_once '../../database/database.php';
 include_once '../../utils/helpers.php';
 
-/**
- * Check if the user can login
- * @return JSON login info
- */
-
 
 function del_account($data)
 {
@@ -21,13 +16,11 @@ function del_account($data)
     
     $accNum = $data['accountNumber'];
 
-
-
-    $query0 = "DELETE transactions FROM transactions WHERE transactions.accountNumber = ".$accNum." or transactions.recipientAccountNumber = ".$accNum.";";
-    $query1 = "DELETE bills FROM bills WHERE bills.myPayeeId IN (SELECT mypayee.id FROM mypayee WHERE mypayee.accountNumber = ".$accNum.");";
-    $query2 = "DELETE mypayee FROM mypayee WHERE mypayee.accountNumber = ".$accNum.";";
-    $query3 = "DELETE accountsOwned FROM accountsOwned WHERE accountsOwned.accountNumber = ".$accNum.";";
-    $query4 = "DELETE account FROM account WHERE account.accountNumber = ".$accNum.";";
+    $query0 = "DELETE Transactions FROM Transactions WHERE Transactions.accountNumber = ".$accNum." or Transactions.recipientAccountNumber = ".$accNum.";";
+    $query1 = "DELETE Bills FROM Bills WHERE Bills.myPayeeId IN (SELECT MyPayee.id FROM MyPayee WHERE MyPayee.accountNumber = ".$accNum.");";
+    $query2 = "DELETE MyPayee FROM MyPayee WHERE MyOayee.accountNumber = ".$accNum.";";
+    $query3 = "DELETE AccountsOwned FROM AccountsOwned WHERE accountsOwned.accountNumber = ".$accNum.";";
+    $query4 = "DELETE Account FROM Account WHERE Account.accountNumber = ".$accNum.";";
 
     $stmt0 = $db->prepare($query0);   
     $stmt1 = $db->prepare($query1);

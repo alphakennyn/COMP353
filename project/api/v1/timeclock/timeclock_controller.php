@@ -14,7 +14,7 @@ function get_timeclock($eid)
             return array("error" => "Cannot connect to DB.");
         }
 
-        $query = "SELECT * FROM payroll WHERE eid = '".$eid."'";
+        $query = "SELECT * FROM Payroll WHERE eid = '".$eid."'";
 
         $packet = array();
 
@@ -57,12 +57,12 @@ function post_user_timeclock($data)
         $clockIn = $data['clockIn'];
         $clockOut = $data['clockOut'];
 
-        $query = "INSERT INTO payroll VALUES ($eid, '".$clockIn."', '".$clockOut."');";
+        $query = "INSERT INTO Payroll VALUES ($eid, '".$clockIn."', '".$clockOut."');";
 
         $stmt = $db->prepare($query);
         $stmt->execute();
 
-        $query = "SELECT * FROM payroll WHERE eid = '".$eid."'";
+        $query = "SELECT * FROM Payroll WHERE eid = '".$eid."'";
         $packet = array();
         $stmt = $db->prepare($query);
         $stmt->execute();

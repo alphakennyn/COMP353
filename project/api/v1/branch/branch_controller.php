@@ -17,7 +17,7 @@ function get_branch($id)
         }
 
     //query statement
-    $query = "SELECT * FROM branch WHERE id = '".$id."'";
+    $query = "SELECT * FROM Branch WHERE id = '".$id."'";
 
     $stmt = $db->prepare($query);
     $stmt->execute();

@@ -2,7 +2,7 @@
 <div class="employee-page">
   <div class="container">
     <h1>{{employeeName}}</h1>
-    <EmployeeInfo :data='employeeData' :cached='employeeData' :eid='parseInt(id)'/>
+    <EmployeeInfo :data='employeeData' :eid='parseInt(id)'/>
     <button class="payroll-btn" @click="getPayroll()">Payroll</button>
     <button @click='deleteAccount()' v-if='!cantDelete.includes(employeeData.title)' class="delete-btn">DELETE ACCOUNT</button>
     <modal name="showPayroll" height='auto'>

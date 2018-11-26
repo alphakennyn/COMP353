@@ -16,23 +16,24 @@ export default {
   name: "employee-info",
   props: {
     data: Object,
-    cached: Object,
     eid: Number,
   },
   data() {
     return {
+      originalData: this.data,
+      employee: this.data,
       isEditing: false,
-      employee: {},
-      allowToEdit: ["ephone", "address"],
+      allowToEdit: ["phone", "address"],
       labels: {
-        phone: "Branch phone",
+        bid: 'Branch ID',
+        phone: "Phone",
         fax: "Branch Fax",
         location: "Branch location",
         city: "Branch City",
         openingDate: "Opening Date",
         revenue: "Branch Revenue ($)",
         category: "Category",
-        ephone: "Employee Phone",
+        bphone: "Branch Phone",
         title: "Title",
         address: "Address",
         hourlyWage: "Hourly Wage ($)",
@@ -47,41 +48,34 @@ export default {
 
       const data = {
         eid: this.eid,
-        ephone: this.employee.ephone,
+        phone: this.employee.phone,
         address: this.employee.address
       }
 
       this.$http
         .post(`${process.env.VUE_APP_API_PATH}/employees/`, data)
         .then(response => {
-          // delete this.user.id;
           if ("error" in response.data) {
             alert(response.data.error);
             this.cancel();
           } else {
-            this.cached = Object.assign({}, this.employee);
+            this.originalData = JSON.parse(JSON.stringify(this.employee));
             this.isEditing = false;
           }
         });
-      console.log(data)
-
     },
     cancel: function() {
-      console.log(this.cached);
-      this.employee = Object.assign({}, this.cached);
+      this.employee = JSON.parse(JSON.stringify(this.originalData));
       this.isEditing = false;
     }
   },
   watch: {
     data: function(newVal, oldVal) {
       this.employee = newVal;
-      delete this.employee["managerId"];
-      delete this.employee["eid"];
-      delete this.employee["bid"];
+      this.originalData = JSON.parse(JSON.stringify(this.employee));
     }
   },
   mounted() {
-
   }
 };
 </script>

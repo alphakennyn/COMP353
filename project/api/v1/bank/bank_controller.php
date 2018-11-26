@@ -17,7 +17,7 @@ function get_bank() {
         }
     
         // query statement
-        $query = "SELECT * FROM bank";
+        $query = "SELECT * FROM Bank";
     
         // prepare query statement
         $stmt = $db->prepare($query);
