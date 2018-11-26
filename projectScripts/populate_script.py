@@ -314,8 +314,8 @@ for i in range(1,61):
         taxId= 'NULL'
         sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %i, %s, %s, %s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==4):
-        transactions = 0
-        transactionsLeft = 0
+        transactions = 10
+        transactionsLeft = random.randrange(0,11)
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
