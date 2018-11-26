@@ -137,7 +137,7 @@ function post_user_accounts($account_data)
     $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
     $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', $isNotified,'$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit);";
+    $query= "INSERT INTO Account VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', $isNotified,'$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit);";
 
     $stmt = $db->prepare($query);
     $stmt->execute();
