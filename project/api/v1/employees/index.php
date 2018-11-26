@@ -11,8 +11,7 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($http_method) {
     case 'GET':
-    $employee_id = $_GET['id'];
-            
+        $employee_id = $_GET['id'];
         if ($employee_id != null) {
             $packet = get_employee_by_id($employee_id);
         } else {
@@ -21,6 +20,9 @@ switch ($http_method) {
         echo json_encode($packet);
         return;
     case 'POST':
+        $data = json_decode(file_get_contents('php://input'), true);
+        $packet = modify_employee_by_id($data);
+        echo json_encode($packet);
         return;
     case 'PUT':
         return;

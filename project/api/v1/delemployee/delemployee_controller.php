@@ -37,7 +37,7 @@ function del_employee($data)
     $stmt3->execute();
     $stmt4->execute();
 
-    return array($stmt1, $stmt2, $stmt3, $stmt4);
+    return array("msg" => 'account deleted.');
 
 
     } catch (Exception $e) {

@@ -45,7 +45,7 @@ for i in range (1, 65):
     phone.append(5140000000 + random.randint(0,9999999))
     fullNames.append(str(names.readline().rstrip() + " " + surnames.readline().rstrip()))
     addresses.append(str(random.randrange(0,9999)) + " " + streets.readline().rstrip())
-    hourlyWage.append(random.randrange(10,20))
+    hourlyWage.append(random.randint(10,20))
     startDate.append(str(random.randrange(2000,2018))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)))
     availableSick.append(random.randrange(0,3))
     availableHoliday.append(random.randrange(0,14))
@@ -123,7 +123,7 @@ for i in range (1, 11):
 #YYYY-MM-DD HH:MI:SS
 schedIds = []
 sTimes = ['09:00:00', '10:00:00']
-eTimes = ['05:00:00', '06:00:00']
+eTimes = ['17:00:00', '18:00:00']
 startT = []
 endT = []
 holi = []
@@ -176,14 +176,14 @@ for i in range (1,65):
                     cIn = '2018-11'+ '-' + str(x) + ' 09:' + str(minute) + ':' + str(second)
 
 
-                if endT[x-1] == '2018-11'+ '-' + str(x) + ' ' + '05:00:00':
+                if endT[x-1] == '2018-11'+ '-' + str(x) + ' ' + '17:00:00':
                     second = random.randrange(10,59)
                     minute = random.randrange(10,15)
-                    cOut =  '2018-11'+ '-' + str(x) + ' 05:' + str(minute) + ':' + str(second)
-                elif endT[x-1] == '2018-11'+ '-' + str(x) + ' ' + '06:00:00':
+                    cOut =  '2018-11'+ '-' + str(x) + ' 17:' + str(minute) + ':' + str(second)
+                elif endT[x-1] == '2018-11'+ '-' + str(x) + ' ' + '18:00:00':
                     second = random.randrange(10,59)
                     minute = random.randrange(10,15)
-                    cOut =  '2018-11'+ '-' + str(x) + ' 06:' + str(minute) + ':' + str(second) 
+                    cOut =  '2018-11'+ '-' + str(x) + ' 18:' + str(minute) + ':' + str(second) 
                 sqlscript.write("INSERT INTO Payroll(eid, clockIn, clockOut) values (%i,'%s','%s');\n" %(i, str(cIn), str(cOut)))
 
                 

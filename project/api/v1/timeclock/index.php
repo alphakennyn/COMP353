@@ -11,15 +11,15 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($http_method) {
     case 'GET':
+        $eid = $_GET['id'];
+        echo json_encode(get_timeclock($eid, JSON_FORCE_OBJECT));
         return;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
-        $eid = $data['eid'];
-        echo json_encode(get_timeclock($eid, JSON_FORCE_OBJECT));
+        echo json_encode(post_user_timeclock($data));
         return;
     case 'PUT':
-        $data = json_decode(file_get_contents('php://input'), true);
-        echo json_encode(post_user_timeclock($data));
+
         return;
     default:
         echo json_encode(array("error" => 'Server error.'));
