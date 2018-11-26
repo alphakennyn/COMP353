@@ -449,8 +449,12 @@ for i in range(1, 35):
 
 #Bills
 for i in range (1,101):
-    amount= random.randrange(10,5000)
     isPaid= random.randint(0,1)
+    if(isPaid==0):
+        amount= random.randrange(0,25)
+    else:
+        amount =0
+    
     myPayeeId = random.randint(1,35)
     dueDate = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
     sqlscript.write("INSERT INTO Bills( amount, isPaid, myPayeeId, dueDate, AutoPay) values ( %i, %i,%i,'%s',%i);\n" %(amount, isPaid, myPayeeId, dueDate,0))
