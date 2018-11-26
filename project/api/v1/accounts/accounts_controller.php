@@ -138,7 +138,7 @@ function post_user_accounts($account_data)
     $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
     $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    $query= "INSERT INTO ACCOUNT VALUES (0, $cpid, $irid, $balance, $transactionsPerMonth, $transactionsLeft,'$currency', $isNotified,'$accountType', $maxPerDay, $minBalance, $businessNumber, $taxId, $creditLimit);";
+    $query= "INSERT INTO ACCOUNT VALUES (0, ".$cpid.", ".$irid.", ".$balance.", ".$transactionsPerMonth.", ".$transactionsLeft.",'".$currency."', ".$isNotified.",'".$accountType."', ".$maxPerDay.", ".$minBalance.", ".$businessNumber.", ".$taxId.", ".$creditLimit.");";
 
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -163,12 +163,59 @@ function post_user_accounts($account_data)
     $packet["user_accounts"]=array();
         
     while ($row = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        // $tmp=array();
         array_push($packet["user_accounts"], $row);
     }
     return $packet;
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");
   }
+}
+
+function update_user_account($data)
+{
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+
+        if (!test_db_connection($db)) {
+            return array("error" => "Cannot connect to DB.");
+        }
+
+        $accountNumber = $data['accountNumber'];
+        $notifyOption = (int) $data['isNotified'];
+        $cid = $data['cid'];
+
+        /**
+        * Update account's data
+        */
+        $query = "UPDATE Account "; 
+        $query .= "SET isNotified = ".$notifyOption." ";
+        $query .= "WHERE accountNumber = ".$accountNumber.";";
+
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        /**
+        * GET account's updated data
+        */
+        $query3 = "SELECT Account.* ";
+        $query3 .= "FROM AccountsOwned ";
+        $query3 .= "INNER JOIN Clients ON id = cid ";
+        $query3 .= "INNER JOIN Account on Account.accountNumber = AccountsOwned.accountNumber ";
+        $query3 .= "WHERE Clients.id = ". $cid .";";
+
+        $stmt2 = $db->prepare($query3);
+        $stmt2->execute();
+        $packet=array();
+        //$packet["user_accounts"]=array();
+            
+        while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+            array_push($packet, $row);
+        }
+
+        return $packet;
+    } catch (Exception $e) {
+        return array("error" => "Server error ".$e." .");
+    }
 }
 
