@@ -47,7 +47,7 @@ function get_revenue_branch()
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $id = $row['bid'];
-                $query2 = "SELECT branch.city FROM branch WHERE branch.id = ".$id.";";
+                $query2 = "SELECT Branch.city FROM Branch WHERE Branch.id = ".$id.";";
                 $stmt2 = $db->prepare($query2);
                 $stmt2->execute();
                 $city = $stmt2->fetch(PDO::FETCH_ASSOC)['city'];
