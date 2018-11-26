@@ -8,7 +8,7 @@ include_once '../../utils/helpers.php';
  */
 
 
-function pay_bills($data)
+function print_bills($data)
 {
 
     try {
