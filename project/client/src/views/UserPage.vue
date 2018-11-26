@@ -5,7 +5,7 @@
           <h1>BANK OF ABCJK</h1>
         </div>
         <div>
-          <h3 v-if="clientData.fullName != ''">Hi, {{clientData.fullName}}!<br>
+          <h3 sv-if="clientData.fullName != ''"><span style="color:white;">Hi, {{clientData.fullName}}!</span><br>
             <span class="info"><a @click="showClient()">see client info</a></span>
             <modal name="showClientInfo" height='auto'>
               <ClientInfo :data="clientData" :clientId='parseInt(id)'/>
@@ -152,9 +152,11 @@ export default {
     display: flex;
     justify-content: space-between;
     background-color: #004f8f;
-    color: white;
     padding: 0 50px;
     margin-bottom: 20px;
+    h1{
+      color: white;
+    }
   }
   &__accounts {
     display: flex;
