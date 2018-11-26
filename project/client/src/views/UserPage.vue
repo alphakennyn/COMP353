@@ -151,9 +151,10 @@ export default {
   &__header {
     display: flex;
     justify-content: space-between;
-    background-color: #82C7EB;
-    padding: 0 10px;
-
+    background-color: #004f8f;
+    color: white;
+    padding: 0 50px;
+    margin-bottom: 20px;
   }
   &__accounts {
     display: flex;
@@ -164,7 +165,7 @@ export default {
 }
 .info {
   float: right;
-  color: green;
+  color: rgb(0, 214, 0);
 }
 
 </style>
