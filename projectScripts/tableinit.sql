@@ -219,6 +219,7 @@ CREATE TABLE Bills (
     isPaid BIT,
     myPayeeId INT,
     dueDate Date, 
+    autoPay BIT,
     PRIMARY KEY (id),
     FOREIGN KEY (myPayeeId)
         REFERENCES MyPayee (id)

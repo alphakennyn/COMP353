@@ -26,7 +26,7 @@
       <div v-if='accounts[newAccount.accountType]'>
         <!-- <label>Charge plan: </label> -->
         <p>Charge per transaction: {{dictionary[newAccount.accountType].charge }}</p>
-        <p>Plan limit: {{dictionary[newAccount.accountType].planlimit }}</p>
+        <p>Plan limit: {{dictionary[newAccount.accountType].planLimit }}</p>
       </div>
       
     </div>
@@ -187,7 +187,7 @@ export default {
       }
       if(errors==""){
         //Set transaction limit per month
-        this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planlimit;
+        this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planLimit;
         //this.newAccount.isNotified = this.newAccount.isNotified ? 1 : 0;
         this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
           console.log(result.data)

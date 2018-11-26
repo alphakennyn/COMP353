@@ -2,12 +2,6 @@
 include_once '../../database/database.php';
 include_once '../../utils/helpers.php';
 
-/**
- * Check if the user can login
- * @return JSON login info
- */
-
-
 function del_employee($data)
 {
 
@@ -22,10 +16,10 @@ function del_employee($data)
     $id = $data['id'];
 
 
-    $query1 = "DELETE payroll FROM payroll WHERE payroll.eid = ".$id.";";
-    $query2 = "DELETE schedule FROM schedule WHERE schedule.eid = ".$id.";";
-    $query3 = "DELETE worksat FROM worksat WHERE worksat.eid = ".$id.";";
-    $query4 = "DELETE employee FROM employee WHERE employee.id = ".$id.";";
+    $query1 = "DELETE Payroll FROM Payroll WHERE Payroll.eid = ".$id.";";
+    $query2 = "DELETE Schedule FROM Schedule WHERE Schedule.eid = ".$id.";";
+    $query3 = "DELETE WorksAt FROM WorksAt WHERE WorksAt.eid = ".$id.";";
+    $query4 = "DELETE Employee FROM Employee WHERE Employee.id = ".$id.";";
 
     $stmt1 = $db->prepare($query1);
     $stmt2 = $db->prepare($query2);

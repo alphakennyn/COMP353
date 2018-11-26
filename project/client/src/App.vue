@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+    <router-link id="logout" v-if="authenticated" to="/login" v-on:click.native="logout()" replace><div>Logout</div></router-link>
     <router-view @authenticated="setAuthenticated" />
   </div>
 </template>
@@ -36,6 +36,7 @@ export default {
 body {
   // background-color: #82C7EB;
   margin: 0;
+  background-color: #f4f4f4;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -51,6 +52,15 @@ body {
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+#logout{
+  width:100%;
+  text-align: right;
+  div{
+    background-color: #004f8f;
+    padding: 10px 50px 0 0;
+    color: white;
   }
 }
 a {

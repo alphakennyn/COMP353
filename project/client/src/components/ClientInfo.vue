@@ -65,7 +65,7 @@ export default {
         .post(`${process.env.VUE_APP_API_PATH}/clients/`, this.user)
         .then(response => {
           delete this.user.id;
-          if ("error" in response.data) {
+          if (response.data.hasOwnProperty("error")) {
             alert(response.data.error);
             this.cancel();
           } else {
@@ -86,7 +86,7 @@ export default {
       this.$http
         .post(`${process.env.VUE_APP_API_PATH}/clients/`, this.password)
         .then(response => {
-          if ("error" in response.data) {
+          if (response.data.hasOwnProperty("error")) {
             alert("Invalid password!");
           } else {
             this.password = {

@@ -21,8 +21,8 @@ function del_client($data)
     
     $id = $data['id'];
 
-    $query1 = "DELETE member FROM member WHERE member.cid = ".$id.";";
-    $query2 = "DELETE clients FROM clients WHERE clients.id = ".$id.";";
+    $query1 = "DELETE Member FROM Member WHERE Member.cid = ".$id.";";
+    $query2 = "DELETE Clients FROM Clients WHERE Clients.id = ".$id.";";
 
     $stmt1 = $db->prepare($query1);   
     $stmt2 = $db->prepare($query2);
