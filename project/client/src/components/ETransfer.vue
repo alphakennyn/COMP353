@@ -60,11 +60,7 @@ export default {
   },
   watch: {
     data: function () {
-      this.canSend = false;
-      this.selectedRecipientAccount = null;
-      this.transferAmount = 0;
-      this.warning = null;
-      this.willBeCharged = false;
+      this.clearForm();
     },
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
@@ -93,6 +89,13 @@ export default {
     }
   },
   methods: {
+    clearForm: function() {
+      this.canSend = false;
+      this.selectedRecipientAccount = null;
+      this.transferAmount = 0;
+      this.warning = null;
+      this.willBeCharged = false;
+    },
     sendMoula: function() {
       const data = {
         senderAccountNumber: this.data.accountNumber,
@@ -114,8 +117,9 @@ export default {
         this.recipientAccounts = [];
         this.selectedRecipientAccount = null;
         this.recipientEmail = '';
-        this.transferAmount = 0;
-        this.willBeCharged = false;
+
+
+        this.clearForm();
       }).catch(err =>{
           alert(err);
       })
