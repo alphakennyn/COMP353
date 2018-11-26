@@ -197,10 +197,6 @@ function update_user_account($data)
         /**
         * GET account's updated data
         */
-        // $query2 = "SELECT * "; 
-        // $query2 .= "FROM Account ";
-        // $query2 .= "LEFT JOIN "
-        // $query2 .= "WHERE accountNumber = ".$accountNumber.";";
         $query3 = "SELECT Account.* ";
         $query3 .= "FROM AccountsOwned ";
         $query3 .= "INNER JOIN Clients ON id = cid ";
