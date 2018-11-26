@@ -5,7 +5,7 @@
     You are allowed {{acc.transactionsPerMonth}} transactions per month and
     currently have {{acc.transactionsLeft}} transactions left this month.
   </div>
-  <div v-if="transactions[acc.accountNumber].length!=0">
+  <div v-if="transactions.hasOwnProperty(acc.accountNumber) && transactions[acc.accountNumber].length!=0">
   <table class="transaction-list">
     <thead>
       <tr>
@@ -48,7 +48,6 @@ export default {
 
   },
   mounted: function() {
-    console.log(this.client);
     this.$http
       .get(`${process.env.VUE_APP_API_PATH}/transactions?clientID=${this.client}`)
       .then(response => {
