@@ -35,7 +35,7 @@
           <AccountMenu v-if="Object.keys(selectAccount).length !== 0" @clickedMenu='toggleMenuHandler'/>
         </div>
         <div>
-          <AccountInfo v-if="selectMenu == 'info'" :data='selectAccount'/>
+          <AccountInfo v-if="selectMenu == 'info'" :isEditing="false" :data='selectAccount'/>
           <TransactionList v-if="selectMenu == 'transactions'" :client='id' :acc='selectAccount'/>
           <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount' :accounts="accounts" :dictionary="planDictionary"/>
           <PayBills v-if="selectMenu == 'pay'"/>
