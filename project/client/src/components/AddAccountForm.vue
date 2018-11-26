@@ -192,10 +192,10 @@ export default {
         this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
           console.log(result.data)
           if(result.data.error) {
-            console.log(result.data.error)
             throw new Error('Error from server', result.data.error)
           }
-        //this.close();
+        this.close(result.data.user_accounts);
+        
         alert('New account added!')
         }).catch(err => {
           console.error(err);

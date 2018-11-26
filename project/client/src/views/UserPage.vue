@@ -27,7 +27,7 @@
             </select> <br>
             <button @click="showAdd()">add a new account?</button>
             <modal class="bank-modal" height='auto' width='700px' :scrollable="true" name="showAddAccount">
-              <AddAccountForm :clientId='parseInt(id)' :dictionary='planDictionary' @clicked="onClickAdd" :close="() => hideAdd()"/>
+              <AddAccountForm :clientId='parseInt(id)' :dictionary='planDictionary' @clicked="onClickAdd" :close="(data) => hideAdd(data)"/>
             </modal>
           </div>
         </div>
@@ -91,7 +91,9 @@ export default {
     showAdd: function() {
       this.$modal.show("showAddAccount", {title: 'Create new account'});
     },
-    hideAdd: function() {
+    hideAdd: function(data) {
+      this.accounts = data;
+      this.selectAccount = this.accounts[0];
       this.$modal.hide("showAddAccount");
     },
     onClickAdd: function(value) {
