@@ -187,7 +187,7 @@ export default {
       }
       if(errors==""){
         //Set transaction limit per month
-        this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planlimit;
+        this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planLimit;
         //this.newAccount.isNotified = this.newAccount.isNotified ? 1 : 0;
         this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
           console.log(result.data)
