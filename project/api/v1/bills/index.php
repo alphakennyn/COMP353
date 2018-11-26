@@ -17,6 +17,8 @@ switch ($http_method) {
         echo json_encode(print_bills($data));
         return;
     case 'PUT':
+        $data = json_decode(file_get_contents('php://input'), true);
+        echo json_encode($data);
         return;
     default:
         echo json_encode(array("error" => 'Server error.'));

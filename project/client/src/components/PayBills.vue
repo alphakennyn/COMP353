@@ -1,6 +1,8 @@
 <template>
   <div class="pay-bills">
-    TODO pay bills
+    <div>
+
+    </div>
   </div>
 </template>
 

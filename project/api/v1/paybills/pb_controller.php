@@ -78,24 +78,3 @@ function pay_bills($data)
         return array("error" => "Server error ".$e." .");
     }
 }
-
-function update_auto_pay($bill_id)
-{
-  try {
-    $database = new Database();
-    $db = $database->getConnection();
-
-    if (!test_db_connection($db)) {
-        return array("error" => "Cannot connect to DB.");
-    }
-
-    $query = "UPDATE Account SET autoPay = 1 WHERE id = $bill_id";
-
-    $stmt = $db->prepare($query);
-    $stmt->execute();
-    
-    return $packet;
-  } catch (Exception $e) {
-      return array("error" => "Server error ".$e." .");
-  }
-}

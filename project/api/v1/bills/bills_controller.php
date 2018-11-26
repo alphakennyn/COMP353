@@ -49,3 +49,24 @@ function print_bills($data)
     }
 }
 
+function update_auto_pay($bill_id)
+{
+  try {
+    $database = new Database();
+    $db = $database->getConnection();
+
+    if (!test_db_connection($db)) {
+        return array("error" => "Cannot connect to DB.");
+    }
+
+    //set autopay
+
+    $query = "UPDATE Bills SET autoPay = NOT autoPay WHERE id = 1";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    return;
+  } catch (Exception $e) {
+      return array("error" => "Server error ".$e." .");
+  }
+}
