@@ -34,8 +34,13 @@
         <div class="menu">
           <AccountMenu v-if="Object.keys(selectAccount).length !== 0" @clickedMenu='toggleMenuHandler'/>
         </div>
-        <div>
-          <AccountInfo v-if="selectMenu == 'info'" :isEditing="false" :data='selectAccount'/>
+        <div v-if="dataLoaded">
+          <AccountInfo 
+            v-if="selectMenu == 'info'" 
+            :client='parseInt(id)'
+            :data='selectAccount' 
+            :updateAccountList="(newAccount) => updateAccountList(newAccount)" 
+          />
           <TransactionList v-if="selectMenu == 'transactions'" :client='id' :acc='selectAccount'/>
           <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount' :accounts="accounts" :dictionary="planDictionary"/>
           <PayBills v-if="selectMenu == 'pay'"/>
@@ -79,6 +84,7 @@ export default {
       clientData: {},
       accounts: [],
       planDictionary: {},
+      dataLoaded: false,
     };
   },
   methods: {
@@ -107,9 +113,14 @@ export default {
     },
     toggleMenuHandler: function(item) {
       this.selectMenu = item;
+    },
+    updateAccountList: function(newAccountList) {
+      console.log('UPDATING WITH', newAccountList)
+      this.accounts = newAccountList;
+      this.selectAccount = this.accounts[0];
     }
   },
-  mounted: function() {
+  created() {
     this.$http
       .get(`${process.env.VUE_APP_API_PATH}/clients?id=${this.id}`)
       .then(
@@ -126,8 +137,11 @@ export default {
     this.$http
       .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
       .then(response => {
+
         this.accounts = response.data.user_accounts;
         this.selectAccount = this.accounts[0];
+        this.dataLoaded = true;
+
       })
       .catch(err => {
         alert("uh oh.. no account found");
