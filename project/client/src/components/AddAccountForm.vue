@@ -26,7 +26,7 @@
       <div v-if='accounts[newAccount.accountType]'>
         <!-- <label>Charge plan: </label> -->
         <p>Charge per transaction: {{dictionary[newAccount.accountType].charge }}</p>
-        <p>Plan limit: {{dictionary[newAccount.accountType].planlimit }}</p>
+        <p>Plan limit: {{dictionary[newAccount.accountType].planLimit }}</p>
       </div>
       
     </div>

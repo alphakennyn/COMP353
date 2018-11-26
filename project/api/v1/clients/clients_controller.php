@@ -17,7 +17,7 @@ function get_all_clients()
         }
     
         // query statement
-        $query = "SELECT fullName, email FROM CLIENTS";
+        $query = "SELECT fullName, email FROM Clients";
     
         // prepare query statement
         $stmt = $db->prepare($query);
@@ -57,12 +57,12 @@ function get_client_by_id($user_id)
         $stmt = $db->prepare($query);
         $stmt->execute();
         
-        $query1 = "SELECT Chargeplan.planoption as accountType,";
-        $query1 .= " Chargeplan.planlimit as planlimit, ";
-        $query1 .= " Chargeplan.charge as charge, ";
+        $query1 = "SELECT ChargePlan.planoption as accountType,";
+        $query1 .= " ChargePlan.planLimit as planLimit, ";
+        $query1 .= " ChargePlan.charge as charge, ";
         $query1 .= " InterestRate.serviceType as serviceType, ";
         $query1 .= " InterestRate.percentCharge as percentCharge ";
-        $query1 .= " FROM InterestRate INNER JOIN Chargeplan ON Chargeplan.id = InterestRate.id;";
+        $query1 .= " FROM InterestRate INNER JOIN ChargePlan ON ChargePlan.id = InterestRate.id;";
     
         $stmt1 = $db->prepare($query1);
         $stmt1->execute();
@@ -91,6 +91,7 @@ function get_client_by_id($user_id)
 function modify_client_by_id($user)
 {
     try {
+        error_reporting(0);
         $database = new Database();
         $db = $database->getConnection();
         if (!test_db_connection($db)) {
