@@ -74,7 +74,7 @@ export default {
     return {
       chargeplanList: [], //http get
       investmentRateList: [], //http get
-      accountType: 'Debit',
+      //accountType: 'Debit',
       newAccount: {
         cid: this.clientId,
         accountType: '',
@@ -169,20 +169,40 @@ export default {
   },
   methods: {
     submit: function() {
-      //Set transaction limit per month
-      this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planlimit;
-      //this.newAccount.isNotified = this.newAccount.isNotified ? 1 : 0;
-      this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
-        console.log(result.data)
-        if(result.data.error) {
-          console.log(result.data.error)
-          throw new Error('Error from server', result.data.error)
+      //this.newAccount.minBalance && this.newAccount.businessNumber && this.newAccount.taxId && this.newAccount.creditLimit
+      var errors = "";
+      if((this.newAccount.accountType=="Business" || this.newAccount.accountType=="Foreign Currency" || this.newAccount.accountType=="Investment" || this.newAccount.accountType=="Savings") && !this.newAccount.minBalance){
+        errors += "You need to input a mininum balance!\n";
+      }
+      if(this.newAccount.accountType=="Business"){
+        if(!this.newAccount.businessNumber){
+          errors += "You need to input a buisness number!\n";
         }
-        //this.close();
+        if(!this.newAccount.taxId){
+          errors += "You need to input a tax ID!\n";
+        }
+      }
+      if((this.newAccount.accountType=="Credit Card" || this.newAccount.accountType=="Line Of Credit") && !this.newAccount.creditLimit){
+        errors += "You need to input a credit limit!\n";
+      }
+      if(errors==""){
+        //Set transaction limit per month
+        this.newAccount.transactionsPerMonth = this.dictionary[this.newAccount.accountType].planlimit;
+        //this.newAccount.isNotified = this.newAccount.isNotified ? 1 : 0;
+        this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, this.newAccount).then(result => {
+          console.log(result.data)
+          if(result.data.error) {
+            throw new Error('Error from server', result.data.error)
+          }
+        this.close(result.data.user_accounts);
+        
         alert('New account added!')
-      }).catch(err => {
-        console.error(err);
-      })
+        }).catch(err => {
+          console.error(err);
+        })
+      } else {
+        alert(errors);
+      }
     },
   },
   watch: {

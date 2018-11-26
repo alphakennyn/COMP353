@@ -49,12 +49,7 @@ export default {
   },
   watch: {
     data: function () {
-      this.recipientAccountNumber = null;
-      this.transferAmount = 0;
-      this.canSend = false;
-      this.warning = null;
-      this.willBeCharged = false;
-      console.log(this.recipientAccountNumber != null);
+      this.clearForm()
     },
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
@@ -100,12 +95,17 @@ export default {
         alert(`Transfered ${this.transferAmount} to #${this.recipientAccountNumber}`);
         this.data.balance = result.data.balance;
 
-        this.recipientAccountNumber = '';
-        this.transferAmount = 0;
-        this.willBeCharged = false;
+        this.clearForm();
       }).catch(err =>{
           alert(err);
       })
+    },
+    clearForm: function() {
+      this.recipientAccountNumber = null;
+      this.transferAmount = 0;
+      this.canSend = false;
+      this.warning = null;
+      this.willBeCharged = false;
     }
   },
   mounted: function() {

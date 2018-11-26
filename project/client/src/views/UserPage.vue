@@ -27,7 +27,7 @@
             </select> <br>
             <button @click="showAdd()">add a new account?</button>
             <modal class="bank-modal" height='auto' width='700px' :scrollable="true" name="showAddAccount">
-              <AddAccountForm :clientId='parseInt(id)' :dictionary='planDictionary' @clicked="onClickAdd" :close="() => hideAdd()"/>
+              <AddAccountForm :clientId='parseInt(id)' :dictionary='planDictionary' @clicked="onClickAdd" :close="(data) => hideAdd(data)"/>
             </modal>
           </div>
         </div>
@@ -36,8 +36,8 @@
         </div>
         <div>
           <AccountInfo v-if="selectMenu == 'info'" :data='selectAccount'/>
-          <TransactionHistory v-if="selectMenu == 'transactions'"/>
-          <TransferMoney v-if="selectMenu == 'transfer'" :accounts="accounts" :dictionary="planDictionary" :data='selectAccount'/>
+          <TransactionList v-if="selectMenu == 'transactions'" :client='id' :acc='selectAccount'/>
+          <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount' :accounts="accounts" :dictionary="planDictionary"/>
           <PayBills v-if="selectMenu == 'pay'"/>
           <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount' :dictionary="planDictionary" />
         </div>
@@ -52,7 +52,7 @@ import AddAccountForm from "@/components/AddAccountForm.vue";
 import AccountMenu from "@/components/AccountMenu.vue";
 import ClientInfo from "@/components/ClientInfo.vue";
 import AccountInfo from "@/components/AccountInfo.vue";
-import TransactionHistory from "@/components/TransactionHistory.vue";
+import TransactionList from "@/components/TransactionList.vue";
 import TransferMoney from "@/components/TransferMoney.vue";
 import PayBills from "@/components/PayBills.vue";
 import ETransfer from "@/components/ETransfer.vue";
@@ -64,7 +64,7 @@ export default {
     AccountMenu,
     ClientInfo,
     AccountInfo,
-    TransactionHistory,
+    TransactionList,
     TransferMoney,
     PayBills,
     ETransfer
@@ -91,7 +91,9 @@ export default {
     showAdd: function() {
       this.$modal.show("showAddAccount", {title: 'Create new account'});
     },
-    hideAdd: function() {
+    hideAdd: function(data) {
+      this.accounts = data;
+      this.selectAccount = this.accounts[0];
       this.$modal.hide("showAddAccount");
     },
     onClickAdd: function(value) {

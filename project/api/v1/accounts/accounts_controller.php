@@ -142,7 +142,6 @@ function post_user_accounts($account_data)
     $stmt = $db->prepare($query);
     $stmt->execute();
 
-    
     //Insert into acocuntsOwned list
     $newAccountId = $db->lastInsertId();    
     $cid = $account_data['cid'];
@@ -152,8 +151,21 @@ function post_user_accounts($account_data)
     $stmt2 = $db->prepare($query2);
     $stmt2->execute();
 
-    return $query2;
+    //Get all updatedAccounts
+    $query3 = "SELECT Account.* FROM AccountsOwned INNER JOIN Clients ON id = cid INNER JOIN Account on Account.accountNumber = AccountsOwned.accountNumber WHERE Clients.id = ". $cid .";";
 
+        // prepare query statement
+    $stmt3 = $db->prepare($query3);
+    $stmt3->execute();
+    
+    $packet=array();
+    $packet["user_accounts"]=array();
+        
+    while ($row = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+        // $tmp=array();
+        array_push($packet["user_accounts"], $row);
+    }
+    return $packet;
   } catch (Exception $e) {
       return array("error" => "Server error ".$e." .");
   }
