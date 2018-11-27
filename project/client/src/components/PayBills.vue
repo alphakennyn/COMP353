@@ -14,6 +14,8 @@
           <th>Due Date</th>
           <th>Payee</th>
           <th>Is paid</th>
+          <th>Automatic Payments</th>
+          <th>Select to Pay</th>
         </tr>
       </thead>
       <tbody v-for='bills in accountBills' :key='bills.id'>

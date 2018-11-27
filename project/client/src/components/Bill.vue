@@ -6,11 +6,22 @@
     <td>{{billData.payee}}</td>
     <td>{{billData.isPaid}}</td>
     <td>
+      <span><strong>{{billData.autoPay}}</strong>
+        <toggle-button 
+          color="#82C7EB"
+          :value="futurePay"
+          :sync="true"
+          v-model="futurePay"
+          :labels="{checked: 'Yes', unchecked: 'No'}"
+        />
+      </span>
+    </td>
+    <td>
       <input 
         type="checkbox"
         v-model="billData.wantToPay"
         
-      />
+      />  
     </td>
   </tr>
 </template>
@@ -18,6 +29,11 @@
 <script>
 export default {
   name: 'transaction',
+  data(){
+    return{
+      futurePay: Boolean,
+    }
+  },
   props: {
     billData: Object,
     clickHandle: Function,
@@ -26,6 +42,10 @@ export default {
     billPayStatus() {
       return this.billData.wantToPay
     }
+  },
+  mounted: function(){
+    this.billData.autoPay == "0" ? this.futurePay = false: this.futurePay= true;
+    console.log(futurePay);
   },
   watch: {
     billPayStatus() {
