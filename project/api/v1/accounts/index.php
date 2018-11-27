@@ -21,14 +21,16 @@ switch ($http_method) {
         echo json_encode($packet);
         return;
     case 'POST':
-
-        
         $data = json_decode(file_get_contents('php://input'), true);
-        echo json_encode(post_user_accounts($data));
+        
+        // Because Concordia doesn't support PUT calls, we're tricking the server to accept the update as a POST.
+        if ($data['accountNumber'] != null) {
+            echo json_encode(update_user_account($data));
+        } else {
+            echo json_encode(post_user_accounts($data));
+        }
         return;
     case 'PUT':
-        $data = json_decode(file_get_contents('php://input'), true);
-        echo json_encode(update_user_account($data));
         return;
     default:
         echo json_encode(array("error" => 'Server error.'));

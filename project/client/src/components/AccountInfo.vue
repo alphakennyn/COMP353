@@ -71,7 +71,7 @@ export default {
           accountNumber: this.data.accountNumber
         };
 
-        this.$http.put(`${process.env.VUE_APP_API_PATH}/accounts/`, data).then((result) => {        
+        this.$http.post(`${process.env.VUE_APP_API_PATH}/accounts/`, data).then((result) => {        
           if(result.data) {
             swal('Update complete!');
             this.updateAccountList(result.data);

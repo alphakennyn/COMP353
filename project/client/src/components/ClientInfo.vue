@@ -10,6 +10,7 @@
     <button @click="isEditing = !isEditing" v-if="!isEditing">Edit</button>
     <button @click="save" v-else-if="isEditing">Save</button>
     <button v-if="isEditing" @click="cancel">Cancel</button>
+    <button @click="deleteClient()" >Delete</button>
   </div>
   <div class="client__pass">
     <span class="header">Change password</span>
@@ -25,6 +26,8 @@
 </template>
 
 <script>
+import swal from "sweetalert2";
+
 export default {
   name: "client-info",
   props: {
@@ -96,6 +99,36 @@ export default {
             };
           }
         });
+    },
+    deleteClient: function() {
+      swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          const data = {id: this.clientId};
+          this.$http
+            .post(`${process.env.VUE_APP_API_PATH}/delclient/`, data)
+            .then(response => {
+              if (response.data.result) {
+                this.$router.replace({ path: `/` });
+              } else {
+                throw new Error(response.data.message)
+              }
+            })
+            .catch(error => {
+              swal({
+                type: 'warning',
+                text: error,
+              });
+            });
+        }
+      });
     }
   },
   mounted() {
