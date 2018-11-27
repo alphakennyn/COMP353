@@ -1,8 +1,8 @@
 <template>
   <div class="transfer-money">
     Transfer Money to your other accounts
-    <div class="item">Current balance {{data.balance}}</div>
-    <div class="item">Transactions left: {{data.transactionsLeft}} / {{data.transactionsPerMonth}}</div>
+    <div class="item">Current balance {{newData.balance}}</div>
+    <div class="item">Transactions left: {{newData.transactionsLeft}} / {{newData.transactionsPerMonth}}</div>
     <div class="item warning">{{warning}}</div>
     <br>
     <div class="item">
@@ -22,7 +22,7 @@
       <hr />
       <label><b>Summary transfer</b></label> 
       <p>Amount: {{transferAmount}} $</p>
-      <p v-if="willBeCharged">Charge fee: {{dictionary[data.accountType].charge}} $</p>
+      <p v-if="willBeCharged">Charge fee: {{dictionary[newData.accountType].charge}} $</p>
       <b>Total: {{totalToSend}}</b>
       <hr />
     </div>
@@ -40,6 +40,7 @@ export default {
   },
   data() {
     return {
+      newData: JSON.parse(JSON.stringify(this.data)),
       recipientAccountNumber: null,
       transferAmount: 0,
       canSend: false,
@@ -53,7 +54,7 @@ export default {
     },
     transferAmount: function() {
         const transferAmount = parseInt(this.transferAmount);
-        const balance = parseInt(this.data.balance);
+        const balance = parseInt(this.newData.balance);
 
         if(transferAmount > 0) {
           this.canSend = true;
@@ -67,9 +68,9 @@ export default {
           this.canSend = false;
           return
         }
-        if(!!this.data.minBalance) {
-            if ((balance - transferAmount) < parseInt(this.data.minBalance)) {
-              this.warning =  `You can't send money that reduces your balance to less than your min balance of ${this.data.minBalance}`;
+        if(!!this.newData.minBalance) {
+            if ((balance - transferAmount) < parseInt(this.newData.minBalance)) {
+              this.warning =  `You can't send money that reduces your balance to less than your min balance of ${this.newData.minBalance}`;
               this.canSend = false;
               return
             }
@@ -80,10 +81,10 @@ export default {
   methods: {
     sendMoula: function() {
       const data = {
-        senderAccountNumber: this.data.accountNumber,
+        senderAccountNumber: this.newData.accountNumber,
         recipientAccountNumber: this.recipientAccountNumber,
         amount: this.transferAmount,
-        charged: this.willBeCharged ? String(this.dictionary[this.data.accountType].charge) : '0',
+        charged: this.willBeCharged ? String(this.dictionary[this.newData.accountType].charge) : '0',
         transferType: 'Transfer',
       }
 
@@ -93,9 +94,15 @@ export default {
         }
 
         alert(`Transfered ${this.transferAmount} to #${this.recipientAccountNumber}`);
-        this.data.balance = result.data.balance;
-        this.data = result.data;
-        this.clearForm();
+        // this.data.balance = result.data.balance;
+        this.newData = result.data;
+        if (parseInt(this.newData.transactionsLeft) <= 0) {
+          this.willBeCharged = true;
+          this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.newData.accountType].charge}$ CAD`
+        } else {
+          this.clearForm();
+        }
+       // this.$emit('transferUpdated', result.data)
       }).catch(err =>{
           alert(err);
       })
@@ -109,16 +116,16 @@ export default {
     }
   },
   mounted: function() {
-    if (parseInt(this.data.transactionsLeft) <= 0) {
+    if (parseInt(this.newData.transactionsLeft) <= 0) {
       this.willBeCharged = true;
-      this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.data.accountType].charge}$ CAD`
+      this.warning = `You've passed you're transactions limit and will be charged and additional ${this.dictionary[this.newData.accountType].charge}$ CAD`
     }
   },
   computed: {
     totalToSend: function() {
-      let total = parseInt(this.transferAmount) ;
+      let total = parseFloat(this.transferAmount) ;
       if(this.willBeCharged) {
-        total += parseInt(this.dictionary[this.data.accountType].charge);
+        total += parseFloat(this.dictionary[this.newData.accountType].charge);
       }
 
       return total;

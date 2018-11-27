@@ -42,7 +42,7 @@
             :updateAccountList="(newAccount) => updateAccountList(newAccount)" 
           />
           <TransactionList v-if="selectMenu == 'transactions'" :client='id' :acc='selectAccount'/>
-          <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount' :accounts="accounts" :dictionary="planDictionary"/>
+          <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount' :accounts="accounts" :dictionary="planDictionary" @transferUpdated='transferHandler'/>
           <PayBills v-if="selectMenu == 'pay'"/>
           <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount' :dictionary="planDictionary" />
         </div>
@@ -118,6 +118,9 @@ export default {
       console.log('UPDATING WITH', newAccountList)
       this.accounts = newAccountList;
       this.selectAccount = this.accounts[0];
+    },
+    transferHandler: function(value) {
+      this.selectAccount = value; 
     }
   },
   created() {
