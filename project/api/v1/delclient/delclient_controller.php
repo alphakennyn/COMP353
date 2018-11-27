@@ -18,21 +18,39 @@ function del_client($data)
         if (!test_db_connection($db)) {
             return array("error" => "Cannot connect to DB.");
         }
-    
-    $id = $data['id'];
 
-    $query1 = "DELETE Member FROM Member WHERE Member.cid = ".$id.";";
-    $query2 = "DELETE Clients FROM Clients WHERE Clients.id = ".$id.";";
+        $id = $data['id'];
+        /**
+         * Check if user exist
+         */
+        $check_query = "SELECT * FROM AccountsOwned ";
+        $check_query .= "WHERE accountNumber = ".$id.";";
 
-    $stmt1 = $db->prepare($query1);   
-    $stmt2 = $db->prepare($query2);
+        $check_stmt = $db->prepare($check_query);
+        $check_stmt->execute();
+
+        if ($check_stmt->fetch(PDO::FETCH_ASSOC) != false) {
+            $error=array();
+            $error["result"]= False;
+            $error["message"]= "You can't delete client since they still have an active account.";
+
+            return $error;
+        }
 
 
-    return array($stmt1, $stmt2);
+        $query1 = "DELETE FROM Member WHERE Member.cid = ".$id.";";
+        $query2 = "DELETE FROM Clients WHERE Clients.id = ".$id.";";
 
+        $stmt1 = $db->prepare($query1);   
+        $stmt2 = $db->prepare($query2);
+
+        $stmt1->execute();
+        $stmt2->execute();
+
+        return array("result" => True);
 
     } catch (Exception $e) {
-        return array("error" => "Server error ".$e." .");
+        return array("result" => False);
     }
 }
 
