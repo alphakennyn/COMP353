@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'transaction',
+  name: 'bill',
   props: {
     billData: Object,
     clickHandle: Function,
