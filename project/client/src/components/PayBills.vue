@@ -115,6 +115,14 @@ export default {
         }
         return acc;
       }, [])
+
+      this.$http.post(`${process.env.VUE_APP_API_PATH}/paybills/`, data).then(result => {
+        if(result.data) {
+          console.log(result.data);
+        }
+      }).catch(err => {
+
+      });
       console.table(data);
 
     },
