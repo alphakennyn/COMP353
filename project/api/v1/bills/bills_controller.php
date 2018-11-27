@@ -30,22 +30,14 @@ function print_bills($accNum)
         if ($number_of_rows > 0) {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $id = $row['id'];
-                $query1 = "SELECT accountNumber, payeeId, isPaid, dueDate, MyPayee.amount as MyPayeeAmount, Bills.amount as billsAmount FROM MyPayee INNER JOIN Bills ON MyPayee.id = Bills.MyPayeeId WHERE MyPayee.id = ".$id." AND Bills.MyPayeeId = ".$id.";";
+                $query1 = "SELECT accountNumber, payeeId, isPaid, dueDate, MyPayee.amount as MyPayeeAmount, Bills.amount as billsAmount, Bills.id as billsId FROM MyPayee INNER JOIN Bills ON MyPayee.id = Bills.MyPayeeId WHERE MyPayee.id = ".$id." AND Bills.MyPayeeId = ".$id.";";
                 $stmt1 = $db->prepare($query1);
                 $stmt1->execute();
                 $number_of_rows1 = $stmt1->fetchColumn();
                 $stmt1->execute();
                 while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-                    $tmp = array(
-                        'accountNumber' => $row1['accountNumber'],
-                        'payeeId' => $row1['payeeId'],
-                        'isPaid' => $row1['isPaid'],
-                        'dueDate' => $row1['dueDate'],
-                        'MyPayeeAmount' => $row1['MyPayeeAmount'],
-                        'billsAmount' => $row1['billsAmount']
-                    );
-                    array_push($packet, $tmp);
-                    }
+                    array_push($packet, $row1);
+                }
                 return $packet;
             }
         } else {

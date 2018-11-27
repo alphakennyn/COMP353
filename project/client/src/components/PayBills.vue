@@ -10,9 +10,10 @@
       <thead>
         <tr>
           <th>Bill ID</th>
-          <th>Amount</th>
-          <th>Due Date</th>
+          <th>Amount to pay</th>
+          <th>Remaining amount</th>
           <th>Payee</th>
+          <th>Due Date</th>
           <th>Is paid</th>
         </tr>
       </thead>
@@ -49,12 +50,14 @@ export default {
   },
   methods: {
     getBills: function(accountNumber) {
-      this.$http.get(`${process.env.VUE_APP_API_PATH}/bills?account=${accountNumber}`).then(result => {
+      this.$http.get(`${process.env.VUE_APP_API_PATH}/bills?accountNumber=${accountNumber}`).then(result => {
+        console.table(result.data)
         if(result.data.length > 0) {  
           this.accountBills = result.data.map((value) => {
             return {
-              id: value.id,
-              amount: value.amount,
+              id: value.billsId,
+              amountToPay: value.MyPayeeAmount,
+              totalAmount: value.billsAmount,
               payee: this.getPayeeName(value.payeeId),
               dueDate: value.dueDate,
               isPaid: this.bitToBool(value.isPaid),
@@ -86,7 +89,7 @@ export default {
           if(!this.canPay) {
             this.canPay = true;
           }
-          this.amountSum += parseFloat(value.amount);
+          this.amountSum += parseFloat(value.amountToPay);
         }
       });
 
@@ -109,7 +112,7 @@ export default {
         if(value.wantToPay) {
           acc.push({
             id: value.id,
-            amount: value.amount,
+            amount: value.amountToPay,
             accountNumber: this.data.accountNumber,
           });
         }
@@ -117,11 +120,15 @@ export default {
       }, [])
 
       this.$http.post(`${process.env.VUE_APP_API_PATH}/paybills/`, data).then(result => {
-        if(result.data) {
+        if(result.data.result) {
           console.log(result.data);
+          this.getBills(this.data.accountNumber);
+          this.data = result.data.data;
+        } else {
+          throw new Error('Failed to pay bill')
         }
       }).catch(err => {
-
+        swal(err)
       });
       console.table(data);
 

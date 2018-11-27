@@ -1,9 +1,10 @@
 <template>
   <tr class="transaction-row">
     <td>{{billData.id}}</td>
-    <td>{{billData.amount}}</td>
-    <td>{{billData.dueDate}}</td>
+    <td>{{billData.amountToPay}}</td>
+    <td>{{billData.totalAmount}}</td>
     <td>{{billData.payee}}</td>
+    <td>{{billData.dueDate}}</td>
     <td>{{billData.isPaid}}</td>
     <td>
       <input 

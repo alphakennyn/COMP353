@@ -58,12 +58,12 @@ function pay_bills($data)
                 $stmt6->execute();
 
                 //check if bill is now isPaid
-                if ($total <= 0){
+                //if ($total <= 0){
                     $isP = 1;
                     $query2 = "UPDATE Bills SET isPaid = ".$isP." WHERE Bills.id = ".$id.";";
                     $stmt2 = $db->prepare($query2);
                     $stmt2->execute();
-                }
+                //}
             } else {
                 return array(
                     "Bills Paid" => False,
@@ -80,10 +80,23 @@ function pay_bills($data)
         $stmt5 = $db->prepare($query5);
         $stmt5->execute();
 
-        return array("Bills Paid" => True);
+        /**
+         * Return sender's new balance
+         */
+        $account_query = "SELECT * FROM Account "; 
+        $account_query .= "WHERE accountNumber = ".$accNum.";";
+
+        $account_stmt = $db->prepare($account_query);
+        $account_stmt->execute();
+
+        $return_data=array();
+        $return_data['result'] = True;
+        $return_data['data'] = $account_stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $return_data;
 
     } catch (Exception $e) {
-        return array("error" => "Server error ".$e." .");
+        return array("result" => False);
     }
 }
 
