@@ -94,7 +94,7 @@ export default {
 
         alert(`Transfered ${this.transferAmount} to #${this.recipientAccountNumber}`);
         this.data.balance = result.data.balance;
-
+        this.data = result.data;
         this.clearForm();
       }).catch(err =>{
           alert(err);

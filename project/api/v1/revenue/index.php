@@ -11,7 +11,7 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($http_method) {
     case 'GET':
-    echo json_encode(get_revenue_branch());
+        echo json_encode(get_revenue_branch());
         return;
     case 'POST':
         return;
