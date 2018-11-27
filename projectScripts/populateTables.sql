@@ -63,6 +63,18 @@ INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, star
 INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday, pass) values ('insurance',5141360725,'Insurance Manager','Adeline Richardson','6884 26th Ave',14.000000, '2013-8-6', 1, 8, 'teamkey');
 INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday, pass) values ('banker',5148878594,'Banking Manager','Maya Cox','5719 26th St',13.000000, '2010-5-15', 1, 4, 'teamkey');
 INSERT INTO Bank(bankName, hqLocation, president, investManager, insureManager, bankManager) values('ABCJK','1634 Rue Guy',61,62,63,64);
+<<<<<<< HEAD
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148009243, 5140824236,'27th Ave','Calgary,Alberta','1993-2-8',85740.000000, 51 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148633966, 5140491325,'27th St','London,Ontario','2005-2-19',328453.000000, 52 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148203263, 5144411351,'28th Ave','Kitchener–Waterloo–Cambridge,Ontario','2000-4-5',330970.000000, 53 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5149181781, 5140558868,'28th St','Saskatoon,Saskatchewan','1993-1-26',70437.000000, 54 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148572428, 5146782437,'29th Ave','Winnipeg,Manitoba','1994-8-10',78830.000000, 55 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5143396938, 5148269898,'29th St','Edmonton,Alberta','1998-8-22',419792.000000, 56 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5143895083, 5148261535,'30th Ave','Oshawa,Ontario','1994-6-20',22649.000000, 57 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5146302261, 5145645087,'30th St','Halifax,Nova Scotia','2001-5-7',455033.000000, 58 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5149883180, 5146681095,'31st Ave','Windsor,Ontario','2003-4-25',276141.000000, 59 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5142860957, 5142511876,'31st St','Toronto,Ontario','1992-2-20',64649.000000, 60 );
+=======
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148564604, 5141010202,'27th Ave','London','2003-7-4',214285.000000, 51 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5141906681, 5140241899,'27th St','Saskatoon','1993-8-2',334061.000000, 52 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5143188750, 5146885108,'28th Ave','Edmonton','2005-2-7',302706.000000, 53 );
@@ -73,6 +85,7 @@ INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) 
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5149887156, 5145696320,'30th St','Saskatoon','1992-7-22',404251.000000, 58 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5146194572, 5147641004,'31st Ave','Victoria','2005-1-18',82559.000000, 59 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5144917672, 5145769688,'31st St','Toronto','1990-9-22',92128.000000, 60 );
+>>>>>>> 583c5be8a4a1b612c52a89be6e15de4674b87fd1
 INSERT INTO Services(id, serviceType) values (1,'Banking');
 INSERT INTO Services(id, serviceType) values (2,'Investment');
 INSERT INTO Services(id, serviceType) values (3,'Insurance');
