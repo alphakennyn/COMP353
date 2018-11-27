@@ -43,7 +43,7 @@
           />
           <TransactionList v-if="selectMenu == 'transactions'" :client='id' :acc='selectAccount'/>
           <TransferMoney v-if="selectMenu == 'transfer'" :data='selectAccount' :accounts="accounts" :dictionary="planDictionary"/>
-          <PayBills v-if="selectMenu == 'pay'"/>
+          <PayBills v-if="selectMenu == 'pay'" :data='selectAccount' :payees="payeeList" />
           <ETransfer v-if="selectMenu == 'etransfer'" :data='selectAccount' :dictionary="planDictionary" />
         </div>
       </div>
@@ -84,6 +84,7 @@ export default {
       clientData: {},
       accounts: [],
       planDictionary: {},
+      payeeList: [],
       dataLoaded: false,
     };
   },
@@ -118,6 +119,19 @@ export default {
       console.log('UPDATING WITH', newAccountList)
       this.accounts = newAccountList;
       this.selectAccount = this.accounts[0];
+    },
+    fetchPayeeList: function() {
+      // Get dictionary
+      this.$http
+        .get(`${process.env.VUE_APP_API_PATH}/payee/`)
+        .then( response => {
+          this.payeeList = Object.freeze(response.data.reduce((acc, val) => {
+            acc[val.id] = val.payeeName;
+            return acc;
+          }, {}));
+        }).catch(error => {
+          alert(error);
+        });
     }
   },
   created() {
@@ -131,21 +145,33 @@ export default {
             acc[val.accountType] = val;
             return acc;
           }, {});
+          this.$http
+            .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
+            .then(response => {
+
+              this.accounts = response.data.user_accounts;
+              this.selectAccount = this.accounts[0];
+              this.fetchPayeeList();
+              this.dataLoaded = true;
+            })
+            .catch(err => {
+              alert("uh oh.. no account found");
+            });
       }).catch(error => {
           alert(error);
       });
-    this.$http
-      .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
-      .then(response => {
+    // this.$http
+    //   .get(`${process.env.VUE_APP_API_PATH}/accounts?user_id=${this.id}`)
+    //   .then(response => {
 
-        this.accounts = response.data.user_accounts;
-        this.selectAccount = this.accounts[0];
-        this.dataLoaded = true;
-
-      })
-      .catch(err => {
-        alert("uh oh.. no account found");
-      });
+    //     this.accounts = response.data.user_accounts;
+    //     this.selectAccount = this.accounts[0];
+    //     this.dataLoaded = true;
+    //     this.fetchPayeeList();
+    //   })
+    //   .catch(err => {
+    //     alert("uh oh.. no account found");
+    //   });
   },
   watch: {
     selectAccount: function() {
