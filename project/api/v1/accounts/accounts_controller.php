@@ -138,7 +138,7 @@ function post_user_accounts($account_data)
     $taxId = ($account_data['taxId'] == '' ? 'NULL' : $account_data['taxId']);
     $creditLimit = ($account_data['creditLimit'] == '' ? 'NULL' : $account_data['creditLimit']);
 
-    $query= "INSERT INTO ACCOUNT VALUES (0, ".$cpid.", ".$irid.", ".$balance.", ".$transactionsPerMonth.", ".$transactionsLeft.",'".$currency."', ".$isNotified.",'".$accountType."', ".$maxPerDay.", ".$minBalance.", ".$businessNumber.", ".$taxId.", ".$creditLimit.");";
+    $query= "INSERT INTO Account VALUES (0, ".$cpid.", ".$irid.", ".$balance.", ".$transactionsPerMonth.", ".$transactionsLeft.",'".$currency."', ".$isNotified.",'".$accountType."', ".$maxPerDay.", ".$minBalance.", ".$businessNumber.", ".$taxId.", ".$creditLimit.");";
 
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -146,11 +146,16 @@ function post_user_accounts($account_data)
     //Insert into acocuntsOwned list
     $newAccountId = $db->lastInsertId();    
     $cid = $account_data['cid'];
+    $branchID = 2;
 
     $query2 = "INSERT INTO AccountsOwned VALUES ($cid, ".$newAccountId.")";
+    $query6 = "INSERT INTO AssociatedTo VALUES ($branchID, ".$newAccountId.")";
     
     $stmt2 = $db->prepare($query2);
     $stmt2->execute();
+
+    $stmt6 = $db->prepare($query6);
+    $stmt6->execute();
 
     //Get all updatedAccounts
     $query3 = "SELECT Account.* FROM AccountsOwned INNER JOIN Clients ON id = cid INNER JOIN Account on Account.accountNumber = AccountsOwned.accountNumber WHERE Clients.id = ". $cid .";";

@@ -9,7 +9,7 @@
     <button v-if='cantDelete.includes(employeeData.title)' class="bank-btn" @click="getBank()">Toggle Bank Info</button>
     <div v-if="showBankInfo">
       <div v-for="(bank, index) in bankInfo" :key='index'>
-        <h3>Branch id {{bank.bid}}: ${{bank.Profit}}</h3>
+        <h3>Branch id {{bank.bid}}: ${{bank.Profit}} ({{bank.city}})</h3>
       </div>
       <h2>Bank total = ${{sumBank}}</h2>
     </div>
