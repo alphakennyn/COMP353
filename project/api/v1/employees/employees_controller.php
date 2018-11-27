@@ -58,8 +58,9 @@ function get_employee_by_id($employee_id)
         // $packet=array();
 
         // query statement
-        $query = "select * from(Select Branch.phone, Branch.fax, Branch.location, Branch.city, Branch.openingDate, Branch.revenue, Branch.managerId, Employee.category, Employee.ephone, Employee.title, Employee.fullName, Employee.address, Employee.hourlyWage, Employee.startDate, Employee.availableSick, Employee.availableHoliday, Employee.pass, Employee.bid, Employee.eid from Branch inner JOIN  (select Employee.category, Employee.ephone , Employee.title, Employee.fullName, Employee.address, Employee.hourlyWage, Employee.startDate, Employee.availableSick, Employee.availableHoliday, Employee.pass, WorksAt.bid, WorksAt.eid from (select id, category, phone as ephone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday, pass from Employee) as Employee inner JOIN WorksAt where WorksAt.eid = Employee.id) as Employee where Employee.bid = Branch.id) as a where eid =".$employee_id.";";
-        #$query = "SELECT * FROM Employee WHERE id = ".$employee_id.";";
+        //$query = "select * from(Select Branch.phone, Branch.fax, Branch.location, Branch.city, Branch.openingDate, Branch.revenue, Branch.managerId, Employee.category, Employee.ephone, Employee.title, Employee.fullName, Employee.address, Employee.hourlyWage, Employee.startDate, Employee.availableSick, Employee.availableHoliday, Employee.pass, Employee.bid, Employee.eid from Branch inner JOIN  (select Employee.category, Employee.ephone , Employee.title, Employee.fullName, Employee.address, Employee.hourlyWage, Employee.startDate, Employee.availableSick, Employee.availableHoliday, Employee.pass, WorksAt.bid, WorksAt.eid from (select id, category, phone as ephone, title, fullName, address, hourlyWage, startDate, availableSick, availableHoliday, pass from Employee) as Employee inner JOIN WorksAt where WorksAt.eid = Employee.id) as Employee where Employee.bid = Branch.id) as a where eid =".$employee_id.";";
+      
+        $query = "SELECT * FROM Employee WHERE id = ".$employee_id.";";
         //$query2 = "SELECT * FROM Branch INNER JOIN WorksAt on WorksAt.bid = Branch.id where eid = ".$employee_id.";";
 
         // prepare query statement 

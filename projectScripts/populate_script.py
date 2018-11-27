@@ -45,7 +45,7 @@ for i in range (1, 65):
     phone.append(5140000000 + random.randint(0,9999999))
     fullNames.append(str(names.readline().rstrip() + " " + surnames.readline().rstrip()))
     addresses.append(str(random.randrange(0,9999)) + " " + streets.readline().rstrip())
-    hourlyWage.append(random.randint(10,20))
+    hourlyWage.append(random.randrange(10,20))
     startDate.append(str(random.randrange(2000,2018))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28)))
     availableSick.append(random.randrange(0,3))
     availableHoliday.append(random.randrange(0,14))
@@ -314,8 +314,8 @@ for i in range(1,61):
         taxId= 'NULL'
         sqlscript.write("insert into Account(cpid, irid, balance, transactionsPerMonth, transactionsLeft, currency, isNotified, accountType, maxPerDay, minBalance,businessNumber, taxId, creditLimit) values (%i,%i,%i,%i,%i,'%s',%i,'%s',%i, %i, %s, %s, %s);\n" %(cpid,cpid, balance, transactions, transactionsLeft, currency, isNotified, tp, maxPerDay, minBalance,businessNumber, taxId, creditLimit))
     elif(cpid==4):
-        transactions = 10
-        transactionsLeft = random.randrange(0,11)
+        transactions = 0
+        transactionsLeft = 0
         currency = 'CAD'
         isNotified = random.randint(0,1)
         maxPerDay=random.randint(500,50000)
@@ -442,15 +442,18 @@ for i in range (1, 15):
 #MyPayee
 for i in range(1, 35):
     for x in range (1,3):
-        amount  = random.randint(5,25)
+        amount  = random.randint(10,25)
         payeeId = random.randint(1,14)
         accountNumber = i                     
         sqlscript.write("insert into MyPayee(amount, accountNumber, payeeId) values (%i,%i,%i);\n" %(amount, accountNumber, payeeId))
 
 #Bills
 for i in range (1,101):
-    amount= random.randrange(10,5000)
     isPaid= random.randint(0,1)
+    if(isPaid==0):
+        amount= random.randrange(1,10)
+    else:
+        amount =0
     myPayeeId = random.randint(1,35)
     dueDate = str(random.randrange(1990,2010))+"-"+ str(random.randrange(1,10))+"-"+str(random.randrange(1,28))
     sqlscript.write("INSERT INTO Bills( amount, isPaid, myPayeeId, dueDate, AutoPay) values ( %i, %i,%i,'%s',%i);\n" %(amount, isPaid, myPayeeId, dueDate,0))

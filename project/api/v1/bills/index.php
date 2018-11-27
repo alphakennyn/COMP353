@@ -12,7 +12,7 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 switch ($http_method) {
     case 'GET':
         // $data = json_decode(file_get_contents('php://input'), true);
-        $account = $_GET['account'];
+        $account = $_GET['accountNumber'];
         echo json_encode(print_bills($account));
         return;
     case 'POST':

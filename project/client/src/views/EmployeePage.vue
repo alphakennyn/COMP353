@@ -12,6 +12,9 @@
         <h3>Branch id {{bank.bid}}: ${{bank.Profit}} ({{bank.city}})</h3>
       </div>
       <h2>Bank total = ${{sumBank}}</h2>
+      <div v-for="(value, key) in sumCitys" :key='key'>
+        <h3>{{key}}: ${{value}}</h3>
+      </div>
     </div>
     <modal name="showPayroll" height='auto'>
       <PayrollInfo :data="payroll" :eid='parseInt(id)'/>
@@ -47,6 +50,7 @@ export default {
       payroll: [],
       bankInfo: [],
       sumBank: '',
+      sumCitys: {}
     };
   },
   methods: {
@@ -72,6 +76,24 @@ export default {
             return parseFloat(prev) + parseFloat(cur.Profit);
           }, 0);
           this.sumBank = bankTotal;
+
+          let test = {}
+          this.bankInfo.forEach(x => {
+            let city = x.city;
+
+            if (test.hasOwnProperty(city)) {
+              test[x['city']] = test[x['city']] + x['Profit'];
+            } else {
+              test[x['city']] = x['Profit']
+            }
+            // if (x.city in test) {
+            //   test[x.city] = test[x.city] + x.Profit;
+            // } else {
+            //   test[x.city] = x.Profit;
+            // }
+          })
+          this.sumCitys = test;
+          console.log(test);
         })
         .catch(error => {
           alert(error);

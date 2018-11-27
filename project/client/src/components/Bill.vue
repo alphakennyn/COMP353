@@ -1,9 +1,10 @@
 <template>
   <tr class="transaction-row">
     <td>{{billData.id}}</td>
-    <td>{{billData.amount}}</td>
-    <td>{{billData.dueDate}}</td>
+    <td>{{billData.amountToPay}}</td>
+    <td>{{billData.totalAmount}}</td>
     <td>{{billData.payee}}</td>
+    <td>{{billData.dueDate}}</td>
     <td>{{billData.isPaid}}</td>
     <td>
       <span><strong>{{billData.autoPay}}</strong>
@@ -28,12 +29,13 @@
 
 <script>
 export default {
-  name: 'transaction',
+  name: 'bill',
   data(){
     return{
       futurePay: Boolean,
     }
   },
+
   props: {
     billData: Object,
     clickHandle: Function,
