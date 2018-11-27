@@ -3,20 +3,16 @@ Montreal
 Vancouver
 Calgary
 Edmonton
-Ottawa–Gatineau
 Winnipeg
 Quebec City
 Hamilton
-Kitchener–Waterloo–Cambridge
 London
 Victoria
 Halifax
 Oshawa
 Windsor
 Saskatoon
-St. Catharines–Niagara
 Regina
-St. John's
 Kelowna
 Barrie
 Sherbrooke
@@ -24,5 +20,3 @@ Guelph
 Abbotsford
 Kingston
 Kanata
-Trois-Rivières
-Moncton–Dieppe

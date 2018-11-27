@@ -65,14 +65,14 @@ INSERT INTO Employee(category, phone, title, fullName, address, hourlyWage, star
 INSERT INTO Bank(bankName, hqLocation, president, investManager, insureManager, bankManager) values('ABCJK','1634 Rue Guy',61,62,63,64);
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5146309384, 5144848587,'27th Ave','Victoria','1996-3-16',28904.000000, 51 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5149376854, 5140262948,'27th St','Halifax','2000-4-3',21218.000000, 52 );
-INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5141375649, 5140735541,'28th Ave','Quebec City','1991-9-17',302366.000000, 53 );
-INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5146889451, 5146656189,'28th St','Quebec City','1992-6-9',29684.000000, 54 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5141375649, 5140735541,'28th Ave','Quebec','1991-9-17',302366.000000, 53 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5146889451, 5146656189,'28th St','Montreal','1992-6-9',29684.000000, 54 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5141541792, 5147346045,'29th Ave','Saskatoon','1991-6-9',153013.000000, 55 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5141657169, 5141066152,'29th St','London','2004-3-15',21380.000000, 56 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5149470482, 5141692675,'30th Ave','Hamilton','1994-6-25',229496.000000, 57 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5141219870, 5145623760,'30th St','Oshawa','2001-4-11',456262.000000, 58 );
 INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5144723871, 5147423409,'31st Ave','Hamilton','1998-9-22',205436.000000, 59 );
-INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148934422, 5146483689,'31st St','Kitchener–Waterloo–Cambridge','1994-7-26',266341.000000, 60 );
+INSERT INTO Branch(phone, fax, location, city, openingDate, revenue, managerId) values ( 5148934422, 5146483689,'31st St','Toronto','1994-7-26',266341.000000, 60 );
 INSERT INTO Services(id, serviceType) values (1,'Banking');
 INSERT INTO Services(id, serviceType) values (2,'Investment');
 INSERT INTO Services(id, serviceType) values (3,'Insurance');
