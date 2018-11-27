@@ -65,7 +65,7 @@ function send_transfer($data)
          */
 
          // First get branch ID
-        $query_get_bId = "SELECT bid FROM associatedTo WHERE accountNumber = ".$recipient.";";
+        $query_get_bId = "SELECT bid FROM AssociatedTo WHERE accountNumber = ".$recipient.";";
         
         $bid_stmt = $db->prepare($query_get_bId);
         $bid_stmt->execute();

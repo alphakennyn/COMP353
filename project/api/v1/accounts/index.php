@@ -21,6 +21,8 @@ switch ($http_method) {
         echo json_encode($packet);
         return;
     case 'POST':
+
+        
         $data = json_decode(file_get_contents('php://input'), true);
         echo json_encode(post_user_accounts($data));
         return;

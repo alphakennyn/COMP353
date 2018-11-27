@@ -20,7 +20,7 @@ function del_account($data)
         $query0 = "DELETE Transactions FROM Transactions WHERE Transactions.accountNumber = ".$accNum." or Transactions.recipientAccountNumber = ".$accNum.";";
         $query1 = "DELETE Bills FROM Bills WHERE Bills.myPayeeId IN (SELECT MyPayee.id FROM MyPayee WHERE MyPayee.accountNumber = ".$accNum.");";
         $query2 = "DELETE MyPayee FROM MyPayee WHERE MyOayee.accountNumber = ".$accNum.";";
-        $query3 = "DELETE AccountsOwned FROM AccountsOwned WHERE accountsOwned.accountNumber = ".$accNum.";";
+        $query3 = "DELETE AccountsOwned FROM AccountsOwned WHERE AccountsOwned.accountNumber = ".$accNum.";";
         $query4 = "DELETE Account FROM Account WHERE Account.accountNumber = ".$accNum.";";
 
         $stmt0 = $db->prepare($query0);   
