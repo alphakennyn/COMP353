@@ -31,6 +31,13 @@ function pay_bills($data)
             $id = $arr['id'];
             $amount = $arr['amount'];
             $accNum = $arr['accountNumber'];
+
+            //get branch Id
+            $queryy = "Select bid from Account Natural Join AssociatedTo where accountNumber = ".$accNum.";";
+            $stmt = $db->prepare($queryy);
+            $stmt->execute();
+            $branchId = $stmt->fetch(PDO::FETCH_ASSOC)['bid'];
+
             
             //get bill amount
             $query = "SELECT Bills.amount FROM Bills WHERE Bills.id = ".$id.";";
@@ -79,6 +86,18 @@ function pay_bills($data)
         $query5 = "UPDATE Account SET Account.transactionsLeft = ".$tnew." WHERE Account.accountNumber = ".$accNum.";";
         $stmt5 = $db->prepare($query5);
         $stmt5->execute();
+
+        //Update transactions table with a new transaction
+        $query6 = "INSERT INTO Transactions (bid, accountNumber, transType, amount, tStamp, recipientAccountNumber) ";
+        $query6 .= "VALUES (".$branchId."";
+        $query6 .= ",".$accNum."";
+        $query6 .= ",'Bill Payment'";
+        $query6 .= ",".$amount."";
+        $query6 .= ",'".date("Y-m-d h:i:s")."'";
+        $query6 .= ",NULL);";
+        $stmt6 = $db->prepare($query6);
+        $stmt6->execute();
+
 
         /**
          * Return sender's new balance
