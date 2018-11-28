@@ -63,7 +63,8 @@ export default {
               payee: this.getPayeeName(value.payeeId),
               dueDate: value.dueDate,
               isPaid: this.bitToBool(value.isPaid),
-              wantToPay: false
+              wantToPay: false,
+              autoPay: value.autoPay
             }
           });
         } else {
