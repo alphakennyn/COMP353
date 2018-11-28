@@ -182,8 +182,15 @@ export default {
     },
     selectMenu: function() {
       console.log(`clicked ${this.selectMenu}`);
-    },
-  }
+    }
+  },
+  beforeCreate() {
+    if (!this.$session.get('id')) {
+      this.$router.push('/')
+    } else {
+      this.$emit("authenticated", true);
+    }
+  },
 };
 </script>
 

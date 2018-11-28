@@ -24,6 +24,7 @@ export default {
       this.authenticated = status
     },
     logout() {
+      this.$session.destroy()
       this.authenticated = false;
     }
   }
