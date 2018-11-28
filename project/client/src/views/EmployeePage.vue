@@ -158,7 +158,14 @@ export default {
       .catch(error => {
         alert(error);
       });
-  }
+  },
+  beforeCreate() {
+    if (!this.$session.get('id')) {
+      this.$router.push('/')
+    } else {
+      this.$emit("authenticated", true);
+    }
+  },
 };
 </script>
 

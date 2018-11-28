@@ -19,6 +19,7 @@
     <td>
       <input 
         type="checkbox"
+        :disabled="billData.isPaid"
         v-model="billData.wantToPay"
         
       />  

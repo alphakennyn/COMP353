@@ -45,6 +45,8 @@ export default {
           .then(response => {
             if (response.data.login) {
               this.$emit("authenticated", true);
+              this.$session.start();
+              this.$session.set('id', data.employeeId);
               this.$router.replace({ path: `/employee/${data.employeeId}` });
             } else {
               throw new Error("Invalid user/pass");
@@ -64,7 +66,9 @@ export default {
           .then(response => {
             if (response.data.login) {
               this.$emit("authenticated", true);
-              this.$router.replace({ path: `/user/${response.data.id}` });
+              this.$session.start();
+              this.$session.set('id', response.data.id);
+              this.$router.push({ path: `/user/${response.data.id}` });
             } else {
               throw new Error("Invalid user/pass");
             }
