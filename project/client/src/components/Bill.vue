@@ -7,15 +7,14 @@
     <td>{{billData.dueDate}}</td>
     <td>{{billData.isPaid}}</td>
     <td>
-      <span><strong>{{billData.autoPay}}</strong>
-        <toggle-button 
+        <toggle-button
+          v-on:change="toggleAutoPay()" 
           color="#82C7EB"
           :value="futurePay"
           :sync="true"
           v-model="futurePay"
           :labels="{checked: 'Yes', unchecked: 'No'}"
         />
-      </span>
     </td>
     <td>
       <input 
@@ -33,7 +32,7 @@ export default {
   name: 'bill',
   data(){
     return{
-      futurePay: Boolean,
+      futurePay: false,
     }
   },
 
@@ -47,16 +46,25 @@ export default {
     }
   },
   mounted: function(){
-    this.billData.autoPay == "0" ? this.futurePay = false: this.futurePay= true;
-    console.log(futurePay);
+    this.billData.autoPay === "0" ? this.futurePay = false: this.futurePay= true;
+  },
+  methods: {
+    toggleAutoPay: function(){
+      const billid = this.billData.id;
+      this.$http.post(`${process.env.VUE_APP_API_PATH}/bills/`, billid).then((result) => {        
+          //console.log(result);
+        }).catch(err => {
+          swal('Connection to DB lost');
+        })
+    }
   },
   watch: {
     billPayStatus() {
       // if(this.billData.wantToPay) {
         this.clickHandle();
       //}
-    }
-  }
+    },
+  },
 };
 </script>
 

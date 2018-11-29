@@ -16,6 +16,8 @@ switch ($http_method) {
         echo json_encode(print_bills($account));
         return;
     case 'POST':
+        $data = json_decode(file_get_contents('php://input'), true);
+        echo json_encode(toggle_autopay($data));
         return;
     case 'PUT':
         return;
