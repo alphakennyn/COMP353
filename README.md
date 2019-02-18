@@ -4,7 +4,7 @@
 This repository contains the scripts used to populate the database and the MySQL queries used to test the database.
 
 ### Project 2 -- Building a Bank application 
-We built an entire bank application using an updated database from Project 1. Although not required by the course, we added a REST api endpoint to do CRUD calls to the database.
+We built an entire bank application using an updated database from Project 1. Although not required by the course, we added a REST api endpoint to make CRUD calls to the database.
 
 ## Tools used
   1. Vuejs
